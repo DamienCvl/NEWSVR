@@ -786,8 +786,9 @@ MonoBehaviour:
     news you discover.\n\nUse the trigger to interact with the highlighted elements
     you touch and the touchpad to teleport.\n\nIn a news, you can scroll the article
     by touching the touchpad up or down while having your hand on the article.\nYou
-    can let a comment by talking while having the microphone in your hand.\n\nThat\xB4s
-    all, I wish you a good moment in NewsVR."
+    can leave a comment by talking while having the microphone in your hand or leave
+    a reaction with the white ball and the box on the right.\n\nThat\xB4s all, I wish
+    you a good moment in NewsVR."
 --- !u!222 &222054232191306602
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -1015,7 +1016,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.076}
+  m_AnchoredPosition: {x: 0, y: 0.001000002}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224761232117827100
@@ -1035,7 +1036,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.19844902}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.1}
+  m_AnchoredPosition: {x: 0, y: -0.017}
   m_SizeDelta: {x: 0, y: 0.20729168}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224865195292040762

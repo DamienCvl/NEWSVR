@@ -518,36 +518,6 @@ Prefab:
       propertyPath: EveryNews
       value: 
       objectReference: {fileID: 1961751306}
-    - target: {fileID: 224865195292040762, guid: 9f4ece1fc09c5f84ea12c1161a2dfcdf,
-        type: 2}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224865195292040762, guid: 9f4ece1fc09c5f84ea12c1161a2dfcdf,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224865195292040762, guid: 9f4ece1fc09c5f84ea12c1161a2dfcdf,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224865195292040762, guid: 9f4ece1fc09c5f84ea12c1161a2dfcdf,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224865195292040762, guid: 9f4ece1fc09c5f84ea12c1161a2dfcdf,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224865195292040762, guid: 9f4ece1fc09c5f84ea12c1161a2dfcdf,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9f4ece1fc09c5f84ea12c1161a2dfcdf, type: 2}
   m_IsPrefabParent: 0
