@@ -10,7 +10,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>
     </RootNamespace>
-    <ProjectGuid>{C875EAC9-40E8-DEF6-7F02-C3B3364C0EA9}</ProjectGuid>
+    <ProjectGuid>{04408F86-AFEB-9BE7-5A4C-12B92E5423D0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -209,10 +209,10 @@
     <None Include="Assets\SteamVR\InteractionSystem\Core\Shaders\SeeThru.shader" />
     <None Include="Assets\SteamVR\InteractionSystem\Readme_InteractionSystem.txt" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>C:/Users/etienne/Documents/NewsVR/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/etienne/Documents/GitHub/NEWSVR/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/etienne/Documents/NewsVR/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/etienne/Documents/GitHub/NEWSVR/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -410,10 +410,10 @@
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Data.Sqlite">
-      <HintPath>C:/Users/etienne/Documents/NewsVR/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
+      <HintPath>C:/Users/etienne/Documents/GitHub/NEWSVR/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
     </Reference>
     <Reference Include="System.Data">
-      <HintPath>C:/Users/etienne/Documents/NewsVR/Assets/Plugins/System.Data.dll</HintPath>
+      <HintPath>C:/Users/etienne/Documents/GitHub/NEWSVR/Assets/Plugins/System.Data.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>C:/Users/etienne/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
@@ -454,7 +454,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{5798C1F1-F20E-67EE-3A73-23F5BB9F8C6F}</Project>
+      <Project>{E494112F-3FCC-0DE2-7E60-84DCAAC0C0BD}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

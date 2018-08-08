@@ -30,14 +30,14 @@ public class DevModeViewPlayers : MonoBehaviour
         dbconn = (IDbConnection)new SqliteConnection(conn);
         dbconn.Open(); //Open connection to the database.
         IDbCommand dbcmd = dbconn.CreateCommand();
-        string sqlQuery = "SELECT NAME, NBRNEWSOPEN, NBRSAD, NBRHAPPY, NBRSURPRISE, NBRANGRY, NBRCOMMENT FROM PLAYER;";
+        string sqlQuery = "SELECT NAME, NBRNEWSOPEN, NBRSAD, NBRHAPPY, NBRSURPRISE, NBRANGRY, NBRCOMMENT, CREATIONDATE FROM PLAYER;";
         dbcmd.CommandText = sqlQuery;
         IDataReader reader = dbcmd.ExecuteReader();
         while (reader.Read())
         {
             //Instantiate each newsData
             string name = reader.GetString(0);
-            string information = "Name : " + reader.GetString(0) + ", News opened : " + reader.GetValue(1).ToString() + ", Sad : " + reader.GetValue(2).ToString() + ", Happy : " + reader.GetValue(3).ToString() + ", Surprise : " + reader.GetValue(4).ToString() + ", Angry : " + reader.GetValue(5).ToString() + ", Comments : " + reader.GetValue(6).ToString();
+            string information = "Name : " + reader.GetString(0) + ", News opened : " + reader.GetValue(1).ToString() + ", Sad : " + reader.GetValue(2).ToString() + ", Happy : " + reader.GetValue(3).ToString() + ", Surprise : " + reader.GetValue(4).ToString() + ", Angry : " + reader.GetValue(5).ToString() + ", Comments : " + reader.GetValue(6).ToString() + ", Created : " + reader.GetString(7);
 
             var playersData = Instantiate(PlayersDataPrefab, ParentsOfPlayersDatas.transform);
             playersData.GetComponent<DevModePlayersInstantiate>().FillName(name, information);

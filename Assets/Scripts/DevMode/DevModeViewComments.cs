@@ -30,14 +30,14 @@ public class DevModeViewComments : MonoBehaviour
         dbconn = (IDbConnection)new SqliteConnection(conn);
         dbconn.Open(); //Open connection to the database.
         IDbCommand dbcmd = dbconn.CreateCommand();
-        string sqlQuery = "SELECT ID, NEWSATTACHED, AUTHOR, TEXT FROM COMMENTS;";
+        string sqlQuery = "SELECT ID, NEWSATTACHED, AUTHOR, TEXT, CREATIONDATE FROM COMMENTS;";
         dbcmd.CommandText = sqlQuery;
         IDataReader reader = dbcmd.ExecuteReader();
         while (reader.Read())
         {
             //Instantiate each commentsData
             int id = reader.GetInt32(0);
-            string information = "Title of news : " + reader.GetString(1) + ", Author : " + reader.GetString(2) + ", Text : " + reader.GetString(3);
+            string information = "Title of news : " + reader.GetString(1) + ", Author : " + reader.GetString(2) + ", Text : " + reader.GetString(3) + ", Created : " + reader.GetString(4);
 
             var commentsData = Instantiate(CommentsDataPrefab, ParentsOfCommentsDatas.transform);
             commentsData.GetComponent<DevModeCommentsInstantiate>().FillText(id, information);
