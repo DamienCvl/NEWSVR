@@ -37,7 +37,7 @@ public class NewsCreate : MonoBehaviour {
         dbconn = (IDbConnection)new SqliteConnection(conn);
         dbconn.Open(); //Open connection to the database.
         IDbCommand dbcmd = dbconn.CreateCommand();
-        string sqlQuery = "SELECT TEXT, AUTHOR, ID FROM COMMENTS WHERE NEWSATTACHED = \"" + newTitle + "\";";
+        string sqlQuery = "SELECT TEXT, AUTHOR, ID FROM COMMENTS WHERE NEWSATTACHED = \"" + newTitle + "\" ORDER BY CREATIONDATE DESC;";
         dbcmd.CommandText = sqlQuery;
         IDataReader reader = dbcmd.ExecuteReader();
         while (reader.Read())

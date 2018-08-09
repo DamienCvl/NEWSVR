@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/etienne/Desktop/Test/Test.exe
+C:/Users/etienne/Desktop/NewsVrApp/NewsVrApp.exe
 SceneListBegin?
 Assets/Scenes/Menu.unity
 Assets/Scenes/TownSimulation.unity
@@ -235,7 +235,7 @@ c8d2f5cf1cd2272854939aac4966cec4 Assembly-CSharp.dll:.DevModeNewsInstantiate
 c552db4c6da3fe700a1c8ce342a6547f Assembly-CSharp.dll:Valve.VR.InteractionSystem.UnderstanButton
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Valve.VR.InteractionSystem.ControllerHintsExample
 bacfc120d3b8099aa79f2045cd187958 Assembly-CSharp.dll:Valve.VR.InteractionSystem.DistanceHaptics
-215364cc53530b6c927765bd7a19bd59 Assembly-CSharp.dll:.FloatPlacementComments
+83c952c3c63fd108426e2451f27ad828 Assembly-CSharp.dll:.FloatPlacementComments
 4aadab9e3e4d34f6e069833451e815bb Assembly-CSharp-firstpass.dll:UnityStandardAssets.ImageEffects.CreaseShading
 a69297cb350136754b977bc92d69d22f Assembly-CSharp.dll:Valve.VR.InteractionSystem.TeleportArea
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Valve.VR.InteractionSystem.SleepOnAwake
