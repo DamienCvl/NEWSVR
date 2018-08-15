@@ -40,7 +40,7 @@ namespace Valve.VR.InteractionSystem
             HeadCollider = GameObject.Find("HeadCollider");
 
             // Put the news in front of the player the first time the player pick up the newsSphere
-            transform.position = new Vector3(HeadCollider.transform.position.x, 1.5f, HeadCollider.transform.position.z);
+            transform.position = new Vector3(HeadCollider.transform.position.x, 1.1f, HeadCollider.transform.position.z);
             transform.rotation = new Quaternion(0, HeadCollider.transform.rotation.y, 0, HeadCollider.transform.rotation.w);
             transform.Translate(new Vector3(HeadCollider.transform.forward.x, 0.0f, HeadCollider.transform.forward.z), Space.World);
         }
