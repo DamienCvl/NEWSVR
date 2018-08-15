@@ -82,6 +82,7 @@
     <Compile Include="Assets\Scripts\News\Comment\NewsCommentReject.cs" />
     <Compile Include="Assets\Scripts\News\Comment\NewsCommentsDeleteComments.cs" />
     <Compile Include="Assets\Scripts\News\Comment\NewsCommentValidate.cs" />
+    <Compile Include="Assets\Scripts\News\Comment\Triangle.cs" />
     <Compile Include="Assets\Scripts\News\NewsEnvironnement.cs" />
     <Compile Include="Assets\Scripts\News\NewsPanel.cs" />
     <Compile Include="Assets\Scripts\News\OutsideTheNews\NewsCreate.cs" />
