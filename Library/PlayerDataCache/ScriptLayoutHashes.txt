@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/etienne/Desktop/NewsVrApp/NewsVrApp.exe
+C:/Users/etienne/Desktop/TestBubble/TestBubble.exe
 SceneListBegin?
 Assets/Scenes/Menu.unity
 Assets/Scenes/TownSimulation.unity
@@ -194,6 +194,7 @@ dea1f50129720480e0f43a3e995ef93b Assembly-CSharp.dll:Valve.VR.InteractionSystem.
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Valve.VR.InteractionSystem.IgnoreTeleportTrace
 c8d2f5cf1cd2272854939aac4966cec4 Assembly-CSharp.dll:.DevModeCommentsInstantiate
 5234f7c281d9b1a9b1ad994eac2a387e Assembly-CSharp.dll:.SadNbrView
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Triangle
 cac5093fb1baf037bd671ecbc6727828 Assembly-CSharp-firstpass.dll:UnityStandardAssets.ImageEffects.ScreenOverlay
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Valve.VR.InteractionSystem.Interactable
 01630b9e450f9e5d67fcd6e4af099264 Assembly-CSharp.dll:.SteamVR_GazeTracker

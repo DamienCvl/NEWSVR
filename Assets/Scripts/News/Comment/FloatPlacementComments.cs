@@ -11,7 +11,7 @@ public class FloatPlacementComments : MonoBehaviour {
     // Use this for initialization
     void Start () {
         ForCommentsPlacement = 0f;
-        ForCommentsPlacementDeepness = 0.5f;
+        ForCommentsPlacementDeepness = 0.4f;
     }
 
     public void UpdateForCommentsPlacementDeepness()

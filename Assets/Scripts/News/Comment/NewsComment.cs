@@ -52,7 +52,7 @@ namespace Valve.VR.InteractionSystem
             InTheNews = GameObject.Find("InTheNews");
 
             // Put the comments around the player the first time the player pick up the newsSphere (Doesn't call OnEnable the first time)
-            InTheNews.GetComponent<FloatPlacementComments>().ForCommentsPlacement = InTheNews.GetComponent<FloatPlacementComments>().ForCommentsPlacement + 0.5f;
+            InTheNews.GetComponent<FloatPlacementComments>().ForCommentsPlacement = InTheNews.GetComponent<FloatPlacementComments>().ForCommentsPlacement + 1f;
             transform.position = new Vector3(HeadCollider.transform.position.x, 1.5f, HeadCollider.transform.position.z);
             transform.rotation = new Quaternion(0, HeadCollider.transform.rotation.y + InTheNews.GetComponent<FloatPlacementComments>().ForCommentsPlacement, 0, HeadCollider.transform.rotation.w);
             transform.Translate(new Vector3(this.transform.forward.x, 0.0f, this.transform.forward.z)* InTheNews.GetComponent<FloatPlacementComments>().ForCommentsPlacementDeepness, Space.World);
