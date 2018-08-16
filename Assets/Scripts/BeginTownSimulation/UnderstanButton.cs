@@ -4,6 +4,11 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
 
+/*
+ * Handle the Button at the beginning.
+ * At the start it's like you're in a news so when you "take" the understand button do the same actions as when you leave a news.
+ */
+
 namespace Valve.VR.InteractionSystem
 {
     //-------------------------------------------------------------------------
@@ -44,7 +49,7 @@ namespace Valve.VR.InteractionSystem
             EveryNews.GetComponent<NewsPlacement>().aNewsIsOpen = false;
 
             Destroy(IndicationBegin);
-            // Wait 1 second to delete the reject button to not cause bug
+            // Wait 1 second to delete the IndicationBegin button to not cause bug
             Destroy(gameObject, 1);
         }
 
@@ -53,8 +58,6 @@ namespace Valve.VR.InteractionSystem
         {
             Highlight.SetActive(true);
 
-            // "Catch" the panel by holding down the interaction button instead of pressing it.
-            // Only do this if it isn't attached to another hand
             if (!attached)
             {
                 if (hand.GetStandardInteractionButton())

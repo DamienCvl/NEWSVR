@@ -5,6 +5,11 @@ using Mono.Data.Sqlite;
 using System.Data;
 using System;
 
+/*
+ * Create all the rows of news in the news view when you enter the devmode scene.
+ * I manage something for the placement in the scroll view but it's not perfect.
+ */
+
 public class DevModeViewNews : MonoBehaviour {
 
     private GameObject NewsDataPrefab;

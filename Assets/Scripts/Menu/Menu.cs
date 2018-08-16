@@ -8,6 +8,11 @@ using Mono.Data.Sqlite;
 using System.Data;
 using System;
 
+/*
+ * Handle the menu scene and all scene changement.
+ * Deal with the name of the player and the VR or not too.
+ */
+
 public class Menu : MonoBehaviour {
 
     public Button DevMode;
@@ -38,6 +43,7 @@ public class Menu : MonoBehaviour {
 
     void DevModeAction()
     {
+        // Disable VR to go to the dev mode since it's on a screen.
         DisableVR();
         SceneManager.LoadScene("DevMode", LoadSceneMode.Single);
     }
@@ -86,7 +92,7 @@ public class Menu : MonoBehaviour {
     void VerifName(string name)
     {
         // If the name is already in the database, confirm with a message like " Name already taken, is this you? Yes, continue or No, cancel"
-        // If No go back delte the message and nothing, if yes load the scene with this player datas
+        // If No go back delete the message and nothing, if yes load the scene with this player data
         string conn = "URI=file:" + Application.dataPath + "/NewsDatabase.db"; //Path to database.
         IDbConnection dbconn;
         dbconn = (IDbConnection)new SqliteConnection(conn);
@@ -111,6 +117,8 @@ public class Menu : MonoBehaviour {
         dbconn = null;
     }
 
+    // Should load the VR device to go from dev mode to town simulation but doesn't seem to work
+    // Once you have gone to devmode you need to quit the application to not cause bug when going to Town simulation.
     IEnumerator LoadDevice(string newDevice, bool enable)
     {
         XRSettings.LoadDeviceByName(newDevice);

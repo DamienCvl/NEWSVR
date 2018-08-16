@@ -6,6 +6,9 @@ using System.Data;
 using System;
 using UnityEngine.UI;
 
+// Handle the delete of news in the database when you click the red cross and the verification panel.
+// When you delete a news, it deletes all the comments linked to him too.
+
 public class DevModeVerifNews : MonoBehaviour {
 
     private string nameNews;

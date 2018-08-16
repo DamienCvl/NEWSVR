@@ -6,6 +6,12 @@ using System.Data;
 using System;
 using UnityEngine.SceneManagement;
 
+/*
+ * Handle the creation of all the news when you open the scene TownSimulation.
+ * There is a boolean used to see if a news is open in the scene, with this you can't open two news at the same time.
+ * Since this script is always there, it deals with the escape action to return to the menu too.
+ */
+
 public class NewsPlacement : MonoBehaviour {
 
     private GameObject NewsPrefabs;

@@ -4,6 +4,11 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
 
+/*
+ * Handle the placement of the panel with the indication at the beginning:
+ * You can take it and move it around too:
+ */
+
 namespace Valve.VR.InteractionSystem
 {
     //-------------------------------------------------------------------------

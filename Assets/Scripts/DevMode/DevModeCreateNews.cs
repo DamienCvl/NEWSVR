@@ -6,6 +6,10 @@ using Mono.Data.Sqlite;
 using System.Data;
 using System;
 
+/*
+ * Handle the mouse buttons clicks in devmode.
+ * If you click on the town it will call DevModeNewsCreationPannel script to create a new news.
+ */
 
 public class DevModeCreateNews : MonoBehaviour {
 

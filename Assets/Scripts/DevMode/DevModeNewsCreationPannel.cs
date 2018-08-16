@@ -6,6 +6,8 @@ using System.Data;
 using System;
 using UnityEngine.UI;
 
+// Handle the creation of a news after you choose the position by clicking on the town in devmode.
+
 public class DevModeNewsCreationPannel : MonoBehaviour {
 
     public Button Cancel;

@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ * Used to instantiate each rows of the comment view
+ */
+
 public class DevModeCommentsInstantiate : MonoBehaviour {
 
     public Text Information;

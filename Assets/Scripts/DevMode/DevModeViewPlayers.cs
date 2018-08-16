@@ -5,6 +5,11 @@ using Mono.Data.Sqlite;
 using System.Data;
 using System;
 
+/*
+ * Create all the rows of players in the players view when you enter the devmode scene.
+ * I manage something for the placement in the scroll view but it's not perfect.
+ */
+
 public class DevModeViewPlayers : MonoBehaviour
 {
 
@@ -22,7 +27,7 @@ public class DevModeViewPlayers : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        // To put the news at the right places
+        // To put the players at the right places
         currentPosition = new Vector3(17.0f, -135.0f, 0.0f);
 
         string conn = "URI=file:" + Application.dataPath + "/NewsDatabase.db"; //Path to database.
@@ -35,7 +40,7 @@ public class DevModeViewPlayers : MonoBehaviour
         IDataReader reader = dbcmd.ExecuteReader();
         while (reader.Read())
         {
-            //Instantiate each newsData
+            //Instantiate each playersData
             string name = reader.GetString(0);
             string information = "Name : " + reader.GetString(0) + ", News opened : " + reader.GetValue(1).ToString() + ", Sad : " + reader.GetValue(2).ToString() + ", Happy : " + reader.GetValue(3).ToString() + ", Surprise : " + reader.GetValue(4).ToString() + ", Angry : " + reader.GetValue(5).ToString() + ", Comments : " + reader.GetValue(6).ToString() + ", Created : " + reader.GetString(7);
 

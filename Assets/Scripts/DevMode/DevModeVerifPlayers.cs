@@ -6,6 +6,9 @@ using System.Data;
 using System;
 using UnityEngine.UI;
 
+// Handle the delete of player in the database when you click the red cross and the verification panel.
+// When you delete a player, it deletes all the comments linked to him too.
+
 public class DevModeVerifPlayers : MonoBehaviour
 {
 
