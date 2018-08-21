@@ -6,13 +6,14 @@ using Mono.Data.Sqlite;
 using System.Data;
 using System;
 
+// Handles the number of sad on the reaction box.
+
 public class SadNbrView : MonoBehaviour {
 
     public Text Title;
 
     private void OnEnable()
     {
-        // Add comment to database
         string conn = "URI=file:" + Application.dataPath + "/NewsDatabase.db"; //Path to database.
         IDbConnection dbconn;
         dbconn = (IDbConnection)new SqliteConnection(conn);

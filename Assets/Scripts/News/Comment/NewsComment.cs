@@ -4,6 +4,11 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
 
+/*
+ * This handles the placement of the comment at it's creation.
+ * Uses MicroComments to fill the text of the comment.
+ */
+
 namespace Valve.VR.InteractionSystem
 {
     //-------------------------------------------------------------------------
@@ -94,6 +99,7 @@ namespace Valve.VR.InteractionSystem
             Author.text = author;
         }
 
+        // Called by validate button to destroy the buttons.
         public void DestroyButtons()
         {
             Destroy(Buttons);

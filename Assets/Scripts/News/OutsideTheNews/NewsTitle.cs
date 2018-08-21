@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+/*
+ * This handle the title of the news and the fact that it turns toward you.
+ */
 
 public class NewsTitle : MonoBehaviour
-
 {
-
     private GameObject WhereTolookAt;
     public GameObject ParentSphere;
 

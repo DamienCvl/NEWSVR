@@ -7,6 +7,11 @@ using Mono.Data.Sqlite;
 using System.Data;
 using System;
 
+/*
+ * This handles the X button that appeares bellow comments, it only appeares if you made it.
+ * Use it to delete you comment from the database.
+ */
+
 namespace Valve.VR.InteractionSystem
 {
     //-------------------------------------------------------------------------

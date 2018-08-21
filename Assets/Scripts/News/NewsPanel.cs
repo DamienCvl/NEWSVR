@@ -3,6 +3,12 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
+/*
+ * This handle the article when you open a news item.
+ * The microphone and the reaction are attached to this, so you change it's position, it moves everything.
+ * You can find the srcoll function here too.
+ */
+
 namespace Valve.VR.InteractionSystem
 {
     //-------------------------------------------------------------------------
@@ -40,6 +46,7 @@ namespace Valve.VR.InteractionSystem
             HeadCollider = GameObject.Find("HeadCollider");
 
             // Put the news in front of the player the first time the player pick up the newsSphere
+            // Change the second parameter of transform.position to change the heigth of the news item, microphone and reaction box.
             transform.position = new Vector3(HeadCollider.transform.position.x, 1.1f, HeadCollider.transform.position.z);
             transform.rotation = new Quaternion(0, HeadCollider.transform.rotation.y, 0, HeadCollider.transform.rotation.w);
             transform.Translate(new Vector3(HeadCollider.transform.forward.x, 0.0f, HeadCollider.transform.forward.z), Space.World);
@@ -50,7 +57,7 @@ namespace Valve.VR.InteractionSystem
             Highlight.SetActive(false);
 
             // Put the news in front of the player every time the player pick up the newsSphere
-            transform.position = new Vector3(HeadCollider.transform.position.x, 1.5f, HeadCollider.transform.position.z);
+            transform.position = new Vector3(HeadCollider.transform.position.x, 1.1f, HeadCollider.transform.position.z);
             transform.rotation = new Quaternion(0, HeadCollider.transform.rotation.y , 0, HeadCollider.transform.rotation.w);
             transform.Translate(new Vector3(HeadCollider.transform.forward.x, 0.0f, HeadCollider.transform.forward.z), Space.World);
 
@@ -69,7 +76,7 @@ namespace Valve.VR.InteractionSystem
         //-------------------------------------------------
         private void OnHandHoverBegin(Hand hand)
         {
-            // Put the highlight panel around the canvas
+            // Put the highlight panel around the news.
             Highlight.SetActive(true);
 
             // "Catch" the panel by holding down the interaction button instead of pressing it.
@@ -177,7 +184,7 @@ namespace Valve.VR.InteractionSystem
         {
             var device = hand.controller;
 
-            // The component to change to make the article srcoll
+            // The component to change to make the article scroll
             RectTransform numberToMove = (RectTransform)ContentNews.GetComponent(typeof(RectTransform));
 
             // Find how to get the position of the thumb on the touchpad

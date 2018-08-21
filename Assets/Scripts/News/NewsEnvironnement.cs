@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * This script handle the foggy environnement when you open a news item.
+ * It's a big white transparent sphere attach to your head, you can change the size with the float sizeOfNewsEnvironnement.
+ * We use FlipNormals to see the sphere from the inside.
+ * 
+*/
+
 public class NewsEnvironnement : MonoBehaviour {
 
     public float sizeOfNewsEnvironnement;

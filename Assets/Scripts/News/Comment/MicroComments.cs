@@ -7,6 +7,11 @@ using System.Linq;
 
 using UnityEngine.UI;
 
+/*
+ * This handles the microphone.
+ * The DictationRecognizer system is here and you use it to create comment with the prefab of comment.
+ * The DictationRecognizer system will start when you take the microphone in your hand.
+ */
 
 namespace Valve.VR.InteractionSystem
 {

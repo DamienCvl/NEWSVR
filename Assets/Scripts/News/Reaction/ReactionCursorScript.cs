@@ -7,6 +7,12 @@ using System.Data;
 using System;
 using UnityEngine.UI;
 
+/*
+ * Handles the reaction box.
+ * This handles the white ball and it's placement on the box.
+ * Depending of it's position when you leave the news, it will add one to reaction wanted.
+ */
+
 namespace Valve.VR.InteractionSystem
 {
     //-------------------------------------------------------------------------
@@ -34,6 +40,7 @@ namespace Valve.VR.InteractionSystem
         private void Start()
         {
             // Resolve the bug that the cursor will grow when release in vr (don't know where that come from)
+            // Not really resolve but a bit better.
             scale = this.gameObject.transform.localScale;
             rotation = this.gameObject.transform.rotation;
         }
@@ -172,6 +179,7 @@ namespace Valve.VR.InteractionSystem
 
             Vector3 pos;
 
+            // Put the ball at the middle of the reaction wanted.
             if (transform.localPosition.y < 0f)
             {
                 if (transform.localPosition.z < 0f)
@@ -199,12 +207,15 @@ namespace Valve.VR.InteractionSystem
                 }
             }
 
+            // So that the player can put the ball back at the middle if he doesn't want to leave a reaction.
             if (transform.localPosition.y >-0.05f && transform.localPosition.y < 0.05f && transform.localPosition.z > -0.05f && transform.localPosition.z < 0.05f)
             {
                 pos = new Vector3(-0.1f,0,0);
             }
 
             transform.localPosition = pos;
+
+            // Fot the deformation bug but doesn't really do the job.
             this.gameObject.transform.localScale = scale;
             this.gameObject.transform.rotation = rotation;
         }

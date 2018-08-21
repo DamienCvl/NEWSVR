@@ -6,6 +6,11 @@ using Mono.Data.Sqlite;
 using System.Data;
 using System;
 
+/*
+ * This scipt handels the way from inside to outside the news and all the things that includes.
+ * Lot of things but htere are a lot of comments in the script.
+ */
+
 namespace Valve.VR.InteractionSystem
 {
 	//-------------------------------------------------------------------------
@@ -99,6 +104,7 @@ namespace Valve.VR.InteractionSystem
                 }
             }
 
+            // This close the news if your head go away from the news sphere.
             if (thisNewsOpen)
             {
                 if (distanceHeadBall > 2.0f && goOutWhenWalkAway)
@@ -157,7 +163,7 @@ namespace Valve.VR.InteractionSystem
             // Free the news sphere and put it back to his initial location
             canGoToTheHead = false;
 
-            // Put the news story
+            // Put the news panel away
             InTheNews.GetComponent<FloatPlacementComments>().ForCommentsPlacement = 0f;
             InTheNews.SetActive(false);
 

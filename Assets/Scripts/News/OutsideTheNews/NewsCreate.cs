@@ -7,6 +7,12 @@ using System.Data;
 using System;
 using Valve.VR.InteractionSystem;
 
+/*
+ * This handle the creation of one news item, it's called by NewsPlacement.
+ * It fills the title inside and outside the news and the text of the article.
+ * It creates all the comments of the news to by calling NewsComment.
+ */
+
 public class NewsCreate : MonoBehaviour {
 
     public TextMesh TitleOutNews;
@@ -37,6 +43,7 @@ public class NewsCreate : MonoBehaviour {
         dbconn = (IDbConnection)new SqliteConnection(conn);
         dbconn.Open(); //Open connection to the database.
         IDbCommand dbcmd = dbconn.CreateCommand();
+        // ORDER BY CREATIONDATE DESC so that the most recent comment will be a bit nearer from you.
         string sqlQuery = "SELECT TEXT, AUTHOR, ID FROM COMMENTS WHERE NEWSATTACHED = \"" + newTitle + "\" ORDER BY CREATIONDATE DESC;";
         dbcmd.CommandText = sqlQuery;
         IDataReader reader = dbcmd.ExecuteReader();
@@ -51,6 +58,8 @@ public class NewsCreate : MonoBehaviour {
             comment.GetComponent<NewsComment>().FillAuthor(author);
             comment.GetComponent<NewsComment>().id = id;
             comment.GetComponent<NewsComment>().DestroyButtons();
+
+            // Add the delete comments option if the current player is the one who made the comments before.
             if (author == StaticClass.CurrentPlayerName)
             {
                 comment.GetComponent<NewsComment>().DeleteButton.SetActive(true);

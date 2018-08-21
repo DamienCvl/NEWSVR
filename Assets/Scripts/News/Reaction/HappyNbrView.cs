@@ -6,6 +6,8 @@ using Mono.Data.Sqlite;
 using System.Data;
 using System;
 
+// Handles the number of happy on the reaction box.
+
 public class HappyNbrView : MonoBehaviour
 {
 
@@ -13,7 +15,6 @@ public class HappyNbrView : MonoBehaviour
 
     private void OnEnable()
     {
-        // Add comment to database
         string conn = "URI=file:" + Application.dataPath + "/NewsDatabase.db"; //Path to database.
         IDbConnection dbconn;
         dbconn = (IDbConnection)new SqliteConnection(conn);

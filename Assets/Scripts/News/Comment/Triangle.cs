@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// This create a triangle for the "comics" bubble form.
+
 [RequireComponent(typeof(MeshFilter))]
 public class Triangle : MonoBehaviour {
 

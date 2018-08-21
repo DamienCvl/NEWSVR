@@ -7,6 +7,11 @@ using Mono.Data.Sqlite;
 using System.Data;
 using System;
 
+/*
+ * This handles the validate button that appeares when you speak in the microphone.
+ * The comment will only be add to the database if the player click on this button. 
+ */
+
 namespace Valve.VR.InteractionSystem
 {
     //-------------------------------------------------------------------------
@@ -70,7 +75,6 @@ namespace Valve.VR.InteractionSystem
 
         private void Add1CommentToPlayer()
         {
-            // Add 1 to the reaction wanted in the database for the player
             string conn = "URI=file:" + Application.dataPath + "/NewsDatabase.db"; //Path to database.
             IDbConnection dbconn;
             dbconn = (IDbConnection)new SqliteConnection(conn);
@@ -94,6 +98,7 @@ namespace Valve.VR.InteractionSystem
             dbconn = (IDbConnection)new SqliteConnection(conn);
             dbconn.Open(); //Open connection to the database.
             IDbCommand dbcmd = dbconn.CreateCommand();
+            // The Id increases automatically so if you selecte the max, you have the last one added.
             string sqlQuery = "SELECT ID FROM COMMENTS WHERE ID = (SELECT MAX(ID) FROM COMMENTS); ; ";
             dbcmd.CommandText = sqlQuery;
             IDataReader reader = dbcmd.ExecuteReader();
