@@ -85,6 +85,7 @@
     <Compile Include="Assets\Scripts\News\Comment\Triangle.cs" />
     <Compile Include="Assets\Scripts\News\NewsEnvironnement.cs" />
     <Compile Include="Assets\Scripts\News\NewsPanel.cs" />
+    <Compile Include="Assets\Scripts\News\NewsSpeaker.cs" />
     <Compile Include="Assets\Scripts\News\OutsideTheNews\NewsCreate.cs" />
     <Compile Include="Assets\Scripts\News\OutsideTheNews\NewsSphere.cs" />
     <Compile Include="Assets\Scripts\News\OutsideTheNews\NewsTitle.cs" />
@@ -424,6 +425,12 @@
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>C:/Users/etienne/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Speech">
+      <HintPath>C:/Users/etienne/Documents/GitHub/NEWSVR/Assets/Plugins/System.Speech.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.SpeechLib">
+      <HintPath>C:/Users/etienne/Documents/GitHub/NEWSVR/Assets/Plugins/Interop.SpeechLib.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/2.0-api/mscorlib.dll</HintPath>
