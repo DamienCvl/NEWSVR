@@ -420,9 +420,6 @@
     <Reference Include="System.Data">
       <HintPath>C:/Users/etienne/Documents/GitHub/NEWSVR/Assets/Plugins/System.Data.dll</HintPath>
     </Reference>
-    <Reference Include="System.Speech">
-      <HintPath>C:/Users/etienne/Documents/GitHub/NEWSVR/Assets/Plugins/System.Speech.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>C:/Users/etienne/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
     </Reference>
