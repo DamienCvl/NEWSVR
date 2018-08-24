@@ -308,11 +308,17 @@
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="Interop.SpeechLib">
+      <HintPath>C:/Users/etienne/Documents/GitHub/NEWSVR/Assets/Plugins/Interop.SpeechLib.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Data.Sqlite">
       <HintPath>C:/Users/etienne/Documents/GitHub/NEWSVR/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
     </Reference>
     <Reference Include="System.Data">
       <HintPath>C:/Users/etienne/Documents/GitHub/NEWSVR/Assets/Plugins/System.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Speech">
+      <HintPath>C:/Users/etienne/Documents/GitHub/NEWSVR/Assets/Plugins/System.Speech.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>C:/Users/etienne/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.7/Editor/UnityEditor.Advertisements.dll</HintPath>
@@ -334,12 +340,6 @@
     </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Speech">
-      <HintPath>C:/Users/etienne/Documents/GitHub/NEWSVR/Assets/Plugins/System.Speech.dll</HintPath>
-    </Reference>
-    <Reference Include="Interop.SpeechLib">
-      <HintPath>C:/Users/etienne/Documents/GitHub/NEWSVR/Assets/Plugins/Interop.SpeechLib.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/2.0-api/mscorlib.dll</HintPath>

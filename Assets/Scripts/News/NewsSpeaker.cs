@@ -5,7 +5,9 @@ using SpeechLib;
 using UnityEngine.UI;
 
 /*
- * 
+ * This handles the speaker, it uses the interop.speechlib dll.
+ * The position and replacement is the same as the microphone.
+ * It starts to read the artcile when in hand and stops when releases.
  */
 
 namespace Valve.VR.InteractionSystem
@@ -102,7 +104,10 @@ namespace Valve.VR.InteractionSystem
 
             hand.HoverLock(null);
 
+            // we initialise the voice whenever the speaker is taken, because there is no stop fonction, so we pause when realease and reinitialise when taken
             voice = new SpVoice();
+
+            // We read in async so that the player cam do something else at the same time
             voice.Speak(Text.GetComponent<Text>().text, SpeechVoiceSpeakFlags.SVSFlagsAsync);
         }
 
@@ -118,11 +123,12 @@ namespace Valve.VR.InteractionSystem
 
             hand.HoverUnlock(null);
 
-            // Return the microphone to no rotation 
-            transform.rotation = new Quaternion(0, 0, 0, 0);
+            // Return the speaker to no rotation (it began at 180)
+            transform.localRotation = new Quaternion(0, 180, 0, 0);
 
             transform.localPosition = transformInit;
 
+            // Pause the voice, we can continue with Resume, but we never do it so pause is like to stop for us
             voice.Pause();
         }
 
