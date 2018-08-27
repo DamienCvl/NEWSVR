@@ -40,6 +40,7 @@ namespace Valve.VR.InteractionSystem
         private GameObject Teleport;
         public GameObject Highlight;
         public GameObject ViewNbr;
+        public GameObject CommentNbr;
 
         private GameObject EveryNews;
         private bool thisNewsOpen;
@@ -74,6 +75,9 @@ namespace Valve.VR.InteractionSystem
 
             // Put the view number above the sphere
             ViewNbr.GetComponent<ViewNbrView>().ReadViewNbr();
+
+            // Put the number of comments above the sphere
+            CommentNbr.GetComponent<ViewNbrComment>().ReadCommentNbr();
         }
 
         private void Update()
@@ -160,6 +164,9 @@ namespace Valve.VR.InteractionSystem
         // Everything happens when you take take the ball to your head when the news is open
         private void CloseNews()
         {
+            // Update the number of comments above the sphere
+            CommentNbr.GetComponent<ViewNbrComment>().ReadCommentNbr();
+
             // Free the news sphere and put it back to his initial location
             canGoToTheHead = false;
 

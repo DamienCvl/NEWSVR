@@ -7,7 +7,7 @@ using System.Data;
 using System;
 
 /*
- * This handles the number of view of the news item attavhed to it.
+ * This handles the number of view of the news item attached to it.
  * Used by NewsSphere.
  */
 

@@ -89,6 +89,7 @@
     <Compile Include="Assets\Scripts\News\OutsideTheNews\NewsCreate.cs" />
     <Compile Include="Assets\Scripts\News\OutsideTheNews\NewsSphere.cs" />
     <Compile Include="Assets\Scripts\News\OutsideTheNews\NewsTitle.cs" />
+    <Compile Include="Assets\Scripts\News\OutsideTheNews\ViewNbrComment.cs" />
     <Compile Include="Assets\Scripts\News\OutsideTheNews\ViewNbrView.cs" />
     <Compile Include="Assets\Scripts\News\Reaction\AngryNbrView.cs" />
     <Compile Include="Assets\Scripts\News\Reaction\HappyNbrView.cs" />
