@@ -4,7 +4,7 @@ You can add news and see some data gathered during play time with the DevMode.
 Indications :
 
 1. To enabled voice recognition you have to go to the setting of windows : Settings > Privacy > Speech, inking, & typing
-2. When you build the project, don't forget to add the database in NewsVrApplication_Data or it will not run
+2. When you build the project, don't forget to add the database in YourFolderName_Data or it will not run
 
 Technologies used :
 
