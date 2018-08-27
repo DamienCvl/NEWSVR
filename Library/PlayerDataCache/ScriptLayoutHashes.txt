@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/etienne/Desktop/TestBubble/TestBubble.exe
+C:/Users/etienne/Documents/GitHub/NEWSVR/NewsVrApplication/NewsVrApplication.exe
 SceneListBegin?
 Assets/Scenes/Menu.unity
 Assets/Scenes/TownSimulation.unity
@@ -27,6 +27,7 @@ ff05dcdf90651c3d98a9cad3df5e471e UnityEngine.Timeline.dll:UnityEngine.Timeline.C
 30afa8783a8bbee2e465ec9ce1efaee2 UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 607d64d2c4bc76ac9876e6f7b9cc7edf UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
 50162599dd714891cc21106acdd77072 Assembly-CSharp.dll:Valve.VR.InteractionSystem.BeginInformation
+8a3894b18e8a56bdc9ece1d63bdeb76c Assembly-CSharp.dll:.ViewNbrComment
 72c4887a55fb9bb665edb53bb19ac18b Assembly-CSharp.dll:.DevModeViewPlayers
 1aeeff80c43cb62a474fdf7e376d2b05 Assembly-CSharp.dll:Valve.VR.InteractionSystem.Throwable
 c08b196716247885d3b27f7f282b2568 Assembly-CSharp-firstpass.dll:UnityStandardAssets.ImageEffects.ImageEffectBase
@@ -165,7 +166,7 @@ d0e86a83f74f099b6e8e0c01ac1b12b7 Assembly-CSharp.dll:Valve.VR.InteractionSystem.
 dc07d7ad69b399a46e92c483bf1c04ca UnityEngine.Analytics.dll:UnityEngine.Analytics.AnalyticsTracker
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Valve.VR.InteractionSystem.InteractableExample
 2d1250596322826257b3f60eeca94972 Assembly-CSharp.dll:.DevModeNewsCreationPannel
-7e18c115c77932fdbd93db21fd112489 Assembly-CSharp.dll:Valve.VR.InteractionSystem.NewsSphere
+7e7f4e3d5e4bc1ceccdaf21cfc50992b Assembly-CSharp.dll:Valve.VR.InteractionSystem.NewsSphere
 9865a0db77364f8930077972a1d5efab Assembly-CSharp-firstpass.dll:UnityStandardAssets.ImageEffects.BloomOptimized
 f160f4cacfdabb408dcdbfc235cbd8f5 Assembly-CSharp.dll:Valve.VR.InteractionSystem.SoundDeparent
 bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.AudioSpatializerMicrosoft
@@ -278,6 +279,7 @@ c08b196716247885d3b27f7f282b2568 Assembly-CSharp-firstpass.dll:UnityStandardAsse
 a51173280b81aed3c792da6e9cebc4cd Assembly-CSharp-firstpass.dll:UnityStandardAssets.ImageEffects.Twirl
 a51173280b81aed3c792da6e9cebc4cd Assembly-CSharp-firstpass.dll:UnityStandardAssets.ImageEffects.Vortex
 277679a89744b23e48e715c2a041a579 Assembly-CSharp.dll:.TeleportController
+2e5b6e93104d195eddd67e4ba84a472a Assembly-CSharp.dll:Valve.VR.InteractionSystem.NewsSpeaker
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:Valve.VR.InteractionSystem.DebugUI
 2f264043a6bb59ca3369df5a4d180e17 Assembly-CSharp-firstpass.dll:UnityStandardAssets.ImageEffects.CameraMotionBlur
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
