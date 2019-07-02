@@ -5,73 +5,59 @@ using UnityEngine.UI;
 using Valve.VR.InteractionSystem;
 using Valve.VR;
 
-[RequireComponent(typeof(Collider))]
 public class PreviewAreaTrigger : MonoBehaviour
 {
 
-    public GameObject player;
-    private Hand hand = null;
-    public GameObject head;
+    public Text titleOfTheNews;
+    public Text contentOfTheNews;
+
+    public float previewAreaRadius = 5.0f;
+    public Vector3 panelPreviewPostion = new Vector3(-0.3f, 0f, 0.5f);
+
+    private GameObject destinationReticle;
+    private GameObject newsPreview;
+    private GameObject teleporting;
+    private Transform followHead;
 
     private SteamVR_Action_Boolean teleportAction = SteamVR_Input.GetBooleanAction("Teleport");
 
-    public GameObject newsPreviewPanel;
+
+    // true when the reticle 
+    private bool isEntered = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (player == null)
-        {
-            player = GameObject.FindObjectOfType<Player>().gameObject;
-        }
 
-        if (newsPreviewPanel == null)
-        {
-            newsPreviewPanel = GameObject.FindObjectOfType<Teleport>().transform.Find("NewsPreview").gameObject;
-        }
+        followHead = GameObject.Find("FollowHead").transform;
+
+        newsPreview = GameObject.Find("NewsPreview");
+
+        teleporting = GameObject.FindObjectOfType<Teleport>().gameObject;
+        destinationReticle = teleporting.transform.Find("DestinationReticle").gameObject;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (teleportAction[SteamVR_Input_Sources.LeftHand].state && hand == null)
-        {
-            hand = player.GetComponent<Player>().leftHand;
-        }
-        else if (teleportAction[SteamVR_Input_Sources.RightHand].state && hand == null)
-        {
-            hand = player.GetComponent<Player>().rightHand;
-        }
-        else if (!(teleportAction.state) && hand != null)
-        {
-            hand = null;
-        }
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.name == "PreviewArea")
-        {
-            newsPreviewPanel.transform.Find("Title").gameObject.GetComponent<Text>().text = other.transform.parent.parent.Find("Title").GetComponent<Text>().text;
-            newsPreviewPanel.transform.Find("Infos").gameObject.GetComponent<Text>().text = other.transform.parent.parent.Find("Content").GetComponent<Text>().text;
-            newsPreviewPanel.SetActive(true);
-        }
-    }
+        float dist = Vector3.Distance(destinationReticle.transform.position, transform.position);
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.name == "PreviewArea")
+        if (dist <= previewAreaRadius && !isEntered && destinationReticle.activeSelf)
         {
-            newsPreviewPanel.transform.position = hand.transform.TransformPoint(new Vector3(0, 0.2f, 0));
-            newsPreviewPanel.transform.rotation = Quaternion.LookRotation(hand.transform.position - head.transform.position, Vector3.up);
+            isEntered = true;
+            newsPreview.transform.Find("Panel/Title").GetComponent<Text>().text = titleOfTheNews.text;
+            newsPreview.transform.Find("Panel/Infos").gameObject.GetComponent<Text>().text = contentOfTheNews.text;
+            newsPreview.transform.position = followHead.transform.TransformPoint(panelPreviewPostion);
+            newsPreview.transform.rotation = Quaternion.LookRotation(newsPreview.transform.position - followHead.transform.position, Vector3.up);
+            newsPreview.transform.Find("Panel").gameObject.SetActive(true);
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.name == "PreviewArea")
+        if (isEntered && ( !(destinationReticle.activeSelf) || dist > previewAreaRadius))
         {
-            newsPreviewPanel.SetActive(false);
+            isEntered = false;
+            newsPreview.transform.Find("Panel").gameObject.SetActive(false);
         }
     }
 }
