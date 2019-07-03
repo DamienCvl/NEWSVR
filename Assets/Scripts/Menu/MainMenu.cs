@@ -143,7 +143,7 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene(1);
     }
 
     // Should load the VR device to go from dev mode to town simulation but doesn't seem to work
