@@ -6,13 +6,14 @@ using System.Data;
 using System;
 using MySql.Data.MySqlClient;
 using System.IO;
+using Assets.Scripts.Core;
 
 /*
  * Create all the rows of comments in the comments view when you enter the devmode scene.
  * I manage something for the placement in the scroll view but it's not perfect.
  */
 
-public class DevModeViewComments : Connection
+public class DevModeViewComments : MonoBehaviour
 {
 
     private GameObject CommentsDataPrefab;
@@ -29,10 +30,11 @@ public class DevModeViewComments : Connection
     // Use this for initialization
     void Start()
     {
+        Database.ConnectDB();
         // To put the comments at the right places
         currentPosition = new Vector3(17.0f, -135.0f, 0.0f);
 
-        MySqlCommand dbcmd = new MySqlCommand("SELECT C.idComment, N.title, P.name, C.text, C.date FROM COMMENTS AS C JOIN PLAYERS AS P ON C.idPlayer = P.idPlayer JOIN NEWS AS N ON C.idNews = N.idNews ORDER BY C.idComment;", con);
+        MySqlCommand dbcmd = new MySqlCommand("SELECT C.idComment, N.title, P.name, C.text, C.date FROM COMMENTS AS C JOIN PLAYERS AS P ON C.idPlayer = P.idPlayer JOIN NEWS AS N ON C.idNews = N.idNews ORDER BY C.idComment;", Database.con);
         MySqlDataReader reader = dbcmd.ExecuteReader();
 
         try
@@ -62,7 +64,7 @@ public class DevModeViewComments : Connection
         }
 
         dbcmd.Dispose();
-        con.Dispose();
+        Database.con.Dispose();
 
 
 

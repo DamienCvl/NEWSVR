@@ -5,6 +5,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System.IO;
 using MySql.Data.MySqlClient;
+using Assets.Scripts.Core;
 
 /*
  * This handles the X button that appeares bellow comments, it only appeares if you made it.
@@ -15,7 +16,7 @@ namespace Valve.VR.InteractionSystem
 {
     //-------------------------------------------------------------------------
     [RequireComponent(typeof(Interactable))]
-    public class NewsCommentsDeleteComments : Connection
+    public class NewsCommentsDeleteComments : MonoBehaviour
     {
 
         public GameObject Comment;
@@ -23,8 +24,8 @@ namespace Valve.VR.InteractionSystem
         // Action when you click X, delete the Comments
         private void DeleteAction()
         {
-            ConnectDB();
-            MySqlCommand cmdDeleteAction = new MySqlCommand("DELETE FROM COMMENTS WHERE ID = @dbIdComment;", con);
+            Database.ConnectDB();
+            MySqlCommand cmdDeleteAction = new MySqlCommand("DELETE FROM COMMENTS WHERE ID = @dbIdComment;", Database.con);
             cmdDeleteAction.Parameters.AddWithValue("@dbIdComment", Comment.GetComponent<NewsComment>().id);
 
             try
@@ -37,7 +38,7 @@ namespace Valve.VR.InteractionSystem
             }
 
             cmdDeleteAction.Dispose();
-            con.Dispose();
+            Database.con.Dispose();
 
             // Wait 1 second to delete the comment button to not cause bug
             Destroy(Comment, 1);

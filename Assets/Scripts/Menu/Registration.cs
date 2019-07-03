@@ -7,8 +7,9 @@ using UnityEngine.Networking;
 using System.IO;
 using MySql.Data.MySqlClient;
 using System;
+using Assets.Scripts.Core;
 
-public class Registration : Connection
+public class Registration : MonoBehaviour
 {
     
 
@@ -20,12 +21,12 @@ public class Registration : Connection
 
     public Text emptyRuleField;
     public Text lengthRuleField;
+    public Text state;
 
 
     // Use this for initialization
     void Start()
     {
-        ConnectDB();
         submitButton.onClick.AddListener(SubmitButtonAction);
     }
 
@@ -39,94 +40,36 @@ public class Registration : Connection
 
     }
 
-    /*
-    public void CallRegister()
-    {
-        StartCoroutine(Register());
-    }
-
-    IEnumerator Register()
-    {
-        UnityWebRequest uwr = UnityWebRequest.Get("mysql-levelup.alwaysdata.net");
-        yield return uwr.SendWebRequest();
-        if (uwr.isNetworkError || uwr.isHttpError)
-        {
-            Debug.Log(uwr.error);
-        }
-        else
-        {
-            Debug.Log("User created sucessfully.");
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-        }
-    }
-    */
-
 
     public void VerifyInputs()
     {
         submitButton.interactable = (nameField.text.Length >= 1 && passwordField.text.Length >= 8 && confirmPassField.text.Length >= 8);
     }
 
-    bool VerifNameAvailable(string name)
-    {
-        string sqlCmdName = "SELECT name FROM PLAYERS WHERE name = @dbUserName;";
-        MySqlCommand cmdVerifName = new MySqlCommand(sqlCmdName, con);
-        cmdVerifName.Parameters.AddWithValue("@dbUserName", name);
 
-        try
-        {
-            MySqlDataReader reader = cmdVerifName.ExecuteReader();
-            if (reader.Read())
-            {
-                state.text = "This name is already taken.";
-                reader.Close();
-                reader = null;
-                cmdVerifName.Dispose();
-                return false;
-            }
-            else
-            {
-                cmdVerifName.Dispose();
-                return true;
-            }
-            
-        }
-        catch (IOException ex)
-        {
-            state.text = ex.ToString();
-            return false;
-        }
-        
-    }
 
     private void SubmitButtonAction()
     {
         if (passwordField.text == confirmPassField.text)
         {
-            if (VerifNameAvailable(nameField.text))
+            if (Database.VerifNameAvailable(nameField.text))
             {
-                //string sqlCmdReg = "INSERT INTO PLAYERS VALUES (default,'" + nameField.text + "','" + passwordField.text + "',0,0,0,0,default)";   <- BEFORE
-                //Now it's safe from SQL injections
-                string sqlCmdReg = "INSERT INTO PLAYERS VALUES (default,@dbUserName,@dbUserMDP,0,0,0,0,default);";
-                MySqlCommand cmdReg = new MySqlCommand(sqlCmdReg, con);
-                cmdReg.Parameters.AddWithValue("@dbUserName", nameField.text);
-                cmdReg.Parameters.AddWithValue("@dbUserMDP", passwordField.text);
-
-                try
+                if(Database.InsertNewPlayer(nameField.text, passwordField.text))
                 {
-                    cmdReg.ExecuteReader();
                     state.color = Color.green;
                     state.text = "User created sucessfully.";
                     emptyRuleField.text = "";
                     lengthRuleField.text = "Press \"Esc\" and log in.";
                 }
-                catch (IOException ex)
+                else
                 {
                     state.color = Color.red;
-                    state.text = ex.ToString();
+                    state.text = "Something Wrong append ...";
                 }
-
-                cmdReg.Dispose();
+            }
+            else
+            {
+                state.text = "This name is already taken.";
             }
         }
         else
@@ -134,5 +77,11 @@ public class Registration : Connection
             state.text = "Passwords are not matching.";
         }
         
+    }
+
+
+    public void GoBackToMenu()
+    {
+        StaticClass.GoBackToMenu();
     }
 }

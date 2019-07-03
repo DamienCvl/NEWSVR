@@ -5,8 +5,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using MySql.Data.MySqlClient;
 using System.IO;
+using Assets.Scripts.Core;
 
-public class Profil : Connection
+public class Profil : MonoBehaviour
 {
     public Text nameField;
     public Text viewsField;
@@ -21,7 +22,6 @@ public class Profil : Connection
     // Start is called before the first frame update
     void Start()
     {
-        ConnectDB();
         AskStatData();
         AskCommentNumberData();
         AskCommentPositionData();
@@ -57,75 +57,42 @@ public class Profil : Connection
     void AskCommentNumberData()
     {
         PopulateDisplayNumberList();
-        int.TryParse(SqlCmd("cmtNbShown"), out int res);
+        int.TryParse(Database.SqlCmd("cmtNbShown"), out int res);
         cmtNumbersDD.value = res;
     }
 
     void AskCommentPositionData()
     {
         PopulatePositionList();
-        int.TryParse(SqlCmd("cmtPositionPref"), out int res);
+        int.TryParse(Database.SqlCmd("cmtPositionPref"), out int res);
         cmtPositionDD.value = res;
     }
 
     void AskStatData()
     {
         nameField.text += StaticClass.CurrentPlayerName;
-        viewsField.text += SqlCmd("nbOfView");
-        commentField.text += SqlCmd("nbOfComment");
-    }
-
-
-
-
-
-
-
-
-    string SqlCmd(string selectName)
-    {
-        MySqlCommand cmdSQL = new MySqlCommand("SELECT " + selectName + " FROM PLAYERS WHERE name = '" + StaticClass.CurrentPlayerName + "'", con);
-        MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-        try
-        {
-            reader.Read();
-            string var = "" + reader.GetValue(0);
-            cmdSQL.Dispose();
-            return var;
-        }
-        catch(IOException ex)
-        {
-            cmdSQL.Dispose();
-            return "" + ex;
-        }
- 
+        viewsField.text += Database.SqlCmd("nbOfView");
+        commentField.text += Database.SqlCmd("nbOfComment");
     }
 
 
     public void SaveButtonAction()
     {
-        MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET cmtNbShown = '"+ cmtNumbersDD.value + "', cmtPositionPref = '"+ cmtPositionDD.value + "' WHERE name = '" + StaticClass.CurrentPlayerName + "'; ", con);
-        
-
-        try
+        if (Database.PrefSucessfullySaved(cmtNumbersDD.value, cmtPositionDD.value))
         {
-           if (cmdSQL.ExecuteNonQuery() > 0)
-            {
-               savePrompt.color = Color.green;
-               savePrompt.text = "Sucessfuly saved !";
-            }
-
-            cmdSQL.Dispose();
-           
+            savePrompt.color = Color.green;
+            savePrompt.text = "Sucessfuly saved !";
         }
-        catch (IOException ex)
+        else
         {
             savePrompt.color = Color.red;
             savePrompt.text = "Something wrong append ...";
-            cmdSQL.Dispose();
-            Debug.Log(ex);
         }
+    }
+
+    public void GoBackToMenu()
+    {
+        StaticClass.GoBackToMenu();
     }
 
 }

@@ -7,10 +7,11 @@ using System;
 using UnityEngine.UI;
 using System.IO;
 using MySql.Data.MySqlClient;
+using Assets.Scripts.Core;
 
 // Handle the delete of comment in the database when you click the red cross and the verification panel.
 
-public class DevModeVerifComments : Connection
+public class DevModeVerifComments : MonoBehaviour
 {
 
     private int idComments;
@@ -25,7 +26,7 @@ public class DevModeVerifComments : Connection
     // Use this for initialization
     void Start()
     {
-        ConnectDB();
+        Database.ConnectDB();
         YesButton.onClick.AddListener(YesAction);
         NoButton.onClick.AddListener(NoAction);
     }
@@ -53,7 +54,7 @@ public class DevModeVerifComments : Connection
     private void DeleteComments()
     {
         
-        MySqlCommand cmdVerifCom = new MySqlCommand("DELETE FROM COMMENTS WHERE ID = @dbIdComment;", con);
+        MySqlCommand cmdVerifCom = new MySqlCommand("DELETE FROM COMMENTS WHERE ID = @dbIdComment;", Database.con);
         cmdVerifCom.Parameters.AddWithValue("@dbIdComment", idComments);
 
         try
@@ -66,6 +67,6 @@ public class DevModeVerifComments : Connection
         }
 
         cmdVerifCom.Dispose();
-        con.Dispose();
+        Database.con.Dispose();
     }
 }

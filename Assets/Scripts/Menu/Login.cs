@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 using MySql.Data.MySqlClient;
 using System.IO;
 using System;
+using Assets.Scripts.Core;
 
-public class Login : Connection
+public class Login : MonoBehaviour
 {
     public InputField logNameField;
     public InputField logPasswordField;
@@ -19,7 +20,6 @@ public class Login : Connection
     // Start is called before the first frame update
     void Start()
     {
-        ConnectDB();
         logInButton.onClick.AddListener(LogInButtonAction);
     }
 
@@ -39,74 +39,25 @@ public class Login : Connection
 
     private void LogInButtonAction()
     {
-        MySqlCommand cmdSQL = new MySqlCommand("SELECT idPlayer FROM PLAYERS WHERE name = @dbUserName AND password = @dbUserMDP;", con);
-        cmdSQL.Parameters.AddWithValue("@dbUserName", logNameField.text);
-        cmdSQL.Parameters.AddWithValue("@dbUserMDP", logPasswordField.text);
-        MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-        try
+        if (Database.IsThisUserAnAuthenticPlayer(logNameField.text, logPasswordField.text))
         {
-            if (reader.Read())
-            {
-                StaticClass.CurrentPlayerId = reader.GetUInt32(0);
-                Debug.Log(StaticClass.CurrentPlayerId);
-                StaticClass.CurrentPlayerName = logNameField.text;
-                SceneManager.LoadScene(0);
-                InitializeHomePageDataNeeded();
-            }
-            else
-            {
-                logStateTxt.text = "Wrong username or password.";
-                
-            }
-            cmdSQL.Dispose();
+            StaticClass.CurrentPlayerName = logNameField.text;
+            InitializeHomePageDataNeeded();
+            SceneManager.LoadScene(0);
         }
-        catch (IOException ex)
+        else
         {
-            state.color = Color.red;
-            state.text = ex.ToString();
-            cmdSQL.Dispose();
+            logStateTxt.text = "Wrong username or password.";
         }
-
-
-        
-
-
     }
 
     private void InitializeHomePageDataNeeded()
     {
-        GetTagColors();
+        Database.GetTagColors();
     }
 
-    private void GetTagColors()
+    public void GoBackToMenu()
     {
-        MySqlCommand cmdSQL = new MySqlCommand("SELECT idPlayer FROM PLAYERS WHERE name = @dbUserName AND password = @dbUserMDP;", con);
-        cmdSQL.Parameters.AddWithValue("@dbUserName", logNameField.text);
-        MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-        try
-        {
-            if (reader.Read())
-            {
-                StaticClass.CurrentPlayerId = reader.GetUInt32(0);
-                Debug.Log(StaticClass.CurrentPlayerId);
-                StaticClass.CurrentPlayerName = logNameField.text;
-                SceneManager.LoadScene(0);
-                InitializeHomePageDataNeeded();
-            }
-            else
-            {
-                logStateTxt.text = "Wrong username or password.";
-
-            }
-            cmdSQL.Dispose();
-        }
-        catch (IOException ex)
-        {
-            state.color = Color.red;
-            state.text = ex.ToString();
-            cmdSQL.Dispose();
-        }
+        StaticClass.GoBackToMenu();
     }
 }

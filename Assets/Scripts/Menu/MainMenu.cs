@@ -7,18 +7,17 @@ using UnityEngine.UI;
 using System;
 using MySql.Data.MySqlClient;
 using System.IO;
+using Assets.Scripts.Core;
 
-
-public class MainMenu : Connection
+public class MainMenu : MonoBehaviour
 {
    
     public Button playGameButton;
     public Button profilButton;
-    public List<News> notificationList = new List<News>();
-    public const double SPAWN_X = -95.7;
-    public const double SPAWN_Z = 87.3;
+    
 
     public Text newsPrompt;
+    public Text state;
 
     public List<Button> listBtnNews = new List<Button>(10);
 
@@ -35,8 +34,7 @@ public class MainMenu : Connection
 
     private void Start()
     {
-        ConnectDB();
-        GenerateNewsList();
+        Database.GenerateNewsList();
         DisplayNews();
 
         if (StaticClass.CurrentPlayerName != "")
@@ -56,80 +54,15 @@ public class MainMenu : Connection
     /****** Notification List ******/
     /*******************************/
 
-    // Euclidian distance
-    public uint Distance(double x1, double y1, double x2, double y2) => Convert.ToUInt32(Math.Sqrt(((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))));
-
-    //Take qll the news from the db
-    public void GenerateNewsList()
-    {
-        MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews, NEWS.title, NEWS.positionX, NEWS.positionZ, NEWS.nbView ,NEWS.creationDate FROM NEWS;", con);
-        MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-        uint distEucli;
-     
-        List<string> tagsTemp = new List<string>();
-
-        try
-        {
-            if (reader.HasRows)
-            {
-                newsPrompt.text = "News !!!";
-                while (reader.Read())
-                {
-                    distEucli = Distance(reader.GetDouble(2), reader.GetDouble(3), SPAWN_X, SPAWN_Z);  // euclidian distance  from the spawn point                                  
-                    notificationList.Add(new News(reader.GetUInt32(0), reader.GetString(1), distEucli, reader.GetUInt32(4), reader.GetDateTime(5), tagsTemp));
-                }
-                reader.Dispose();
-            }
-            else
-            {
-                newsPrompt.text = "No news ...";
-            }
-        }
-        catch (IOException ex)
-        {
-            state.color = Color.red;
-            state.text = ex.ToString();
-        }
-        reader.Dispose();
-        cmdSQL.Dispose();
 
 
-        uint idNewsTemp = 1;
-        MySqlCommand cmdSQLtags = new MySqlCommand("SELECT * FROM TOPICS WHERE idNews = @dbIdNews ;", con);
-        cmdSQLtags.Parameters.AddWithValue("@dbIdNews", idNewsTemp);
-        MySqlDataReader readerTags = cmdSQLtags.ExecuteReader();
-
-        try
-        {
-            foreach (News n in notificationList)
-            {
-                if (readerTags.HasRows)
-                {
-                    while (readerTags.Read())
-                    {
-                       n.GetTags().Add(readerTags.GetString(1));
-                    }
-                }
-
-                idNewsTemp++;
-            }
-        }
-        catch (IOException ex)
-        {
-            state.color = Color.red;
-            state.text = ex.ToString();
-        }
-        
-        readerTags.Dispose();
-        cmdSQL.Dispose();
-    }
+    
 
     //TODO: Add a parameter in order to know how to sort
     public void DisplayNews()
     {
         int index;
-        int nbTotalNews = notificationList.Count;
+        int nbTotalNews = StaticClass.notificationList.Count;
 
         if (nbTotalNews >= 10)
         {
@@ -142,7 +75,7 @@ public class MainMenu : Connection
 
         for(int i=0 ; i < index; i++)
         {
-            News n = notificationList[i];
+            News n = StaticClass.notificationList[i];
             listBtnNews[i].gameObject.SetActive(true);
             listBtnNews[i].GetComponentInChildren<Text>().text = n.GetTitle() + "\n" + n.GetTagsToString() + " - " + n.GetDist() + "m .";
             
@@ -160,7 +93,7 @@ public class MainMenu : Connection
     {
         
         int index = listBtnNews.FindIndex(a => a == temp);
-        News n = notificationList[index]; ///changer pour mettre la liste [10] de´s news "active" (en place actuellement)
+        News n = StaticClass.notificationList[index]; ///changer pour mettre la liste [10] de´s news "active" (en place actuellement)
 
         if( StaticClass.newsBeaconedList.Exists(x => x == n.GetId()) )
         {
@@ -235,7 +168,6 @@ public class MainMenu : Connection
 
 
 
-    
 }
 
 public class News

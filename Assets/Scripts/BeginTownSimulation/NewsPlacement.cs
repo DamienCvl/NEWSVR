@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using MySql.Data.MySqlClient;
+using Assets.Scripts.Core;
 
 /*
  * Handle the creation of all the news when you open the scene TownSimulation.
@@ -10,7 +11,7 @@ using MySql.Data.MySqlClient;
  * Since this script is always there, it deals with the escape action to return to the menu too.
  */
 
-public class NewsPlacement : Connection {
+public class NewsPlacement : MonoBehaviour {
 
     private GameObject NewsPrefabs;
     private GameObject EveryNews;
@@ -25,8 +26,8 @@ public class NewsPlacement : Connection {
         // At first, no news is open and we have to pick up a sphere to go in one
         aNewsIsOpen = true;
 
-        ConnectDB();
-        MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews, NEWS.title, NEWS.text, NEWS.positionX, NEWS.positionZ FROM NEWS;", con);
+        Database.ConnectDB();
+        MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews, NEWS.title, NEWS.text, NEWS.positionX, NEWS.positionZ FROM NEWS;", Database.con);
         MySqlDataReader reader = cmdSQL.ExecuteReader();
 
 
@@ -46,7 +47,7 @@ public class NewsPlacement : Connection {
         reader = null;
         cmdSQL.Dispose();
         cmdSQL = null;
-        con.Close();
+        Database.con.Close();
     }
 
 	

@@ -6,13 +6,14 @@ using System.Data;
 using System;
 using MySql.Data.MySqlClient;
 using System.IO;
+using Assets.Scripts.Core;
 
 /*
  * Create all the rows of players in the players view when you enter the devmode scene.
  * I manage something for the placement in the scroll view but it's not perfect.
  */
 
-public class DevModeViewPlayers : Connection
+public class DevModeViewPlayers : MonoBehaviour
 {
 
     private GameObject PlayersDataPrefab;
@@ -29,12 +30,12 @@ public class DevModeViewPlayers : Connection
     // Use this for initialization
     void Start()
     {
-        ConnectDB();
+        Database.ConnectDB();
 
         // To put the players at the right places
         currentPosition = new Vector3(17.0f, -135.0f, 0.0f);
 
-        MySqlCommand dbcmd = new MySqlCommand("SELECT name, nbOfView, nbOfComment FROM PLAYERS;", con);
+        MySqlCommand dbcmd = new MySqlCommand("SELECT name, nbOfView, nbOfComment FROM PLAYERS;", Database.con);
         MySqlDataReader reader = dbcmd.ExecuteReader();
 
         try
@@ -67,7 +68,7 @@ public class DevModeViewPlayers : Connection
         dbcmd = null;
         reader.Close();
         reader = null;
-        con.Dispose();
+        Database.con.Dispose();
 
    
         

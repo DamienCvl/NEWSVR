@@ -7,11 +7,13 @@ using System;
 using UnityEngine.UI;
 using MySql.Data.MySqlClient;
 using System.IO;
+using Assets.Scripts.Core;
 
 // Handle the delete of news in the database when you click the red cross and the verification panel.
 // When you delete a news, it deletes all the comments linked to him too.
 
-public class DevModeVerifNews : Connection {
+public class DevModeVerifNews : MonoBehaviour
+{
 
     private string nameNews;
     private int idNews;
@@ -25,7 +27,7 @@ public class DevModeVerifNews : Connection {
 
     // Use this for initialization
     void Start () {
-        ConnectDB();
+        Database.ConnectDB();
         YesButton.onClick.AddListener(YesAction);
         NoButton.onClick.AddListener(NoAction);
     }
@@ -54,7 +56,7 @@ public class DevModeVerifNews : Connection {
 
     private void DeleteNews()
     {
-        MySqlCommand cmdDeleteNews = new MySqlCommand("DELETE FROM NEWS WHERE idNews = @dbIdNews;", con);
+        MySqlCommand cmdDeleteNews = new MySqlCommand("DELETE FROM NEWS WHERE idNews = @dbIdNews;", Database.con);
         cmdDeleteNews.Parameters.AddWithValue("@dbIdNews", idNews);
 
         try
@@ -67,12 +69,12 @@ public class DevModeVerifNews : Connection {
         }
 
         cmdDeleteNews.Dispose();
-        con.Dispose();
+        Database.con.Dispose();
     }
 
     private void DeleteComments()
     {
-        MySqlCommand cmdDeleteComt = new MySqlCommand("DELETE FROM COMMENTS WHERE idNews = @dbIdNews;", con);
+        MySqlCommand cmdDeleteComt = new MySqlCommand("DELETE FROM COMMENTS WHERE idNews = @dbIdNews;", Database.con);
         cmdDeleteComt.Parameters.AddWithValue("@dbIdNews", idNews);
 
         try
@@ -85,6 +87,6 @@ public class DevModeVerifNews : Connection {
         }
 
         cmdDeleteComt.Dispose();
-        con.Dispose();
+        Database.con.Dispose();
     }
 }
