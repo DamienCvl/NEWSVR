@@ -48,20 +48,20 @@ public class PreviewAreaTrigger : MonoBehaviour
         distReticleToNews = Vector3.Distance(destinationReticle.transform.position, transform.position);
         distPlayerToNews = Vector3.Distance(followHead.transform.position, transform.position);
 
-        if (distReticleToNews <= previewAreaRadius && !isEntered && destinationReticle.activeSelf && distPlayerToNews > 12.0f)
+        if (distReticleToNews <= previewAreaRadius && !isEntered && destinationReticle.activeSelf)
         {
             isEntered = true;
             newsPreview.transform.Find("Panel/Title").GetComponent<Text>().text = titleOfTheNews.text;
             newsPreview.transform.Find("Panel/Infos").gameObject.GetComponent<Text>().text = contentOfTheNews.text;
             newsPreview.transform.position = followHead.transform.TransformPoint(panelPreviewPostion);
             newsPreview.transform.rotation = Quaternion.LookRotation(newsPreview.transform.position - followHead.transform.position, Vector3.up);
-            newsPreview.transform.Find("Panel").gameObject.SetActive(true);
+            newsPreview.SetActive(true);
         }
 
-        if (isEntered && (!(destinationReticle.activeSelf) || distReticleToNews > previewAreaRadius))
+        if (distPlayerToNews < 12.0f || (isEntered && (!(destinationReticle.activeSelf) || distReticleToNews > previewAreaRadius)))
         {
             isEntered = false;
-            newsPreview.transform.Find("Panel").gameObject.SetActive(false);
+            newsPreview.SetActive(false);
         }
     }
 }
