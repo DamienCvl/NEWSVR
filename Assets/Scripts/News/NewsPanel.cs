@@ -49,9 +49,8 @@ namespace Valve.VR.InteractionSystem
             playerFirstTransform = player.hmdTransform;
 
             // Put the news in front of the player every time the player pick up the newsSphere
-            transform.position = new Vector3(player.hmdTransform.position.x, panelHeight, player.hmdTransform.position.z);
-            transform.rotation = new Quaternion(0, player.hmdTransform.rotation.y , 0, player.hmdTransform.rotation.w);
-            transform.Translate(new Vector3(player.hmdTransform.forward.x, 0.0f, player.hmdTransform.forward.z).normalized * panelDistance, Space.World);
+            transform.position = playerFirstTransform.TransformPoint(Vector3.forward * panelDistance);
+            transform.rotation = Quaternion.LookRotation(transform.position - playerFirstTransform.position, Vector3.up);
 
             // Set first comment position
             NewsComment.SetFirstCommentPosition(playerFirstTransform);
