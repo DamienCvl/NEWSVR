@@ -39,6 +39,9 @@ public class NewsComment : Grabbable
     // Offset vector to separate comments
     public static Vector3 commentOffset = new Vector3(-0.1f, 0, 0.1f);
 
+    public static Vector3 firstCommentPosition;
+    public static Quaternion firstCommentRotation;
+
     // Used to see if there is a hand to release when you go out of the news and which one it is
     private Hand handToRelease;
 
@@ -78,11 +81,17 @@ public class NewsComment : Grabbable
     }
 
     // Static method call in NewsPanel to set the first position of comments
+    ///<summary>
+    ///Set the position where the first comment will be placed relative to player first position entering the news
+    ///</summary>
     public static void SetFirstCommentPosition(Transform playerFirstTransform)
     {
         // Set the transform properties where the first comment will be placed
         nextCommentPosition = playerFirstTransform.TransformPoint(commentsPosition);
         nextCommentRotation = Quaternion.LookRotation(nextCommentPosition - playerFirstTransform.position, Vector3.up);
+        firstCommentPosition = nextCommentPosition;
+        firstCommentRotation = nextCommentRotation;
+
     }
 
     private void Start()
