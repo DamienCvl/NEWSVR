@@ -19,8 +19,11 @@ public class PreviewAreaTrigger : MonoBehaviour
     private GameObject teleporting;
     private Transform followHead;
 
-    private SteamVR_Action_Boolean teleportAction = SteamVR_Input.GetBooleanAction("Teleport");
+    [HideInInspector]
+    public float distReticleToNews;
 
+    [HideInInspector]
+    public float distPlayerToNews;
 
     // true when the reticle 
     private bool isEntered = false;
@@ -42,9 +45,10 @@ public class PreviewAreaTrigger : MonoBehaviour
     void Update()
     {
 
-        float dist = Vector3.Distance(destinationReticle.transform.position, transform.position);
+        distReticleToNews = Vector3.Distance(destinationReticle.transform.position, transform.position);
+        distPlayerToNews = Vector3.Distance(followHead.transform.position, transform.position);
 
-        if (dist <= previewAreaRadius && !isEntered && destinationReticle.activeSelf)
+        if (distReticleToNews <= previewAreaRadius && !isEntered && destinationReticle.activeSelf && distPlayerToNews > 12.0f)
         {
             isEntered = true;
             newsPreview.transform.Find("Panel/Title").GetComponent<Text>().text = titleOfTheNews.text;
@@ -54,7 +58,7 @@ public class PreviewAreaTrigger : MonoBehaviour
             newsPreview.transform.Find("Panel").gameObject.SetActive(true);
         }
 
-        if (isEntered && ( !(destinationReticle.activeSelf) || dist > previewAreaRadius))
+        if (isEntered && (!(destinationReticle.activeSelf) || distReticleToNews > previewAreaRadius))
         {
             isEntered = false;
             newsPreview.transform.Find("Panel").gameObject.SetActive(false);
