@@ -56,7 +56,7 @@ public class OldCommentPaperScroll : MonoBehaviour
         // Set position and rotation of the old comment scroll paper
         transform.position = NewsComment.firstCommentPosition;
         transform.rotation = NewsComment.firstCommentRotation;
-        transform.Translate(Vector3.left * 0.8f + Vector3.forward * 0.2f);
+        transform.Translate(Vector3.left * 0.5f + Vector3.forward * 0.2f);
     }
 
     private void OnDisable()
