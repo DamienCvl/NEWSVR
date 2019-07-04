@@ -26,7 +26,7 @@ public class PreviewAreaTrigger : MonoBehaviour
     public float distPlayerToNews;
 
     // true when the reticle 
-    private bool isEntered = false;
+    private bool isPreviewEnabled = false;
 
     // Start is called before the first frame update
     void Start()
@@ -48,9 +48,9 @@ public class PreviewAreaTrigger : MonoBehaviour
         distReticleToNews = Vector3.Distance(destinationReticle.transform.position, transform.position);
         distPlayerToNews = Vector3.Distance(followHead.transform.position, transform.position);
 
-        if (distReticleToNews <= previewAreaRadius && !isEntered && destinationReticle.activeSelf)
+        if (distReticleToNews <= previewAreaRadius && !isPreviewEnabled && destinationReticle.activeSelf)
         {
-            isEntered = true;
+            isPreviewEnabled = true;
             newsPreview.transform.Find("Panel/Title").GetComponent<Text>().text = titleOfTheNews.text;
             newsPreview.transform.Find("Panel/Infos").gameObject.GetComponent<Text>().text = contentOfTheNews.text;
             newsPreview.transform.position = followHead.transform.TransformPoint(panelPreviewPostion);
@@ -58,9 +58,9 @@ public class PreviewAreaTrigger : MonoBehaviour
             newsPreview.SetActive(true);
         }
 
-        if (distPlayerToNews < 12.0f || (isEntered && (!(destinationReticle.activeSelf) || distReticleToNews > previewAreaRadius)))
+        if (isPreviewEnabled && (!(destinationReticle.activeSelf) || distReticleToNews > previewAreaRadius || distPlayerToNews < 12.0f))
         {
-            isEntered = false;
+            isPreviewEnabled = false;
             newsPreview.SetActive(false);
         }
     }
