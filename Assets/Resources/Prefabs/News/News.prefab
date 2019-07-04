@@ -3934,9 +3934,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleOfTheNews: {fileID: 114971980851220582}
   contentOfTheNews: {fileID: 114913893444935900}
-  player: {fileID: 0}
-  teleportReticle: {fileID: 0}
-  newsPreview: {fileID: 0}
+  previewAreaRadius: 5
+  panelPreviewPostion: {x: -0.3, y: 0, z: 0.7}
+  distReticleToNews: 0
+  distPlayerToNews: 0
 --- !u!1 &1684457615922740
 GameObject:
   m_ObjectHideFlags: 0
