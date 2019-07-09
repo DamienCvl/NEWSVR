@@ -104,10 +104,10 @@ public class MainMenu : MonoBehaviour
         else
         {
             StaticClass.newsBeaconedList.Add(n.GetId());
-            string color = StaticClass.tagPrefColorList[n.GetTags()[0]];  // we take the choosen color (by the player) of the "main" (first) tag of the news
+            Color color = StaticClass.tagPrefColorList[n.GetTags()[0]];  // we take the choosen color (by the player) of the "main" (first) tag of the news
 
             ColorBlock cb = temp.colors;
-            cb.normalColor = color.ToColor();
+            cb.normalColor = color;
             temp.colors = cb;
         }
 
@@ -168,18 +168,4 @@ public class MainMenu : MonoBehaviour
 
 
 
-}
-
-
-public static class ColorExtensions
-{
-    /// <summary>
-    /// Convert string to Color (if defined as a static property of Color)
-    /// </summary>
-    /// <param name="color"></param>
-    /// <returns></returns>
-    public static Color ToColor(this string color)
-    {
-        return (Color)typeof(Color).GetProperty(color.ToLowerInvariant()).GetValue(null, null);
-    }
 }

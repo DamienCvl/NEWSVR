@@ -231,7 +231,15 @@ namespace Assets.Scripts.Core
                 {              
                     while (reader.Read())
                     {
-                        StaticClass.tagPrefColorList.Add(reader.GetString(0), reader.GetString(1));
+                        if (ColorUtility.TryParseHtmlString(reader.GetString(1), out Color color))
+                        {
+                            StaticClass.tagPrefColorList.Add(reader.GetString(0), color);
+                        }
+                        else
+                        {
+                            StaticClass.tagPrefColorList.Add(reader.GetString(0), Color.white);
+                            Debug.Log("Impossible to read hexadecimal color on database. Set to default (white).");
+                        }
                     }
                     reader.Dispose();
                 }

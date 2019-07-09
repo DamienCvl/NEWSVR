@@ -17,7 +17,7 @@ public static class StaticClass {
     
 
     public static List<uint> newsBeaconedList;
-    public static Dictionary<string, string> tagPrefColorList = new Dictionary<string, string>();
+    public static Dictionary<string, Color> tagPrefColorList = new Dictionary<string, Color>();
 
 
     //return the uclidian distance between a new's location and the spawn
