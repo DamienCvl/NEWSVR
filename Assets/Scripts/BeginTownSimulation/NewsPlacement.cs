@@ -13,41 +13,18 @@ using Assets.Scripts.Core;
 
 public class NewsPlacement : MonoBehaviour {
 
-    private GameObject NewsPrefabs;
-    private GameObject EveryNews;
-
     public bool aNewsIsOpen;
 
     // Use this for initialization
     void Start () {
-
-        EveryNews = GameObject.Find("EveryNews");
-        NewsPrefabs = (GameObject)Resources.Load("Prefabs/News/News", typeof(GameObject));
+        
         // At first, no news is open and we have to pick up a sphere to go in one
         aNewsIsOpen = true;
 
-        Database.ConnectDB();
-        MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews, NEWS.title, NEWS.text, NEWS.positionX, NEWS.positionZ FROM NEWS;", Database.con);
-        MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-
-        while (reader.Read())
+        foreach (News news in StaticClass.newsList)
         {
-            int id = reader.GetInt32(0);
-            string title = reader.GetString(1);
-            string text = reader.GetString(2);
-            float positionX = reader.GetFloat(3);
-            float positionZ = reader.GetFloat(4);
-
-            var news = Instantiate(NewsPrefabs, EveryNews.transform);
-            var newsScript = news.GetComponent<NewsCreate>();
-            newsScript.createNews(id, title, text, positionX, positionZ);
+            news.GenerateNewsGameObject(transform);
         }
-        reader.Close();
-        reader = null;
-        cmdSQL.Dispose();
-        cmdSQL = null;
-        Database.con.Close();
     }
 
 	

@@ -27,7 +27,7 @@ namespace Valve.VR.InteractionSystem
 
         public Text titleOfNews;
 
-        public int id;
+        public uint id;
 
         private DictationRecognizer dictationRecognizer;
 
