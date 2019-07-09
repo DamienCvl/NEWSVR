@@ -62,7 +62,7 @@ public class MainMenu : MonoBehaviour
     public void DisplayNews()
     {
         int index;
-        int nbTotalNews = StaticClass.notificationList.Count;
+        int nbTotalNews = StaticClass.newsList.Count;
 
         if (nbTotalNews >= 10)
         {
@@ -75,7 +75,7 @@ public class MainMenu : MonoBehaviour
 
         for(int i=0 ; i < index; i++)
         {
-            News n = StaticClass.notificationList[i];
+            News n = StaticClass.newsList[i];
             listBtnNews[i].gameObject.SetActive(true);
             listBtnNews[i].GetComponentInChildren<Text>().text = n.GetTitle() + "\n" + n.GetTagsToString() + " - " + n.GetDist() + "m .";
             
@@ -93,7 +93,7 @@ public class MainMenu : MonoBehaviour
     {
         
         int index = listBtnNews.FindIndex(a => a == temp);
-        News n = StaticClass.notificationList[index]; ///changer pour mettre la liste [10] de´s news "active" (en place actuellement)
+        News n = StaticClass.newsList[index]; ///changer pour mettre la liste [10] de´s news "active" (en place actuellement)
 
         if( StaticClass.newsBeaconedList.Exists(x => x == n.GetId()) )
         {
@@ -170,50 +170,6 @@ public class MainMenu : MonoBehaviour
 
 }
 
-public class News
-{
-    private readonly uint id;   // uint for unsigned int;
-    private readonly string title;
-    private readonly uint distEuclFromSpawn;   // In AR, should be the player position, not the "spawn"
-    private readonly List<string> tags;
-    private readonly uint nbOfView;   // AKA Popularity
-    private readonly DateTime date;
-
-    public News(uint id, string title, uint distEuclFromSpawn, uint nbOfView, DateTime date, List<string> tags)
-    {
-        this.id = id;
-        this.title = title;
-        this.distEuclFromSpawn = distEuclFromSpawn;
-        this.tags = tags;
-        this.nbOfView = nbOfView;
-        this.date = date;
-    }
-
-
-    // GETTERS
-    public uint GetId() { return this.id; }
-    public uint GetDist() { return this.distEuclFromSpawn; }
-    public uint GetViews() { return this.nbOfView; }
-    public string GetTitle() { return this.title; }
-    public List<string> GetTags() { return this.tags; }
-    public DateTime GetDate() { return this.date; }
-
-    public string GetTagsToString()
-    {
-        string buff = "/ ";
-        foreach(string s in this.tags)
-        {
-            buff += s+ " / ";
-        }
-        return buff;
-    }
-
-    //use for debug
-    public override string ToString()  
-    {
-        return "N: " + this.id + "-" + this.title + " ("+this.distEuclFromSpawn+")";
-    }
-}
 
 public static class ColorExtensions
 {

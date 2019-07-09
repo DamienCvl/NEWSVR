@@ -1350,7 +1350,7 @@ MonoBehaviour:
     actionPath: /actions/default/in/Scroll
     needsReinit: 0
   panelDistance: 0.8
-  panelHeight: 1.3
+  panelHeightDownOffset: 0.3
   contentNews: {fileID: 1622781136838476}
   comments: {fileID: 1843407421984924}
   oldCommentsScroll: {fileID: 6923597923584884598}
@@ -3877,8 +3877,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4754870790169874}
-  - component: {fileID: 114733056931520186}
   - component: {fileID: 8864027726705481948}
+  - component: {fileID: 4864526121448403360}
   m_Layer: 0
   m_Name: News
   m_TagString: Untagged
@@ -3903,23 +3903,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114733056931520186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1683754341048062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 736e6ee315d7fd7449623f0c6e86013c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TitleOutNews: {fileID: 102254077563080114}
-  TitleInNews: {fileID: 114971980851220582}
-  text: {fileID: 114913893444935900}
-  idNews: 0
-  ParentsOfComments: {fileID: 1843407421984924}
 --- !u!114 &8864027726705481948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3938,6 +3921,23 @@ MonoBehaviour:
   panelPreviewPostion: {x: -0.3, y: 0, z: 0.7}
   distReticleToNews: 0
   distPlayerToNews: 0
+--- !u!114 &4864526121448403360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683754341048062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c7370934864c7d4ca17cfdd837fb62f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TitleOutNews: {fileID: 102254077563080114}
+  TitleInNews: {fileID: 114971980851220582}
+  content: {fileID: 114913893444935900}
+  ParentsOfComments: {fileID: 1843407421984924}
+  beacon: {fileID: 0}
 --- !u!1 &1684457615922740
 GameObject:
   m_ObjectHideFlags: 0
@@ -5308,6 +5308,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3764673957975671328, guid: 1b1c06778348b854ea627e47c4b884fa,
+        type: 3}
+      propertyPath: m_Material
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2811429758279427813, guid: 1b1c06778348b854ea627e47c4b884fa,
         type: 3}

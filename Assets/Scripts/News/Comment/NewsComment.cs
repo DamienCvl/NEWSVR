@@ -120,7 +120,7 @@ public class NewsComment : Grabbable
     }
 
     // Use in MicroComments script to fill the comment
-    public void FillText(int id, string text, string title)
+    public void FillText(uint id, string text, string title)
     {
         Text textComment = content.GetComponent<Text>();
         textComment.text = text;
