@@ -8,14 +8,27 @@ using UnityEngine.SceneManagement;
 
 public static class StaticClass {
 
+    // Player infos
     public static string CurrentPlayerName = "";
     public static uint CurrentPlayerId;
 
+    // Comments settings
+    public static uint nbrCommentDisplayed;
+    public static NewsComment.Positions CommentPosition
+    {
+        set
+        {
+            NewsComment.SetCommentsPosition(value);
+        }
+    }
+
+    // News loaded
     public static List<News> newsList = new List<News>();
+
     public  const float SPAWN_X = -95.7f;
     public  const float SPAWN_Z = 87.3f;
     
-
+    // Tags settings
     public static List<uint> newsBeaconedList = new List<uint>();
     public static Dictionary<string, Color> tagPrefColorList = new Dictionary<string, Color>();
 
