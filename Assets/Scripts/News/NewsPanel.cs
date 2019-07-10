@@ -26,7 +26,7 @@ namespace Valve.VR.InteractionSystem
         // Change this parameter to change the distance from the player of the news item, microphone and reaction box.
         public float panelDistance = 0.8f;
         // Change this parameter to change the heigth of the news item, microphone and reaction box.
-        public float panelHeight = 1.3f;
+        public float panelHeightDownOffset = 0.3f;
 
         public GameObject contentNews;
         public GameObject comments;
@@ -49,9 +49,9 @@ namespace Valve.VR.InteractionSystem
             playerFirstTransform = player.hmdTransform;
 
             // Put the news in front of the player every time the player pick up the newsSphere
-            transform.position = new Vector3(player.hmdTransform.position.x, panelHeight, player.hmdTransform.position.z);
-            transform.rotation = new Quaternion(0, player.hmdTransform.rotation.y , 0, player.hmdTransform.rotation.w);
-            transform.Translate(new Vector3(player.hmdTransform.forward.x, 0.0f, player.hmdTransform.forward.z).normalized * panelDistance, Space.World);
+            Vector3 faceDirection = new Vector3(playerFirstTransform.forward.x, 0, playerFirstTransform.forward.z);
+            transform.position = playerFirstTransform.position + (faceDirection * panelDistance) + Vector3.down * panelHeightDownOffset;
+            transform.rotation = Quaternion.LookRotation(faceDirection, Vector3.up);
 
             // Set first comment position
             NewsComment.SetFirstCommentPosition(playerFirstTransform);

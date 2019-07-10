@@ -61,10 +61,8 @@ namespace Assets.Scripts.Core
         public static void GenerateNewsList()
         {
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews, NEWS.title, NEWS.positionX, NEWS.positionZ, NEWS.nbView ,NEWS.creationDate FROM NEWS;", con);
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews, NEWS.title, NEWS.text, NEWS.positionX, NEWS.positionZ, NEWS.nbView, NEWS.creationDate FROM NEWS;", con);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-            uint distEucli;
 
             List<string> tagsTemp = new List<string>();
 
@@ -74,9 +72,8 @@ namespace Assets.Scripts.Core
                 {
                     
                     while (reader.Read())
-                    {
-                        distEucli = StaticClass.Distance(reader.GetDouble(2), reader.GetDouble(3), StaticClass.SPAWN_X, StaticClass.SPAWN_Z);  // euclidian distance  from the spawn point                                  
-                        StaticClass.notificationList.Add(new News(reader.GetUInt32(0), reader.GetString(1), distEucli, reader.GetUInt32(4), reader.GetDateTime(5), tagsTemp));
+                    {                               
+                        StaticClass.newsList.Add(new News(reader.GetUInt32(0), reader.GetString(1), reader.GetString(2), reader.GetFloat(3), reader.GetFloat(4), reader.GetUInt32(5), reader.GetDateTime(6), tagsTemp));
                     }
                     reader.Dispose();
                 }
@@ -97,7 +94,7 @@ namespace Assets.Scripts.Core
 
             try
             {
-                foreach (News n in StaticClass.notificationList)
+                foreach (News n in StaticClass.newsList)
                 {
                     if (readerTags.HasRows)
                     {
@@ -234,7 +231,15 @@ namespace Assets.Scripts.Core
                 {              
                     while (reader.Read())
                     {
-                        StaticClass.tagPrefColorList.Add(reader.GetString(0), reader.GetString(1));
+                        if (ColorUtility.TryParseHtmlString(reader.GetString(1), out Color color))
+                        {
+                            StaticClass.tagPrefColorList.Add(reader.GetString(0), color);
+                        }
+                        else
+                        {
+                            StaticClass.tagPrefColorList.Add(reader.GetString(0), Color.white);
+                            Debug.Log("Impossible to read hexadecimal color on database. Set to default (white).");
+                        }
                     }
                     reader.Dispose();
                 }

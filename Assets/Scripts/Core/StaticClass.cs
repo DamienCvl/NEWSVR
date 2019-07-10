@@ -11,17 +11,17 @@ public static class StaticClass {
     public static string CurrentPlayerName = "";
     public static uint CurrentPlayerId;
 
-    public static List<News> notificationList = new List<News>();
-    public  const double SPAWN_X = -95.7;
-    public  const double SPAWN_Z = 87.3;
+    public static List<News> newsList = new List<News>();
+    public  const float SPAWN_X = -95.7f;
+    public  const float SPAWN_Z = 87.3f;
+    
 
-
-    public static List<uint> newsBeaconedList;
-    public static Dictionary<string, string> tagPrefColorList = new Dictionary<string, string>();
+    public static List<uint> newsBeaconedList = new List<uint>();
+    public static Dictionary<string, Color> tagPrefColorList = new Dictionary<string, Color>();
 
 
     //return the uclidian distance between a new's location and the spawn
-    public static uint Distance(double x1, double y1, double x2, double y2) => Convert.ToUInt32(Math.Sqrt(((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))));
+    public static uint DistanceFromSpawn(float x, float y) => Convert.ToUInt32(Math.Sqrt(((x - SPAWN_X) * (x - SPAWN_X) + (y - SPAWN_Z) * (y - SPAWN_Z))));
 
     public static void GoBackToMenu()
     {
