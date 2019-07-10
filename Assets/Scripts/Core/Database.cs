@@ -383,15 +383,15 @@ namespace Assets.Scripts.Core
         }
 
 
-        static public List<Comment>  QueryComment(uint idComment)
+        static public List<Comment> QueryComments(uint idNews)
         {
             ConnectDB();
             List<Comment> cmntList = new List<Comment>();
 
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT `tagLabel` FROM `COMMENtS` WHERE IdNews = @dbUserId; ", con);
-            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT idComment,date,text,idPlayer FROM `COMMENTS` WHERE IdNews = @dbNewsId; ", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
-            List<string> tagsList = new List<string>();
+           
 
             try
             {
@@ -399,7 +399,7 @@ namespace Assets.Scripts.Core
                 {
                     while (reader.Read())
                     {
-                        tagsList.Add(reader.GetString(0));
+                        cmntList.Add(new Comment(reader.GetUInt32(0), reader.GetDateTime(1), reader.GetString(2), reader.GetString(3)));
                     }
                     reader.Dispose();
                 }
@@ -409,6 +409,7 @@ namespace Assets.Scripts.Core
             {
                 Debug.Log(ex.ToString());
                 cmdSQL.Dispose();
+                reader.Dispose();
             }
             return cmntList;
         }
