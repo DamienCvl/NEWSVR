@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using MySql.Data.MySqlClient;
 using System.IO;
 using Assets.Scripts.Core;
+using UnityEditor;
 
 public class Profil : MonoBehaviour
 {
@@ -17,20 +18,28 @@ public class Profil : MonoBehaviour
     public Dropdown cmtPositionDD;
     public Dropdown cmtNumbersDD;
 
+    //tags list
+    public GameObject tagTemplate;
+    public GameObject content;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
+ 
         AskStatData();
         AskCommentNumberData();
         AskCommentPositionData();
+        DisplayTagsList();
     }
 
 
     // Update is called once per frame
     void Update()
     {
+     
+
         if (Input.GetKeyDown("escape"))
         {
             SceneManager.LoadScene(0);
@@ -74,6 +83,29 @@ public class Profil : MonoBehaviour
         viewsField.text += Database.SqlCmd("nbOfView");
         commentField.text += Database.SqlCmd("nbOfComment");
     }
+
+
+    public void DisplayTagsList()
+    {
+        
+
+        foreach(string s in Database.GetTags())
+        {
+            var copy = Instantiate(tagTemplate);
+            copy.transform.parent = content.transform;
+            copy.transform.GetComponentInChildren<Text>().text = s;
+            copy.SetActive(true);
+
+            copy.GetComponent<Button>().onClick.AddListener(
+                () =>
+                {
+              
+                }                
+           );
+        }
+    }
+
+
 
 
     public void SaveButtonAction()

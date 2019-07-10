@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Mono.Data.Sqlite;
 using System.Data;
 using System;
+using Assets.Scripts.Core;
 
 /*
  * This handles the validate button that appeares when you speak in the microphone.
@@ -26,11 +27,11 @@ namespace Valve.VR.InteractionSystem
         private void ValidateAction()
         {
             // Retrieve the text of the comment and the title of the news
-            var title = Comment.GetComponent<NewsComment>().titleOfNews;
+            var id = Comment.GetComponent<NewsComment>().id;
             var text = Comment.GetComponent<NewsComment>().textOfComment;
 
-            AddComment(title, text);
-            Add1CommentToPlayer();
+            Database.AddComment(id, text);
+            Database.Add1CommentToPlayer();
 
             FillId();
 
@@ -39,42 +40,9 @@ namespace Valve.VR.InteractionSystem
             Destroy(gameObject, 1);
         }
 
-        private void AddComment(string title, string text)
-        {
-            // Add comment to database
-            string conn = "URI=file:" + Application.dataPath + "/NewsDatabase.db"; //Path to database.
-            IDbConnection dbconn;
-            dbconn = (IDbConnection)new SqliteConnection(conn);
-            dbconn.Open(); //Open connection to the database.
-            IDbCommand dbcmd = dbconn.CreateCommand();
-            string sqlQuery = "INSERT INTO COMMENTS (TEXT, NEWSATTACHED, AUTHOR) VALUES(\"" + text + "\", \"" + title + "\", \"" + StaticClass.CurrentPlayerName + "\"); ";
-            dbcmd.CommandText = sqlQuery;
-            IDataReader reader = dbcmd.ExecuteReader();
-            reader.Close();
-            reader = null;
-            dbcmd.Dispose();
-            dbcmd = null;
-            dbconn.Close();
-            dbconn = null;
-        }
+        
 
-        private void Add1CommentToPlayer()
-        {
-            string conn = "URI=file:" + Application.dataPath + "/NewsDatabase.db"; //Path to database.
-            IDbConnection dbconn;
-            dbconn = (IDbConnection)new SqliteConnection(conn);
-            dbconn.Open(); //Open connection to the database.
-            IDbCommand dbcmd = dbconn.CreateCommand();
-            string sqlQuery = "UPDATE PLAYER SET NBRCOMMENT = NBRCOMMENT + 1 WHERE NAME = \"" + StaticClass.CurrentPlayerName + "\" ";
-            dbcmd.CommandText = sqlQuery;
-            IDataReader reader = dbcmd.ExecuteReader();
-            reader.Close();
-            reader = null;
-            dbcmd.Dispose();
-            dbcmd = null;
-            dbconn.Close();
-            dbconn = null;
-        }
+        
 
         private void FillId()
         {

@@ -49,7 +49,7 @@ namespace Assets.Scripts.Core
         /*************************************************************************************************************************************************************************/
         /*************************************************************************************************************************************************************************/
         /*************************************************************************************************************************************************************************/
-        /*  1 - MainMenu.cs  2 - Registration.cs   3 - Login.cs   4 - Profil.cs */
+        /*  1 - MainMenu.cs  2 - Registration.cs   3 - Login.cs   4 - Profil.cs 5 - Comments 6-News*/
 
         /*******************/
         /*******************/
@@ -274,6 +274,35 @@ namespace Assets.Scripts.Core
         }
 
 
+        public static List<string> GetTags()
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT `tagLabel` FROM `TAGS`;", con);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+            List<string> tagsList = new List<string>();
+
+            try
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        tagsList.Add(reader.GetString(0));
+                    }
+                    reader.Dispose();
+                }
+                
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex.ToString());
+                cmdSQL.Dispose();
+            }
+            return tagsList;
+        }
+
+
+
         public static bool PrefSucessfullySaved(int cmtNumbers, int cmtPosition)
         {
             ConnectDB();
@@ -301,13 +330,118 @@ namespace Assets.Scripts.Core
         }
 
 
+        /******************/
+        /******************/
+        /* 5 - Comments **/
+        /******************/
+        /******************/
 
-
-
-
-        static public Comment QueryComment(uint idComment)
+        public static void AddComment(int idNews, string text)
         {
-            return null; //TODO
+            // Add comment to database
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO COMMENTS (idNews, idPlayer, text, date) VALUES(@dbNewsId,@dbUserId,@dbComtText,@dbDate); ", con);
+            cmdSQL.Parameters.AddWithValue("@dbComtText", text);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
+            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
+            cmdSQL.Parameters.AddWithValue("@dbDate", DateTime.Now);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                reader.Read();               
+                cmdSQL.Dispose();                                 
+            }
+            catch (IOException ex)
+            {
+                cmdSQL.Dispose();
+                Debug.Log(ex);
+            }      
+        }
+
+        public static void Add1CommentToPlayer()
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYER SET nbOfComment = nbOfComment + 1 WHERE name = @dbUserId", con);
+            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+                cmdSQL.Dispose();
+            }
+            catch (IOException ex)
+            {
+                cmdSQL.Dispose();
+                Debug.Log(ex);
+            }            
+        }
+
+
+        static public List<Comment>  QueryComment(uint idComment)
+        {
+            ConnectDB();
+            List<Comment> cmntList = new List<Comment>();
+
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT `tagLabel` FROM `COMMENtS` WHERE IdNews = @dbUserId; ", con);
+            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+            List<string> tagsList = new List<string>();
+
+            try
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        tagsList.Add(reader.GetString(0));
+                    }
+                    reader.Dispose();
+                }
+
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex.ToString());
+                cmdSQL.Dispose();
+            }
+            return cmntList;
+        }
+    }
+
+
+
+        /******************/
+        /******************/
+        /**** 6 - NEWS ****/
+        /******************/
+        /******************/
+
+        public static void CreateANews(string title, string text, float posX, float posZ)
+        {
+            Database.ConnectDB();
+            MySqlCommand cmdCreateNews = new MySqlCommand("INSERT INTO NEWS(title, text, author, creationDate, nbView, nbComment, nbHappy, nbSad, nbAngry, nbSurprised, positionX, positionZ, laserTarget) VALUES(@dbNewsCreaTitle,@dbNewsCreaText,@dbNewsCreaAuthor, @dbNewsCreaDate,0,0,0,0,0,0,@dbNewsCreaPosiX, @dbNewsCreaPosiZ,'');", Database.con);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaTitle", title);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaText", text);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaAuthor", StaticClass.CurrentPlayerName);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaDate", DateTime.Now);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaPosiX", posX);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaPosiZ", posZ);
+
+            try
+            {
+                cmdCreateNews.ExecuteReader();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+
+            cmdCreateNews.Dispose();
+            cmdCreateNews = null;
+            Database.con.Close();
+
+
         }
     }
 }

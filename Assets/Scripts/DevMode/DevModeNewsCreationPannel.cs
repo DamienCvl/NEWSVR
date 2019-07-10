@@ -21,8 +21,7 @@ public class DevModeNewsCreationPannel : MonoBehaviour
     public GameObject NewsPlacementManager;
 
 	// Use this for initialization
-	void Start () {
-        Database.ConnectDB();
+	void Start () {        
         Cancel.onClick.AddListener(CancelAction);
         OK.onClick.AddListener(OkAction);
     }
@@ -43,37 +42,12 @@ public class DevModeNewsCreationPannel : MonoBehaviour
     {
         // Create the news
         Debug.Log(NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.x);
-        CreateANews(Title.text.ToString(), TextNews.text.ToString(), NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.x, NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.z);
+        Database.CreateANews(Title.text.ToString(), TextNews.text.ToString(), NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.x, NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.z);
 
         // Say that we are not creating a news at the moment so that we can click on the map
         NewsPlacementManager.GetComponent<DevModeCreateNews>().newsBeingCreated = false;
         this.gameObject.SetActive(false);
     }
 
-    void CreateANews(string title, string text, float posX, float posZ)
-    {
-
-        MySqlCommand cmdCreateNews = new MySqlCommand("INSERT INTO NEWS(title, text, author, creationDate, nbView, nbComment, nbHappy, nbSad, nbAngry, nbSurprised, positionX, positionZ, laserTarget) VALUES(@dbNewsCreaTitle,@dbNewsCreaText,@dbNewsCreaAuthor, @dbNewsCreaDate,0,0,0,0,0,0,@dbNewsCreaPosiX, @dbNewsCreaPosiZ,'');", Database.con);
-        cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaTitle", title);
-        cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaText", text);
-        cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaAuthor", StaticClass.CurrentPlayerName);
-        cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaDate", DateTime.Now);
-        cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaPosiX", posX);
-        cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaPosiZ", posZ);
-
-        try
-        {
-            cmdCreateNews.ExecuteReader();
-        }
-        catch (IOException ex)
-        {
-            Debug.Log(ex.ToString());
-        }
-
-        cmdCreateNews.Dispose();
-        cmdCreateNews = null;
-        Database.con.Close();
-      
-       
-    }
+    
 }
