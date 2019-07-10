@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Valve.VR.InteractionSystem;
 using Valve.VR;
 
+[RequireComponent(typeof(NewsGameObject))]
 public class PreviewAreaTrigger : MonoBehaviour
 {
 
@@ -35,6 +36,8 @@ public class PreviewAreaTrigger : MonoBehaviour
         followHead = GameObject.Find("FollowHead").transform;
 
         newsPreview = GameObject.Find("NewsPreview");
+
+        newsPreview.GetComponentInChildren<TagListGameObject>().newsGameObject = gameObject.GetComponent<NewsGameObject>();
 
         teleporting = GameObject.FindObjectOfType<Teleport>().gameObject;
         destinationReticle = teleporting.transform.Find("DestinationReticle").gameObject;

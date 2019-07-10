@@ -34,7 +34,6 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        Database.GenerateNewsList();
         DisplayNews();
 
         if (StaticClass.CurrentPlayerName != "")
@@ -42,6 +41,7 @@ public class MainMenu : MonoBehaviour
             state.text = "User log :  " + StaticClass.CurrentPlayerName;
             profilButton.interactable = (true);
             playGameButton.interactable = (true);
+            Database.GenerateNewsList();
         }
         else
         {

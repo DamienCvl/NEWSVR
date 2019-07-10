@@ -16,7 +16,7 @@ public static class StaticClass {
     public  const float SPAWN_Z = 87.3f;
     
 
-    public static List<uint> newsBeaconedList;
+    public static List<uint> newsBeaconedList = new List<uint>();
     public static Dictionary<string, Color> tagPrefColorList = new Dictionary<string, Color>();
 
 
