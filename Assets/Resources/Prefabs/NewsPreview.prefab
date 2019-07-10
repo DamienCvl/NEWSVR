@@ -329,6 +329,7 @@ GameObject:
   - component: {fileID: 4720430753404514478}
   - component: {fileID: 97766446563636533}
   - component: {fileID: 911883143000675977}
+  - component: {fileID: 4799417841270457775}
   m_Layer: 5
   m_Name: NewsPreview
   m_TagString: Untagged
@@ -446,6 +447,19 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!114 &4799417841270457775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2466112947017659717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 330078bf7b8a2924db545d36ec0809b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelPreviewPostion: {x: -0.3, y: 0, z: 0.5}
 --- !u!1 &2515069809133660295
 GameObject:
   m_ObjectHideFlags: 0
@@ -1503,6 +1517,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5829312607713687921, guid: 24ac2174e980fe845abcb9aeffc9aa72,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8332893186246347531, guid: 24ac2174e980fe845abcb9aeffc9aa72,
         type: 3}
       propertyPath: m_Enabled
@@ -1606,11 +1625,6 @@ PrefabInstance:
     - target: {fileID: 3712236031078186451, guid: 24ac2174e980fe845abcb9aeffc9aa72,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5829312607713687921, guid: 24ac2174e980fe845abcb9aeffc9aa72,
-        type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
