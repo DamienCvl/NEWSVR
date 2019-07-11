@@ -26,7 +26,7 @@ namespace Valve.VR.InteractionSystem
         {
             Database.ConnectDB();
             MySqlCommand cmdDeleteAction = new MySqlCommand("DELETE FROM COMMENTS WHERE ID = @dbIdComment;", Database.con);
-            cmdDeleteAction.Parameters.AddWithValue("@dbIdComment", Comment.GetComponent<NewsComment>().id);
+            cmdDeleteAction.Parameters.AddWithValue("@dbIdComment", Comment.GetComponent<CommentGameObject>().idComment);
 
             try
             {

@@ -101,8 +101,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attachmentFlags: 12
   restoreOriginalParent: 1
-  titleOfNews: {fileID: 114971980851220582}
-  id: 0
 --- !u!23 &23217548552541172
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1352,6 +1350,8 @@ MonoBehaviour:
     needsReinit: 0
   panelDistance: 0.8
   panelHeightDownOffset: 0.3
+  newsGameObject: {fileID: 4864526121448403360}
+  commentParent: {fileID: 4971567643513768}
   contentNews: {fileID: 1622781136838476}
   comments: {fileID: 1843407421984924}
   oldCommentsScroll: {fileID: 6923597923584884598}
@@ -3917,8 +3917,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58aa183b9423ca74c95e381aff8b3892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titleOfTheNews: {fileID: 114971980851220582}
-  contentOfTheNews: {fileID: 114913893444935900}
   previewAreaRadius: 5
   panelPreviewPostion: {x: -0.3, y: 0, z: 0.7}
   distReticleToNews: 0
@@ -3939,7 +3937,7 @@ MonoBehaviour:
   TitleInNews: {fileID: 114971980851220582}
   content: {fileID: 114913893444935900}
   ParentsOfComments: {fileID: 1843407421984924}
-  beacon: {fileID: 0}
+  beacon: {fileID: 6087596739121357791}
 --- !u!1 &1684457615922740
 GameObject:
   m_ObjectHideFlags: 0
@@ -4817,6 +4815,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attachmentFlags: 12
   restoreOriginalParent: 1
+  news: {fileID: 4864526121448403360}
   InTheNews: {fileID: 1596768318435840}
   NewsEnvironnement: {fileID: 1352016730315262}
   ViewNbr: {fileID: 1298376078307736}
@@ -5481,7 +5480,7 @@ PrefabInstance:
     - target: {fileID: 1896109901533180003, guid: 1b1c06778348b854ea627e47c4b884fa,
         type: 3}
       propertyPath: m_Name
-      value: OldCommentScrollPaper
+      value: OldCommentPaperScroll
       objectReference: {fileID: 0}
     - target: {fileID: 1896109901533180003, guid: 1b1c06778348b854ea627e47c4b884fa,
         type: 3}

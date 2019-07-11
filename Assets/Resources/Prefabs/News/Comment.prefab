@@ -1811,9 +1811,8 @@ MonoBehaviour:
   content: {fileID: 1898067572951730}
   Buttons: {fileID: 1485874285643480}
   Author: {fileID: 102609096603548476}
-  id: 0
+  idComment: 0
   DeleteButton: {fileID: 1336593767827138}
-  titleOfNews: 
   textOfComment: 
 --- !u!114 &114838081238745492
 MonoBehaviour:

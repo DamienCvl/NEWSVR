@@ -3,6 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using Valve.VR;
+using Assets.Scripts.Core;
 
 /*
  * This handle the article when you open a news item.
@@ -28,6 +29,8 @@ namespace Valve.VR.InteractionSystem
         // Change this parameter to change the heigth of the news item, microphone and reaction box.
         public float panelHeightDownOffset = 0.3f;
 
+        public NewsGameObject newsGameObject;
+        public Transform commentParent;
         public GameObject contentNews;
         public GameObject comments;
         public GameObject oldCommentsScroll;
@@ -54,7 +57,13 @@ namespace Valve.VR.InteractionSystem
             transform.rotation = Quaternion.LookRotation(faceDirection, Vector3.up);
 
             // Set first comment position
-            NewsComment.SetFirstCommentPosition(playerFirstTransform);
+            CommentGameObject.SetFirstCommentPosition(playerFirstTransform);
+
+            // Load all the comments from the database associate to the news
+            Comment.commentsList = Database.QueryComments(newsGameObject.Id);
+
+            // Generate N first gameobject comments (N = user setting in StaticClass)
+            CommentGameObject.GenerateComments(commentParent);
 
             oldCommentsScroll.SetActive(true);
             comments.SetActive(true);
@@ -70,6 +79,14 @@ namespace Valve.VR.InteractionSystem
 
             oldCommentsScroll.SetActive(false);
             comments.SetActive(false);
+
+            // Clear game object comments and data comments
+            Comment.commentsList.Clear();
+            CommentGameObject.commentsGameObjectList.Clear();
+            foreach (GameObject cmt in comments.transform)
+            {
+                Destroy(cmt);
+            }
         }
 
         //-------------------------------------------------

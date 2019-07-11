@@ -18,6 +18,9 @@ public class NewsGameObject : MonoBehaviour
     public GameObject ParentsOfComments;
     public GameObject beacon;
 
+    [HideInInspector]
+    public News newsInfos;
+
     private void Awake()
     {
         CommentPreFab = (GameObject)Resources.Load("Prefabs/News/Comment", typeof(GameObject));
@@ -25,31 +28,14 @@ public class NewsGameObject : MonoBehaviour
 
     public void CreateNews(News newsInfos)
     {
+        this.newsInfos = newsInfos;
         Id = newsInfos.GetId();
         TitleOutNews.text = newsInfos.GetTitle();
         TitleInNews.text = TitleOutNews.text;
         content.text = newsInfos.GetContent();
         transform.position = newsInfos.GetPos();
         Tags = newsInfos.GetTags();
-        CreateComments(Id);
         ActivateBeacon();
-    }
-
-    private void CreateComments(uint idNews)
-    {
-        // TODO : Requete pour aller chercher les commentaires sur la base puis les instancier
-        /*
-        var comment = Instantiate(CommentPreFab, ParentsOfComments.transform);
-        comment.GetComponent<NewsComment>().FillText(idNews, text, newTitle);
-        comment.GetComponent<NewsComment>().FillAuthor(author);
-        comment.GetComponent<NewsComment>().id = id;
-        comment.GetComponent<NewsComment>().DestroyButtons();
-
-        // Add the delete comments option if the current player is the one who made the comments before.
-        if (author == StaticClass.CurrentPlayerName)
-        {
-            comment.GetComponent<NewsComment>().DeleteButton.SetActive(true);
-        }*/
     }
 
 
