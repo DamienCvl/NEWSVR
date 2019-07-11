@@ -129,10 +129,17 @@ namespace Assets.Scripts.Core
 
             try
             {
-                int res = reader.GetInt32(0);
-                cmdSQL.Dispose();
-                con.Dispose();
-                return res;
+                if (reader.Read())
+                {
+                    int res = reader.GetInt32(0);
+                    cmdSQL.Dispose();
+                    con.Dispose();
+                    return res;
+                }
+                else
+                {
+                    return 6;
+                }
             }
             catch (IOException ex)
             {
@@ -153,10 +160,17 @@ namespace Assets.Scripts.Core
 
             try
             {
-                int res = reader.GetInt32(0);
-                cmdSQL.Dispose();
-                con.Dispose();
-                return res;
+                if (reader.Read())
+                {
+                    int res = reader.GetInt32(0);
+                    cmdSQL.Dispose();
+                    con.Dispose();
+                    return res;
+                }
+                else
+                {
+                    return 0;
+                }
             }
             catch (IOException ex)
             {

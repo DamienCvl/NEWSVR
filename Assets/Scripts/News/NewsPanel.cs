@@ -84,9 +84,9 @@ namespace Valve.VR.InteractionSystem
             // Clear game object comments and data comments
             Comment.commentsList.Clear();
             CommentGameObject.commentsGameObjectList.Clear();
-            foreach (GameObject cmt in comments.transform)
+            foreach (Transform cmt in comments.transform)
             {
-                Destroy(cmt);
+                Destroy(cmt.gameObject);
             }
         }
 
