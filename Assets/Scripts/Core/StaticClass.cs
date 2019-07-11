@@ -13,6 +13,7 @@ public static class StaticClass {
     public static uint CurrentPlayerId;
     public static uint CurrentNewsId;
 
+
     // Comments settings
     public static int nbrCommentDisplayed;
     public static CommentGameObject.Positions CommentPosition
