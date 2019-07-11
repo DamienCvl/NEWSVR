@@ -143,6 +143,8 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
+        StaticClass.nbrCommentDisplayed = Database.ReadNbrCommentDisplayed();
+        StaticClass.CommentPosition = (CommentGameObject.Positions)Database.ReadCommentPosition();
         SceneManager.LoadScene(1);
     }
 
