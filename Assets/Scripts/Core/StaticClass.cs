@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,12 +15,12 @@ public static class StaticClass {
 
 
     // Comments settings
-    public static uint nbrCommentDisplayed;
-    public static NewsComment.Positions CommentPosition
+    public static int nbrCommentDisplayed;
+    public static CommentGameObject.Positions CommentPosition
     {
         set
         {
-            NewsComment.SetCommentsPosition(value);
+            CommentGameObject.SetCommentsPosition(value);
         }
     }
 

@@ -25,10 +25,6 @@ namespace Valve.VR.InteractionSystem
 
         private Vector3 transformInit;
 
-        public Text titleOfNews;
-
-        public uint id;
-
         private DictationRecognizer dictationRecognizer;
 
         // Used to see if there is a hand to release when you go out of the news and which one it is
@@ -64,7 +60,7 @@ namespace Valve.VR.InteractionSystem
         {
           // Create the comment with the text said and pass the title to know wich news own the comment
           var comment = Instantiate(CommentPreFab, Comments.transform);
-          comment.GetComponent<NewsComment>().FillText(id, text, titleOfNews.text.ToString());
+          comment.GetComponent<CommentGameObject>().FillText(text);
         }
 
         // Use if there is a problem in the voice recognition

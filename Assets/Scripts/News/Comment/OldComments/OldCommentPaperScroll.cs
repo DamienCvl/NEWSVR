@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Core;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,15 +17,13 @@ public class OldCommentPaperScroll : MonoBehaviour
     public GameObject content;
     public TextMesh Author;
 
-    [HideInInspector]
-    public int id;
     public GameObject DeleteButton;
 
     [HideInInspector]
-    public string titleOfNews;
-
-    [HideInInspector]
     public string textOfComment;
+
+    private LinkedList<Comment> oldCommentsList = new LinkedList<Comment>();
+    private LinkedListNode<Comment> currentOldCommentDisplayed;
 
 
     // Start is called before the first frame update
@@ -54,22 +53,46 @@ public class OldCommentPaperScroll : MonoBehaviour
     private void OnEnable()
     {
         // Set position and rotation of the old comment scroll paper
-        transform.position = NewsComment.firstCommentPosition;
-        transform.rotation = NewsComment.firstCommentRotation;
+        transform.position = CommentGameObject.firstCommentPosition;
+        transform.rotation = CommentGameObject.firstCommentRotation;
         transform.Translate(Vector3.left * 0.5f + Vector3.forward * 0.2f);
+
+        LoadOldComments();
     }
 
     private void OnDisable()
     {
+        oldCommentsList.Clear();
+    }
 
+    private void LoadOldComments()
+    {
+        for (int i = StaticClass.nbrCommentDisplayed; i < Comment.commentsList.Count; i++)
+        {
+            oldCommentsList.AddLast(Comment.commentsList[i]);
+        }
+        LoadAComment(oldCommentsList.First);
+    }
+
+    private void LoadAComment(LinkedListNode<Comment> cmt)
+    {
+        currentOldCommentDisplayed = cmt;
+        FillText(cmt.Value.Content);
+        FillAuthor(cmt.Value.Author);
+    }
+
+    public void DeleteComment()
+    {
+        currentOldCommentDisplayed.Value.Delete();
+        oldCommentsList.Remove(currentOldCommentDisplayed);
+        LoadAComment(oldCommentsList.First);
     }
 
     // Use in MicroComments script to fill the comment
-    public void FillText(string text, string title)
+    public void FillText(string text)
     {
         Text textComment = content.GetComponent<Text>();
         textComment.text = text;
-        titleOfNews = title;
         textOfComment = text;
         Author.text = StaticClass.CurrentPlayerName;
     }
@@ -81,14 +104,10 @@ public class OldCommentPaperScroll : MonoBehaviour
 
     public void PreviousComment()
     {
-        print("Previous");
-        //TODO
-        //Access the previous comment and load it
+        LoadAComment(currentOldCommentDisplayed.Previous);
     }
     public void NextComment()
     {
-        print("Next");
-        //TODO
-        //Access the next comment and load it
+        LoadAComment(currentOldCommentDisplayed.Next);
     }
 }

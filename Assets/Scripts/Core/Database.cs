@@ -366,7 +366,7 @@ namespace Assets.Scripts.Core
             }
         }
 
-        public static void AddComment(int idNews, string text)
+        public static void AddComment(uint idNews, string text)
         {
             // Add comment to database
             ConnectDB();
@@ -413,7 +413,7 @@ namespace Assets.Scripts.Core
             ConnectDB();
             List<Comment> cmntList = new List<Comment>();
 
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT idComment,date,text,idPlayer FROM `COMMENTS` WHERE IdNews = @dbNewsId; ", con);
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT idComment,date,text,idPlayer FROM `COMMENTS` WHERE IdNews = @dbNewsId ORDER BY date DESC;", con);
             cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
            
@@ -438,6 +438,7 @@ namespace Assets.Scripts.Core
             }
             return cmntList;
         }
+    
 
         public static void Add1ComntToPlayer()
         {
@@ -457,6 +458,25 @@ namespace Assets.Scripts.Core
             }
         }
 
+
+        static public void DeleteComment(uint id)
+        {
+            ConnectDB();
+            MySqlCommand cmdDeleteAction = new MySqlCommand("DELETE FROM COMMENTS WHERE ID = @dbIdComment;", Database.con);
+            cmdDeleteAction.Parameters.AddWithValue("@dbIdComment", id);
+
+            try
+            {
+                cmdDeleteAction.ExecuteReader();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+
+            cmdDeleteAction.Dispose();
+            con.Dispose();
+        }
 
 
 

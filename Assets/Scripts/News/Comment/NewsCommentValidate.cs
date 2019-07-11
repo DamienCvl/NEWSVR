@@ -27,8 +27,8 @@ namespace Valve.VR.InteractionSystem
         private void ValidateAction()
         {
             // Retrieve the text of the comment and the title of the news
-            var id = Comment.GetComponent<NewsComment>().id;
-            var text = Comment.GetComponent<NewsComment>().textOfComment;
+            var id = Comment.GetComponent<CommentGameObject>().idComment;
+            var text = Comment.GetComponent<CommentGameObject>().textOfComment;
 
             Database.AddComment(id, text);
             Database.Add1CommentToPlayer();
@@ -57,11 +57,11 @@ namespace Valve.VR.InteractionSystem
             IDataReader reader = dbcmd.ExecuteReader();
             while (reader.Read())
             {
-                int newId = reader.GetInt32(0);
+                uint newId = (uint)reader.GetInt32(0);
 
-                Comment.GetComponent<NewsComment>().id = newId;
+                Comment.GetComponent<CommentGameObject>().idComment = newId;
                 // If you just created it, it's yours so you can destroy it
-                Comment.GetComponent<NewsComment>().DeleteButton.SetActive(true);
+                Comment.GetComponent<CommentGameObject>().DeleteButton.SetActive(true);
             }
             reader.Close();
             reader = null;

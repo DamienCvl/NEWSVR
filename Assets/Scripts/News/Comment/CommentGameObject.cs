@@ -5,6 +5,8 @@ using System.Collections;
 using UnityEngine.UI;
 using Valve.VR;
 using Valve.VR.InteractionSystem;
+using System.Collections.Generic;
+using Assets.Scripts.Core;
 
 /*
  * This handles the placement of the comment at it's creation.
@@ -13,7 +15,7 @@ using Valve.VR.InteractionSystem;
 
 
 [RequireComponent(typeof(Interactable))]
-public class NewsComment : Grabbable
+public class CommentGameObject : Grabbable
 {
     public enum Positions { Left, Above, Right, Behind };
 
@@ -22,14 +24,14 @@ public class NewsComment : Grabbable
 
     public TextMesh Author;
     [HideInInspector]
-    public int id;
+    public uint idComment;
     public GameObject DeleteButton;
 
     [HideInInspector]
-    public string titleOfNews;
-
-    [HideInInspector]
     public string textOfComment;
+    
+    //List of loaded comments in the news
+    public static List<GameObject> commentsGameObjectList = new List<GameObject>();
 
     // Translation vector relative to the player for comments placement
     private static Vector3 commentsPosition = Vector3.left * 0.7f;
@@ -94,6 +96,14 @@ public class NewsComment : Grabbable
 
     }
 
+    public static void GenerateComments(Transform commentParent)
+    {
+        for (int i = 0; i < StaticClass.nbrCommentDisplayed; i++)
+        {
+            Comment.commentsList[i].GenerateGameObject(commentParent);
+        }
+    }
+
     private void Start()
     {
 
@@ -119,12 +129,18 @@ public class NewsComment : Grabbable
 
     }
 
+    public void DeleteComment()
+    {
+        Comment.commentsList.Find((Comment c) => { return c.IdComment == idComment; }).Delete();
+        commentsGameObjectList.Remove(gameObject);
+        Destroy(gameObject);
+    }
+
     // Use in MicroComments script to fill the comment
-    public void FillText(uint id, string text, string title)
+    public void FillText(string text)
     {
         Text textComment = content.GetComponent<Text>();
         textComment.text = text;
-        titleOfNews = title;
         textOfComment = text;
         Author.text = StaticClass.CurrentPlayerName;
     }

@@ -3,22 +3,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Scripts.Core
 {
-    class Comment
+    public class Comment
     {
-        private uint idComment;
-        private DateTime date;
-        private string content;
-        private string author;
+        public uint IdComment { get; private set; }
+        public DateTime Date { get; private set; }
+        public string Content { get; private set; }
+        public string Author { get; private set; }
+
+        private readonly GameObject commentPreFab = (GameObject)Resources.Load("Prefabs/News/Comment", typeof(GameObject));
+
+        public static List<Comment> commentsList = new List<Comment>();
 
         public Comment(uint idComment, DateTime date, string content, string author)
         {
-            this.idComment = idComment;
-            this.date = date;
-            this.content = content;
-            this.author = author;
+            this.IdComment = idComment;
+            this.Date = date;
+            this.Content = content;
+            this.Author = author;
+        }
+
+        public void GenerateGameObject(Transform commentParent)
+        {
+            GameObject comment = UnityEngine.Object.Instantiate(commentPreFab, commentParent);
+            comment.GetComponent<CommentGameObject>().FillText(Content);
+            comment.GetComponent<CommentGameObject>().FillAuthor(Author);
+            comment.GetComponent<CommentGameObject>().idComment = IdComment;
+            comment.GetComponent<CommentGameObject>().DestroyButtons();
+
+            // Add the delete comments option if the current player is the one who made the comments before.
+            if (Author == StaticClass.CurrentPlayerName)
+            {
+                comment.GetComponent<CommentGameObject>().DeleteButton.SetActive(true);
+            }
+
+            CommentGameObject.commentsGameObjectList.Add(comment);
+        }
+
+        public void Delete()
+        {
+            Database.DeleteComment(IdComment);
+            commentsList.Remove(this);
         }
     }
 }
