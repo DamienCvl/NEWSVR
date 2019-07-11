@@ -6,6 +6,7 @@ using Mono.Data.Sqlite;
 using System.Data;
 using System;
 using UnityEngine.UI;
+using Assets.Scripts.Core;
 
 /*
  * Handles the reaction box.
@@ -37,6 +38,7 @@ namespace Valve.VR.InteractionSystem
 
         public GameObject Highlight;
         public Text title;
+       
 
         private Vector3 scale;
         private Quaternion rotation;
@@ -54,24 +56,7 @@ namespace Valve.VR.InteractionSystem
             transform.localPosition = new Vector3(-0.1f, 0, 0);
         }
 
-        private void AddReactionToDatabaseNews(string reactionType)
-        {
-            // Add 1 to the reaction wanted in the database for the news
-            string conn = "URI=file:" + Application.dataPath + "/NewsDatabase.db"; //Path to database.
-            IDbConnection dbconn;
-            dbconn = (IDbConnection)new SqliteConnection(conn);
-            dbconn.Open(); //Open connection to the database.
-            IDbCommand dbcmd = dbconn.CreateCommand();
-            string sqlQuery = "UPDATE NEWS SET " + reactionType + " = " + reactionType + " + 1 WHERE TITLE = \"" + title.text.ToString() + "\" ";
-            dbcmd.CommandText = sqlQuery;
-            IDataReader reader = dbcmd.ExecuteReader();
-            reader.Close();
-            reader = null;
-            dbcmd.Dispose();
-            dbcmd = null;
-            dbconn.Close();
-            dbconn = null;
-        }
+        
 
         private void AddReactionToDatabasePlayer(string reactionType)
         {
@@ -99,7 +84,7 @@ namespace Valve.VR.InteractionSystem
                 if(transform.localPosition.z < 0f)
                 {
                     // Add 1 to Sad in NEWS table and PLAYER table
-                    AddReactionToDatabaseNews("SADNBR");
+                    Database.AddReactionToDatabaseNews("Sad");
                     AddReactionToDatabasePlayer("NBRSAD");
                 }
                 else

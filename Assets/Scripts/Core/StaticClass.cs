@@ -12,6 +12,7 @@ public static class StaticClass {
     public static string CurrentPlayerName = "";
     public static uint CurrentPlayerId;
 
+
     // Comments settings
     public static uint nbrCommentDisplayed;
     public static NewsComment.Positions CommentPosition

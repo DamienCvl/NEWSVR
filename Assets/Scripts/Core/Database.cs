@@ -413,7 +413,25 @@ namespace Assets.Scripts.Core
             }
             return cmntList;
         }
-    
+
+        public static void Add1ComntToPlayer()
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfComment = nbOfComment + 1 WHERE  name = @dbUserId", con);
+            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+                cmdSQL.Dispose();
+            }
+            catch (IOException ex)
+            {
+                cmdSQL.Dispose();
+                Debug.Log(ex);
+            }
+        }
+
 
 
 
@@ -448,6 +466,96 @@ namespace Assets.Scripts.Core
             Database.con.Close();
 
 
+        }
+
+        public static void Add1ViewToNews(uint idNews)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbViews = nbViews + 1 WHERE idNews = @dbNewsId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+                cmdSQL.Dispose();
+            }
+            catch (IOException ex)
+            {
+                cmdSQL.Dispose();
+                Debug.Log(ex);
+            }
+        }
+
+        public static void Add1ViewToPlayer()
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfView = nbOfView + 1 WHERE  name = @dbUserId", con);
+            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+                cmdSQL.Dispose();
+            }
+            catch (IOException ex)
+            {
+                cmdSQL.Dispose();
+                Debug.Log(ex);
+            }
+        }
+
+        public static string NumOfReatcionToNews(string rea, uint idNews)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT @reaToSelect FROM NEWS WHERE idNews = @dbNewsId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
+            cmdSQL.Parameters.AddWithValue("@reaToSelect", "nb" + rea);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                int res = reader.GetInt32(0);
+                cmdSQL.Dispose();
+                con.Dispose();
+                return ""+res;
+                
+            }
+            catch (IOException ex)
+            {
+                cmdSQL.Dispose();
+                con.Dispose();
+                Debug.Log(ex);
+                return "/";
+            }
+        }
+
+        /***********************/
+        /***********************/
+        /******  Reaction ******/
+        /***********************/
+        /***********************/
+
+        public static void AddReactionToDatabaseNews(string reactionType, uint idNews)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET @reaToSelect = @reaToSelect + 1 WHERE idNews = @dbNewsId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
+            cmdSQL.Parameters.AddWithValue("@reaToSelect", "nb" + reactionType);
+           
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+              
+                
+            }
+            catch (IOException ex)
+            {
+              
+                Debug.Log(ex);
+            }
+            cmdSQL.Dispose();
+            con.Dispose();
         }
     }
 }
