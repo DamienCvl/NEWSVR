@@ -535,7 +535,7 @@ GameObject:
   - component: {fileID: 4955211274911203828}
   - component: {fileID: 6512468408270850394}
   m_Layer: 0
-  m_Name: OldCommentScrollPaper
+  m_Name: OldCommentPaperScroll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -646,9 +646,7 @@ MonoBehaviour:
   scrollPaper: {fileID: 5967227682835556259}
   content: {fileID: 6041114137116688246}
   Author: {fileID: 8413930949792083446}
-  id: 0
   DeleteButton: {fileID: 2090121666960996611}
-  titleOfNews: 
   textOfComment: 
 --- !u!223 &6512468408270850394
 Canvas:
@@ -872,7 +870,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 541438152eb2aa248b3b6132987cd3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Comment: {fileID: 6280466588157183315}
+  OnClickDelete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4955211274911203828}
+        m_MethodName: DeleteComment
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &2355053692390877395
 GameObject:
   m_ObjectHideFlags: 0
@@ -2081,7 +2094,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 60e156ce6910e4741a00a2e1f16f64c7, type: 2}
+  m_Material: {fileID: 0}
   m_Color: {r: 0.7830189, g: 0.51030225, b: 0.31394625, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -2153,7 +2166,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.0000030455158, y: 0.00000035125137}
+  m_AnchoredPosition: {x: -0.0000030398369, y: 0.00000035762787}
   m_SizeDelta: {x: 0.84455, y: 0.42093}
   m_Pivot: {x: -0.000003606081, y: 1.0000008}
 --- !u!222 &2425540832521309765

@@ -19,36 +19,13 @@ namespace Valve.VR.InteractionSystem
     public class NewsCommentsDeleteComments : MonoBehaviour
     {
 
-        public GameObject Comment;
+        public UnityEvent OnClickDelete;
 
         // Action when you click X, delete the Comments
-        private void DeleteAction()
-        {
-            Database.ConnectDB();
-            MySqlCommand cmdDeleteAction = new MySqlCommand("DELETE FROM COMMENTS WHERE ID = @dbIdComment;", Database.con);
-            cmdDeleteAction.Parameters.AddWithValue("@dbIdComment", Comment.GetComponent<CommentGameObject>().idComment);
-
-            try
-            {
-                cmdDeleteAction.ExecuteReader();
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex.ToString());
-            }
-
-            cmdDeleteAction.Dispose();
-            Database.con.Dispose();
-
-            // Wait 1 second to delete the comment button to not cause bug
-            Destroy(Comment, 1);
-            Destroy(gameObject,1);
-        }
-
         //-------------------------------------------------
         protected void OnAttachedToHand(Hand hand)
         {
-            DeleteAction();
+            OnClickDelete.Invoke();
         }
     }
 }
