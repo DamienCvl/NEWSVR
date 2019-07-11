@@ -461,7 +461,7 @@ namespace Assets.Scripts.Core
             ConnectDB();
             List<Comment> cmntList = new List<Comment>();
 
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT idComment,date,text,idPlayer FROM `COMMENTS` WHERE IdNews = @dbNewsId ORDER BY date DESC;", con);
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT idComment,date,text,PLAYERS.name FROM `COMMENTS` INNER JOIN PLAYERS ON COMMENTS.idPlayer = PLAYERS.idPlayer WHERE IdNews = 3 ORDER BY date DESC;", con);
             cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
            
