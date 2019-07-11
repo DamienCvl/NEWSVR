@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class NewsPreview : MonoBehaviour
 {
-    private NewsGameObject news;
+    private NewsGameObject news = null;
 
     private Transform followHead;
     public Vector3 panelPreviewPostion = new Vector3(-0.3f, 0f, 0.5f);
@@ -14,6 +14,8 @@ public class NewsPreview : MonoBehaviour
     {
         this.news = news;
         GetComponentInChildren<TagListGameObject>().newsGameObject = news;
+        GetComponentInChildren<ViewNbrComment>().news = news;
+        GetComponentInChildren<ViewNbrView>().news = news;
     }
 
     // Start is called before the first frame update
@@ -24,10 +26,13 @@ public class NewsPreview : MonoBehaviour
 
     private void OnEnable()
     {
-        transform.Find("Panel/Title").GetComponent<Text>().text = news.TitleInNews.text;
-        transform.Find("Panel/Infos").gameObject.GetComponent<Text>().text = news.content.text;
-        transform.position = followHead.transform.TransformPoint(panelPreviewPostion);
-        transform.rotation = Quaternion.LookRotation(transform.position - followHead.transform.position, Vector3.up);
+        if (news != null)
+        {
+            transform.Find("Panel/Title").GetComponent<Text>().text = news.TitleInNews.text;
+            transform.Find("Panel/Infos").gameObject.GetComponent<Text>().text = news.content.text;
+            transform.position = followHead.transform.TransformPoint(panelPreviewPostion);
+            transform.rotation = Quaternion.LookRotation(transform.position - followHead.transform.position, Vector3.up);
+        }
     }
 
     // Update is called once per frame

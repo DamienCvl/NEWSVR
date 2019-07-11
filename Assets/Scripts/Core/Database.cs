@@ -351,11 +351,17 @@ namespace Assets.Scripts.Core
 
             try
             {
-                int res = reader.GetInt32(0);
-                cmdSQL.Dispose();
-                con.Dispose();
-                return "" + res;
-
+                if (reader.Read())
+                {
+                    int res = reader.GetInt32(0);
+                    cmdSQL.Dispose();
+                    con.Dispose();
+                    return "" + res;
+                }
+                else
+                {
+                    return "/";
+                }
             }
             catch (IOException ex)
             {
@@ -516,7 +522,7 @@ namespace Assets.Scripts.Core
         public static void Add1ViewToNews(uint idNews)
         {
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbViews = nbViews + 1 WHERE idNews = @dbNewsId", con);
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbView = nbView + 1 WHERE idNews = @dbNewsId", con);
             cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
 
             try
@@ -534,7 +540,7 @@ namespace Assets.Scripts.Core
         public static void Add1ViewToPlayer()
         {
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfView = nbOfView + 1 WHERE  name = @dbUserId", con);
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfView = nbOfView + 1 WHERE idPlayer = @dbUserId", con);
             cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
 
             try
@@ -559,11 +565,18 @@ namespace Assets.Scripts.Core
 
             try
             {
-                int res = reader.GetInt32(0);
-                cmdSQL.Dispose();
-                con.Dispose();
-                return ""+res;
-                
+                if (reader.Read())
+                {
+                    int res = reader.GetInt32(0);
+                    cmdSQL.Dispose();
+                    con.Dispose();
+                    return "" + res;
+                }
+                else
+                {
+                    return "/";
+                }
+
             }
             catch (IOException ex)
             {
@@ -583,11 +596,17 @@ namespace Assets.Scripts.Core
 
             try
             {
-                int res = reader.GetInt32(0);
-                cmdSQL.Dispose();
-                con.Dispose();
-                return "" + res;
-
+                if (reader.Read())
+                {
+                    int res = reader.GetInt32(0);
+                    cmdSQL.Dispose();
+                    con.Dispose();
+                    return "" + res;
+                }
+                else
+                {
+                    return "/";
+                }
             }
             catch (IOException ex)
             {

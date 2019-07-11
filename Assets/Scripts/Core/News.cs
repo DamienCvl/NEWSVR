@@ -21,7 +21,7 @@ public class News
     private readonly DateTime date;
 
     private readonly GameObject NewsPreFab = (GameObject)Resources.Load("Prefabs/News/News", typeof(GameObject));
-    private GameObject newsGameObject;
+    public GameObject newsGameObject { get; private set; }
 
 
     public News(uint id, string title, string content, float posX, float posZ, uint nbOfView, DateTime date, List<string> tags)

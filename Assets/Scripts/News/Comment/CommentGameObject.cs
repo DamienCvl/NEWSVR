@@ -142,7 +142,6 @@ public class CommentGameObject : Grabbable
         Text textComment = content.GetComponent<Text>();
         textComment.text = text;
         textOfComment = text;
-        Author.text = StaticClass.CurrentPlayerName;
     }
 
     public void FillAuthor(string author)

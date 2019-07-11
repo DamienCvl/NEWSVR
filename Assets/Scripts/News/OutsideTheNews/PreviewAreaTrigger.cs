@@ -45,7 +45,7 @@ public class PreviewAreaTrigger : MonoBehaviour
         distReticleToNews = Vector3.Distance(destinationReticle.transform.position, transform.position);
         distPlayerToNews = Vector3.Distance(followHead.transform.position, transform.position);
 
-        if (distReticleToNews <= previewAreaRadius && !isPreviewEnabled && destinationReticle.activeSelf)
+        if (distReticleToNews <= previewAreaRadius && !isPreviewEnabled && destinationReticle.activeSelf && distPlayerToNews >= 12.0f)
         {
             isPreviewEnabled = true;
             newsPreviewGameObject.GetComponent<NewsPreview>().SetNews(GetComponent<NewsGameObject>());
