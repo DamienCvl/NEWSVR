@@ -119,6 +119,54 @@ namespace Assets.Scripts.Core
         }
 
 
+        public static int ReadNbrCommentDisplayed()
+        {
+            ConnectDB();
+            string sqlCmdName = "SELECT cmtNbShown FROM PLAYERS WHERE name = @dbUserName;";
+            MySqlCommand cmdSQL = new MySqlCommand(sqlCmdName, con);
+            cmdSQL.Parameters.AddWithValue("@dbUserName", StaticClass.CurrentPlayerName);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                int res = reader.GetInt32(0);
+                cmdSQL.Dispose();
+                con.Dispose();
+                return res;
+            }
+            catch (IOException ex)
+            {
+                cmdSQL.Dispose();
+                con.Dispose();
+                Debug.Log(ex);
+                return 6;  ///default number shown
+            }
+        }
+
+        public static int ReadCommentPosition()
+        {
+            ConnectDB();
+            string sqlCmdName = "SELECT cmtPositionPref FROM PLAYERS WHERE name = @dbUserName;";
+            MySqlCommand cmdSQL = new MySqlCommand(sqlCmdName, con);
+            cmdSQL.Parameters.AddWithValue("@dbUserName", StaticClass.CurrentPlayerName);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                int res = reader.GetInt32(0);
+                cmdSQL.Dispose();
+                con.Dispose();
+                return res;
+            }
+            catch (IOException ex)
+            {
+                cmdSQL.Dispose();
+                con.Dispose();
+                Debug.Log(ex);
+                return 0;  ///default position
+            }
+        }
+
         /*********************/
         /*********************/
         /* 2-Registration.cs */
