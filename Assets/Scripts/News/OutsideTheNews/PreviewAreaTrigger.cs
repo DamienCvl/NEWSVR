@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Valve.VR.InteractionSystem;
 using Valve.VR;
 
@@ -9,14 +8,11 @@ using Valve.VR;
 public class PreviewAreaTrigger : MonoBehaviour
 {
 
-    public Text titleOfTheNews;
-    public Text contentOfTheNews;
-
     public float previewAreaRadius = 5.0f;
     public Vector3 panelPreviewPostion = new Vector3(-0.3f, 0f, 0.5f);
 
     private GameObject destinationReticle;
-    private GameObject newsPreview;
+    private GameObject newsPreviewGameObject;
     private GameObject teleporting;
     private Transform followHead;
 
@@ -35,9 +31,7 @@ public class PreviewAreaTrigger : MonoBehaviour
 
         followHead = GameObject.Find("FollowHead").transform;
 
-        newsPreview = GameObject.Find("NewsPreview");
-
-        newsPreview.GetComponentInChildren<TagListGameObject>().newsGameObject = gameObject.GetComponent<NewsGameObject>();
+        newsPreviewGameObject = GameObject.Find("NewsPreview");
 
         teleporting = GameObject.FindObjectOfType<Teleport>().gameObject;
         destinationReticle = teleporting.transform.Find("DestinationReticle").gameObject;
@@ -54,17 +48,14 @@ public class PreviewAreaTrigger : MonoBehaviour
         if (distReticleToNews <= previewAreaRadius && !isPreviewEnabled && destinationReticle.activeSelf)
         {
             isPreviewEnabled = true;
-            newsPreview.transform.Find("Panel/Title").GetComponent<Text>().text = titleOfTheNews.text;
-            newsPreview.transform.Find("Panel/Infos").gameObject.GetComponent<Text>().text = contentOfTheNews.text;
-            newsPreview.transform.position = followHead.transform.TransformPoint(panelPreviewPostion);
-            newsPreview.transform.rotation = Quaternion.LookRotation(newsPreview.transform.position - followHead.transform.position, Vector3.up);
-            newsPreview.SetActive(true);
+            newsPreviewGameObject.GetComponent<NewsPreview>().SetNews(GetComponent<NewsGameObject>());
+            newsPreviewGameObject.SetActive(true);
         }
 
         if (isPreviewEnabled && (!(destinationReticle.activeSelf) || distReticleToNews > previewAreaRadius || distPlayerToNews < 12.0f))
         {
             isPreviewEnabled = false;
-            newsPreview.SetActive(false);
+            newsPreviewGameObject.SetActive(false);
         }
     }
 }

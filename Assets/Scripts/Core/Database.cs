@@ -383,13 +383,13 @@ namespace Assets.Scripts.Core
         }
 
 
-        static public List<Comment>  QueryComment(uint idComment)
+        static public List<Comment> QueryComments(uint idNews)
         {
             ConnectDB();
             List<Comment> cmntList = new List<Comment>();
 
             MySqlCommand cmdSQL = new MySqlCommand("SELECT idComment,date,text,idPlayer FROM `COMMENTS` WHERE IdNews = @dbNewsId; ", con);
-            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentPlayerId);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
            
 
