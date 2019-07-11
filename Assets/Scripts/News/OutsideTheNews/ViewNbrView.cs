@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Mono.Data.Sqlite;
 using System.Data;
 using System;
+using Assets.Scripts.Core;
 
 /*
  * This handles the number of view of the news item attached to it.
@@ -13,54 +14,16 @@ using System;
 
 public class ViewNbrView : MonoBehaviour
 {
-    public GameObject Title;
+    public NewsGameObject news;
 
     public void Add1ViewNbr()
     {
-        string conn = "URI=file:" + Application.dataPath + "/NewsDatabase.db"; //Path to database.
-        IDbConnection dbconn;
-        dbconn = (IDbConnection)new SqliteConnection(conn);
-        dbconn.Open(); //Open connection to the database.
-        IDbCommand dbcmd = dbconn.CreateCommand();
-        // Add 1 to view nbr
-        string sqlQuery = "UPDATE NEWS SET VIEWNBR = VIEWNBR + 1 WHERE TITLE = \"" + Title.GetComponent<TextMesh>().text.ToString() + "\";";
-        dbcmd.CommandText = sqlQuery;
-        IDataReader reader = dbcmd.ExecuteReader();
-        reader.Close();
-        reader = null;
-        dbcmd.Dispose();
-        dbcmd = null;
-        dbconn.Close();
-        dbconn = null;
+        Database.Add1ViewToNews(news.Id);
     }
 
     public void ReadViewNbr()
     {
-
-        string conn = "URI=file:" + Application.dataPath + "/NewsDatabase.db"; //Path to database.
-        IDbConnection dbconn;
-        dbconn = (IDbConnection)new SqliteConnection(conn);
-        dbconn.Open(); //Open connection to the database.
-        IDbCommand dbcmd = dbconn.CreateCommand();
-
-        // Change the view in the game
-        string sqlQuery = "SELECT VIEWNBR FROM NEWS WHERE TITLE = \"" + Title.GetComponent<TextMesh>().text.ToString() + "\";";
-        dbcmd.CommandText = sqlQuery;
-        IDataReader reader = dbcmd.ExecuteReader();
-        while (reader.Read())
-        {
-            var number = reader.GetValue(0);
-
-            this.GetComponent<TextMesh>().text = number.ToString();
-
-        }
-        reader.Close();
-        reader = null;
-        dbcmd.Dispose();
-        dbcmd = null;
-        dbconn.Close();
-        dbconn = null;
-
+        this.GetComponent<TextMesh>().text = Database.ReadViewNum(news.Id);
     }
 }
 

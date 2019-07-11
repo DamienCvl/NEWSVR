@@ -37,7 +37,7 @@ namespace Valve.VR.InteractionSystem
         private bool attached = false;
 
         public GameObject Highlight;
-        public Text title;
+        public NewsGameObject news;
        
 
         private Vector3 scale;
@@ -56,26 +56,6 @@ namespace Valve.VR.InteractionSystem
             transform.localPosition = new Vector3(-0.1f, 0, 0);
         }
 
-        
-
-        private void AddReactionToDatabasePlayer(string reactionType)
-        {
-            // Add 1 to the reaction wanted in the database for the player
-            string conn = "URI=file:" + Application.dataPath + "/NewsDatabase.db"; //Path to database.
-            IDbConnection dbconn;
-            dbconn = (IDbConnection)new SqliteConnection(conn);
-            dbconn.Open(); //Open connection to the database.
-            IDbCommand dbcmd = dbconn.CreateCommand();
-            string sqlQuery = "UPDATE PLAYER SET " + reactionType + " = " + reactionType + " + 1 WHERE NAME = \"" + StaticClass.CurrentPlayerName + "\" ";
-            dbcmd.CommandText = sqlQuery;
-            IDataReader reader = dbcmd.ExecuteReader();
-            reader.Close();
-            reader = null;
-            dbcmd.Dispose();
-            dbcmd = null;
-            dbconn.Close();
-            dbconn = null;
-        }
 
         private void OnDisable()
         {
@@ -84,14 +64,14 @@ namespace Valve.VR.InteractionSystem
                 if(transform.localPosition.z < 0f)
                 {
                     // Add 1 to Sad in NEWS table and PLAYER table
-                    Database.AddReactionToDatabaseNews("Sad");
-                    AddReactionToDatabasePlayer("NBRSAD");
+                    Database.AddReactionToDatabaseNews("Sad", news.Id);
+                    //AddReactionToDatabasePlayer("NBRSAD");
                 }
                 else
                 {
                     // Add 1 to Angry in NEWS table and PLAYER table
-                    AddReactionToDatabaseNews("ANGRYNBR");
-                    AddReactionToDatabasePlayer("NBRANGRY");
+                    Database.AddReactionToDatabaseNews("Angry", news.Id);
+                    //AddReactionToDatabasePlayer("NBRANGRY");
                 }
             }
 
@@ -100,14 +80,14 @@ namespace Valve.VR.InteractionSystem
                 if (transform.localPosition.z < 0f)
                 {
                     // Add 1 to Happy in NEWS table and PLAYER table
-                    AddReactionToDatabaseNews("HAPPYNBR");
-                    AddReactionToDatabasePlayer("NBRHAPPY");
+                    Database.AddReactionToDatabaseNews("Happy", news.Id);
+                    //AddReactionToDatabasePlayer("NBRHAPPY");
                 }
                 else
                 {
                     // Add 1 to Surprise in NEWS table and PLAYER table
-                    AddReactionToDatabaseNews("SURPRISENBR");
-                    AddReactionToDatabasePlayer("NBRSURPRISE");
+                    Database.AddReactionToDatabaseNews("Surprised", news.Id);
+                    //AddReactionToDatabasePlayer("NBRSURPRISE");
                 }
             }
         }

@@ -5,6 +5,7 @@ using System.Collections;
 using Mono.Data.Sqlite;
 using System.Data;
 using System;
+using Assets.Scripts.Core;
 
 /*
  * This scipt handels the way from inside to outside the news and all the things that includes.
@@ -63,7 +64,7 @@ namespace Valve.VR.InteractionSystem
             ViewNbr.GetComponent<ViewNbrView>().ReadViewNbr();
 
             // Put the number of comments above the sphere
-            CommentNbr.GetComponent<ViewNbrComment>().ReadCommentNbr();
+            CommentNbr.GetComponent<ViewNbrComment>().DisplayCommentNbr();
         }
 
         private void Update()
@@ -130,20 +131,7 @@ namespace Valve.VR.InteractionSystem
             NewsEnvironnement.SetActive(true);
 
             // Add 1 to the number of news that the current player read
-            string conn = "URI=file:" + Application.dataPath + "/NewsDatabase.db"; //Path to database.
-            IDbConnection dbconn;
-            dbconn = (IDbConnection)new SqliteConnection(conn);
-            dbconn.Open(); //Open connection to the database.
-            IDbCommand dbcmd = dbconn.CreateCommand();
-            string sqlQuery = "UPDATE PLAYER SET NBRNEWSOPEN = NBRNEWSOPEN + 1 WHERE NAME = \"" + StaticClass.CurrentPlayerName + "\";";
-            dbcmd.CommandText = sqlQuery;
-            IDataReader reader = dbcmd.ExecuteReader();
-            reader.Close();
-            reader = null;
-            dbcmd.Dispose();
-            dbcmd = null;
-            dbconn.Close();
-            dbconn = null;
+            Database.Add1ViewToPlayer();
 
             // Put the sphere in green when in the news and smaller
             mat.color = Color.green;
@@ -154,7 +142,7 @@ namespace Valve.VR.InteractionSystem
         private void CloseNews()
         {
             // Update the number of comments above the sphere
-            CommentNbr.GetComponent<ViewNbrComment>().ReadCommentNbr();
+            CommentNbr.GetComponent<ViewNbrComment>().DisplayCommentNbr();
 
             // Free the news sphere and put it back to his initial location
             canGoToTheHead = false;

@@ -38,6 +38,8 @@ namespace Assets.Scripts.Core
             }
         }
 
+        
+
 
 
         /*************************************************************************************************************************************************************************/
@@ -340,6 +342,29 @@ namespace Assets.Scripts.Core
         /* 5 - Comments **/
         /******************/
         /******************/
+        internal static string ReadComntNum(uint id)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT nbComment FROM NEWS WHERE idNews = @dbNewsId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", id);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                int res = reader.GetInt32(0);
+                cmdSQL.Dispose();
+                con.Dispose();
+                return "" + res;
+
+            }
+            catch (IOException ex)
+            {
+                cmdSQL.Dispose();
+                con.Dispose();
+                Debug.Log(ex);
+                return "/";
+            }
+        }
 
         public static void AddComment(int idNews, string text)
         {
@@ -529,6 +554,30 @@ namespace Assets.Scripts.Core
             }
         }
 
+        internal static string ReadViewNum(uint id)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT nbView FROM NEWS WHERE idNews = @dbNewsId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", id);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                int res = reader.GetInt32(0);
+                cmdSQL.Dispose();
+                con.Dispose();
+                return "" + res;
+
+            }
+            catch (IOException ex)
+            {
+                cmdSQL.Dispose();
+                con.Dispose();
+                Debug.Log(ex);
+                return "/";
+            }
+        }
+
         /***********************/
         /***********************/
         /******  Reaction ******/
@@ -557,5 +606,9 @@ namespace Assets.Scripts.Core
             cmdSQL.Dispose();
             con.Dispose();
         }
+
+        
     }
+
+
 }
