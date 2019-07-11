@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +11,7 @@ public static class StaticClass {
     // Player infos
     public static string CurrentPlayerName = "";
     public static uint CurrentPlayerId;
+    public static uint CurrentNewsId;
 
     // Comments settings
     public static uint nbrCommentDisplayed;

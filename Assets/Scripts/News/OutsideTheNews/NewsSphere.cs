@@ -21,6 +21,7 @@ namespace Valve.VR.InteractionSystem
         private GameObject HeadCollider;
         private GameObject player;
 
+        public NewsGameObject news;
         public GameObject InTheNews;
         public GameObject NewsEnvironnement;
         private GameObject Teleport;
@@ -110,6 +111,9 @@ namespace Valve.VR.InteractionSystem
         // Everything happens when you take the ball to your head
         private void OpenNews ()
         {
+            // Set the id of the news opened in StaticClass
+            StaticClass.CurrentNewsId = news.Id;
+
             // Add 1 to the view number in the database
             ViewNbr.GetComponent<ViewNbrView>().Add1ViewNbr();
 
