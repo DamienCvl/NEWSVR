@@ -48,6 +48,14 @@ public class NewsPreview : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        foreach (Transform tag in tagList.gameObject.transform)
+        {
+            Destroy(tag.gameObject);
+        }   
+    }
+
     // Update is called once per frame
     void Update()
     {

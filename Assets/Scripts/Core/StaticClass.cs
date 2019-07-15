@@ -29,7 +29,7 @@ public static class StaticClass {
 
     public  const float SPAWN_X = -95.7f;
     public  const float SPAWN_Z = 87.3f;
-    
+
     // Tags settings
     public static List<uint> newsBeaconedList = new List<uint>();
     public static Dictionary<string, Color> tagPrefColorList = new Dictionary<string, Color>();

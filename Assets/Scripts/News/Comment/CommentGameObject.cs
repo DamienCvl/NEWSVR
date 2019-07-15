@@ -98,7 +98,8 @@ public class CommentGameObject : Grabbable
 
     public static void GenerateComments(Transform commentParent)
     {
-        for (int i = 0; i < StaticClass.nbrCommentDisplayed; i++)
+        int min = Mathf.Min(StaticClass.nbrCommentDisplayed, Comment.commentsList.Count);
+        for (int i = 0; i < min; i++)
         {
             Comment.commentsList[i].GenerateGameObject(commentParent);
         }
