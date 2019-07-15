@@ -45,6 +45,7 @@ public class MainMenu : MonoBehaviour
             state.text = "User log :  " + StaticClass.CurrentPlayerName;
             profilButton.interactable = (true);
             playGameButton.interactable = (true);
+            StaticClass.newsList.Clear();
             Database.GenerateNewsList();
         }
         else

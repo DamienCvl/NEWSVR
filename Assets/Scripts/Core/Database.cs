@@ -63,7 +63,7 @@ namespace Assets.Scripts.Core
         public static void GenerateNewsList()
         {
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews, NEWS.title, NEWS.text, NEWS.positionX, NEWS.positionZ, NEWS.nbView, NEWS.creationDate FROM NEWS ORDER BY date DESC;", con);
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews, NEWS.title, NEWS.text, NEWS.positionX, NEWS.positionZ, NEWS.nbView, NEWS.creationDate FROM NEWS ORDER BY creationDate DESC;", con);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
 
             List<string> tagsTemp = new List<string>();
