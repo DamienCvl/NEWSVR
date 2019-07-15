@@ -46,14 +46,7 @@ public class NewsGameObject : MonoBehaviour
         {
             Color color1;
             Color color2;
-            if (Tags.Count > 0 && StaticClass.tagPrefColorList.ContainsKey(Tags[0]))
-            {
-                color1 = StaticClass.tagPrefColorList[Tags[0]];
-            }
-            else
-            {
-                color1 = Color.white;
-            }
+            color1 = newsInfos.GetNewsColor();
             color2 = color1;
             color1.a = 255 / 255;
             color2.a = 30 / 255;
