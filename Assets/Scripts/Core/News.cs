@@ -75,4 +75,16 @@ public class News
         newsScript.CreateNews(this);
         this.NewsGameObject = news;
     }
+
+    public Color GetNewsColor()
+    {
+        if (tags.Count > 0 && StaticClass.tagPrefColorList.ContainsKey(tags[0]))
+        {
+            return StaticClass.tagPrefColorList[tags[0]];
+        }
+        else
+        {
+            return Color.white;
+        }
+    }
 }
