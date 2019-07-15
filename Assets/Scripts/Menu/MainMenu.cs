@@ -8,6 +8,7 @@ using System;
 using MySql.Data.MySqlClient;
 using System.IO;
 using Assets.Scripts.Core;
+using System.Linq;
 
 public class MainMenu : MonoBehaviour
 {
@@ -22,8 +23,13 @@ public class MainMenu : MonoBehaviour
     //notification list
     public GameObject notifTemplate;
     public GameObject content;
+    public const int MAX_NOTIF_TO_DISPLAY = 20;
 
-    public List<Button> listBtnNews = new List<Button>(10);
+    //TODO Delete when color on notif will be implement
+    public ColorBlock cb = new ColorBlock();
+
+
+    public List<GameObject> listBtnNews = new List<GameObject>();
 
 
     private void Update()
@@ -32,8 +38,6 @@ public class MainMenu : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
-
-       
     }
 
     private void Start()
@@ -47,7 +51,7 @@ public class MainMenu : MonoBehaviour
             playGameButton.interactable = (true);
             StaticClass.newsList.Clear();
             Database.GenerateNewsList();
-            DisplayNews();
+            NotifSortedByDate();
         }
         else
         {
@@ -59,21 +63,38 @@ public class MainMenu : MonoBehaviour
     /*******************************/
     /****** Notification List ******/
     /*******************************/
-    public void DisplayNews() { 
+    public void DisplayNews(List<News> ln) { 
 
-        foreach(string s in Database.GetTags())
+        foreach(News n in ln)
         {
             var copy = Instantiate(notifTemplate);
             copy.transform.parent = content.transform;
-            copy.transform.GetComponentInChildren<Text>().text = s;
+            copy.transform.GetComponentInChildren<Text>().text = n.GetTitle() + "\n" + n.GetTagsToString() + " - " + n.GetDist() + "m .";
             copy.SetActive(true);
+
 
             copy.GetComponent<Button>().onClick.AddListener(
                 () =>
                 {
-              
-                }                
-           );
+                    if (StaticClass.newsBeaconedList.Exists(x => x == n.GetId()))
+                    {
+                        StaticClass.newsBeaconedList.Remove(n.GetId());
+                        copy.GetComponent<Button>().colors = ColorBlock.defaultColorBlock;
+                    }
+                    else
+                    {
+                        StaticClass.newsBeaconedList.Add(n.GetId());
+
+                        ColorBlock cb = copy.GetComponent<Button>().colors;
+                        cb.normalColor = Color.gray;
+                        copy.GetComponent<Button>().colors = cb;
+                    }
+
+                    Debug.Log(StaticClass.newsBeaconedList.Count());
+                }
+            );
+
+            listBtnNews.Add(copy);
         }
     }
 
@@ -194,6 +215,35 @@ public void GoToRegister()
 
     public void NotifSortedByDate()
     {
+        ClearNotification();
+        DisplayNews(StaticClass.newsList); 
+    }
+    
+    //Closest
+    public void NotifSortedByDist()
+    {
+        ClearNotification();
+    }
 
+    public void NotifSortedByPoularity()
+    {
+
+    }
+
+    public void NotifSortedByTag()
+    {
+
+    }
+
+    public void ClearNotification()
+    {
+        if(listBtnNews.Count > 0)
+        {
+            foreach (GameObject go in listBtnNews)
+            {
+                Destroy(go);
+            }
+            listBtnNews.Clear();
+        }
     }
 }
