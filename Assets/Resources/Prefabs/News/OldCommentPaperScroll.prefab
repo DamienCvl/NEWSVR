@@ -218,7 +218,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4955211274911203828}
-        m_MethodName: NextComment
+        m_MethodName: PreviousComment
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -534,6 +534,7 @@ GameObject:
   - component: {fileID: 637741290398241233}
   - component: {fileID: 4955211274911203828}
   - component: {fileID: 6512468408270850394}
+  - component: {fileID: 2311784104842082947}
   m_Layer: 0
   m_Name: OldCommentPaperScroll
   m_TagString: Untagged
@@ -647,7 +648,6 @@ MonoBehaviour:
   content: {fileID: 6041114137116688246}
   Author: {fileID: 8413930949792083446}
   DeleteButton: {fileID: 2090121666960996611}
-  textOfComment: 
 --- !u!223 &6512468408270850394
 Canvas:
   m_ObjectHideFlags: 0
@@ -669,6 +669,28 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &2311784104842082947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1896109901533180003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 10000
 --- !u!1 &2090121666960996611
 GameObject:
   m_ObjectHideFlags: 0
@@ -1136,7 +1158,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4955211274911203828}
-        m_MethodName: PreviousComment
+        m_MethodName: NextComment
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2045,7 +2067,6 @@ GameObject:
   - component: {fileID: 4237012471491116819}
   - component: {fileID: 4903517882196024277}
   - component: {fileID: 3764673957975671328}
-  - component: {fileID: 2934846399030748216}
   m_Layer: 0
   m_Name: ScrollPaper
   m_TagString: Untagged
@@ -2111,27 +2132,6 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!223 &2934846399030748216
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5967227682835556259}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 1
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 0
-  m_SortingOrder: -185
-  m_TargetDisplay: 0
 --- !u!1 &6041114137116688246
 GameObject:
   m_ObjectHideFlags: 0
@@ -2199,7 +2199,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 1
+    m_FontSize: 5
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -2221,7 +2221,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1609555837725671272}
   - component: {fileID: 2551810649562032231}
-  - component: {fileID: 2383081514050544503}
   - component: {fileID: 2782727249047934996}
   - component: {fileID: 3507567607537888414}
   m_Layer: 0
@@ -2277,28 +2276,6 @@ Canvas:
   m_SortingLayerID: -1492764279
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &2383081514050544503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6280466588157183315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
-  m_PhysicalUnit: 3
-  m_FallbackScreenDPI: 96
-  m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 10000
 --- !u!114 &2782727249047934996
 MonoBehaviour:
   m_ObjectHideFlags: 0

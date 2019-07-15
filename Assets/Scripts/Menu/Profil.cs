@@ -8,6 +8,7 @@ using System.IO;
 using Assets.Scripts.Core;
 using UnityEditor;
 using System;
+using System.Linq;
 
 public class Profil : MonoBehaviour
 {
@@ -52,7 +53,7 @@ public class Profil : MonoBehaviour
     /** DROPDOWN INITIALISATION **/
     void PopulatePositionList()
     {
-        List<string> positions = new List<string>() { "Left","Rigth", "Above","Behind"};
+        List<string> positions = Enum.GetNames(typeof(CommentGameObject.Positions)).ToList();
         cmtPositionDD.AddOptions(positions);
     }
 

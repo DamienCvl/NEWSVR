@@ -63,7 +63,7 @@ namespace Assets.Scripts.Core
         public static void GenerateNewsList()
         {
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews, NEWS.title, NEWS.text, NEWS.positionX, NEWS.positionZ, NEWS.nbView, NEWS.creationDate FROM NEWS ORDER BY creationDate DESC;", con);
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews, NEWS.title, NEWS.text, NEWS.positionX, NEWS.positionZ, NEWS.nbView, NEWS.nbComment, NEWS.creationDate FROM NEWS ORDER BY creationDate DESC;", con);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
 
             List<string> tagsTemp = new List<string>();
@@ -75,7 +75,7 @@ namespace Assets.Scripts.Core
                     
                     while (reader.Read())
                     {                               
-                        StaticClass.newsList.Add(new News(reader.GetUInt32(0), reader.GetString(1), reader.GetString(2), reader.GetFloat(3), reader.GetFloat(4), reader.GetUInt32(5), reader.GetDateTime(6), tagsTemp));
+                        StaticClass.newsList.Add(new News(reader.GetUInt32(0), reader.GetString(1), reader.GetString(2), reader.GetFloat(3), reader.GetFloat(4), reader.GetUInt32(5), reader.GetUInt32(6), reader.GetDateTime(7), tagsTemp));
                     }
                     reader.Dispose();
                 }

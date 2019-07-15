@@ -59,6 +59,9 @@ namespace Valve.VR.InteractionSystem
             // Set first comment position
             CommentGameObject.SetFirstCommentPosition(playerFirstTransform);
 
+            // Clean previous loaded comments
+            Comment.commentsList.Clear();
+
             // Load all the comments from the database associate to the news
             Comment.commentsList = Database.QueryComments(newsGameObject.Id);
 
