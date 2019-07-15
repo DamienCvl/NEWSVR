@@ -61,7 +61,6 @@ namespace Valve.VR.InteractionSystem
 
             // Load all the comments from the database associate to the news
             Comment.commentsList = Database.QueryComments(newsGameObject.Id);
-            Debug.Log(Comment.commentsList);
 
             // Generate N first gameobject comments (N = user setting in StaticClass)
             CommentGameObject.GenerateComments(commentParent);

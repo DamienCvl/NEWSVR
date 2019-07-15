@@ -8,7 +8,7 @@ Indications :
 
 Technologies used :
 
-- Unity (version 2019.1.4f1)
+- Unity (version 2019.1.10f1)
 - SQLite database
 - unityEngine windows speech recognition (Windows 10 needed)
 - Should work on any VR devices existing but only tested with HTC vive
