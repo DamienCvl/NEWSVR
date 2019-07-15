@@ -415,6 +415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Title: {fileID: 114971980851220582}
+  idN: 0
 --- !u!1 &1181600952739086
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,6 +963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Title: {fileID: 114971980851220582}
+  idN: 0
 --- !u!1 &1290802008571362
 GameObject:
   m_ObjectHideFlags: 0
@@ -1157,7 +1159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1782b9a382e47e745ab37b40383be4b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Title: {fileID: 1645904177482586}
+  news: {fileID: 4864526121448403360}
 --- !u!1 &1304949332314644
 GameObject:
   m_ObjectHideFlags: 0
@@ -2380,6 +2382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Title: {fileID: 114971980851220582}
+  idN: 0
 --- !u!1 &1509244219334104
 GameObject:
   m_ObjectHideFlags: 0
@@ -4042,7 +4045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3523aa05d82d414896b4cf240648304, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Title: {fileID: 1645904177482586}
+  news: {fileID: 4864526121448403360}
 --- !u!1 &1691254686293086
 GameObject:
   m_ObjectHideFlags: 0
@@ -4623,6 +4626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Title: {fileID: 114971980851220582}
+  idN: 0
 --- !u!1 &1857573922673902
 GameObject:
   m_ObjectHideFlags: 0
@@ -5169,7 +5173,7 @@ MonoBehaviour:
     needsReinit: 0
   restoreOriginalParent: 1
   Highlight: {fileID: 1898657352046968}
-  title: {fileID: 114971980851220582}
+  news: {fileID: 0}
 --- !u!1 &1972348698046852
 GameObject:
   m_ObjectHideFlags: 0
@@ -5460,6 +5464,11 @@ PrefabInstance:
     - target: {fileID: 6742356922359101446, guid: 24ac2174e980fe845abcb9aeffc9aa72,
         type: 3}
       propertyPath: newsGO
+      value: 
+      objectReference: {fileID: 4864526121448403360}
+    - target: {fileID: 6742356922359101446, guid: 24ac2174e980fe845abcb9aeffc9aa72,
+        type: 3}
+      propertyPath: newsGameObject
       value: 
       objectReference: {fileID: 4864526121448403360}
     m_RemovedComponents: []

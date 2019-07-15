@@ -19,8 +19,6 @@ public class OldCommentPaperScroll : MonoBehaviour
 
     public GameObject DeleteButton;
 
-    [HideInInspector]
-    public string textOfComment;
 
     private LinkedList<Comment> oldCommentsList = new LinkedList<Comment>();
     private LinkedListNode<Comment> currentOldCommentDisplayed;
@@ -78,6 +76,7 @@ public class OldCommentPaperScroll : MonoBehaviour
     {
         currentOldCommentDisplayed = cmt;
         FillText(cmt.Value.Content);
+        Debug.Log(cmt.Value.Content);
         FillAuthor(cmt.Value.Author);
     }
 
@@ -93,8 +92,6 @@ public class OldCommentPaperScroll : MonoBehaviour
     {
         Text textComment = content.GetComponent<Text>();
         textComment.text = text;
-        textOfComment = text;
-        Author.text = StaticClass.CurrentPlayerName;
     }
 
     public void FillAuthor(string author)

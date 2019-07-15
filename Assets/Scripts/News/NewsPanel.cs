@@ -61,6 +61,7 @@ namespace Valve.VR.InteractionSystem
 
             // Load all the comments from the database associate to the news
             Comment.commentsList = Database.QueryComments(newsGameObject.Id);
+            Debug.Log(Comment.commentsList);
 
             // Generate N first gameobject comments (N = user setting in StaticClass)
             CommentGameObject.GenerateComments(commentParent);
@@ -83,9 +84,9 @@ namespace Valve.VR.InteractionSystem
             // Clear game object comments and data comments
             Comment.commentsList.Clear();
             CommentGameObject.commentsGameObjectList.Clear();
-            foreach (GameObject cmt in comments.transform)
+            foreach (Transform cmt in comments.transform)
             {
-                Destroy(cmt);
+                Destroy(cmt.gameObject);
             }
         }
 

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TagListGameObject : MonoBehaviour
 {
-    public NewsGameObject newsGameObject;
+    public NewsGameObject newsGameObject = null;
 
     private GameObject tagPreFab;
 
@@ -16,13 +16,19 @@ public class TagListGameObject : MonoBehaviour
 
     private void OnEnable()
     {
-        foreach (string tag in newsGameObject.Tags)
+        if (newsGameObject != null)
         {
-            Color color = StaticClass.tagPrefColorList[tag];
-            color.a = 100f / 255f;
-            GameObject tagGO = Instantiate(tagPreFab, transform);
-            tagGO.GetComponent<Image>().color = color;
-            tagGO.GetComponentInChildren<Text>().text = tag;
+            foreach (string tag in newsGameObject.Tags)
+            {
+                if (StaticClass.tagPrefColorList.ContainsKey(tag))
+                {
+                    Color color = StaticClass.tagPrefColorList[tag];
+                    color.a = 100f / 255f;
+                    GameObject tagGO = Instantiate(tagPreFab, transform);
+                    tagGO.GetComponent<Image>().color = color;
+                    tagGO.GetComponentInChildren<Text>().text = tag;
+                }
+            }
         }
     }
 

@@ -23,6 +23,7 @@ public class NewsGameObject : MonoBehaviour
 
     private void Awake()
     {
+        Tags = new List<string>();
         CommentPreFab = (GameObject)Resources.Load("Prefabs/News/Comment", typeof(GameObject));
     }
 
