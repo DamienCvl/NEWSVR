@@ -74,10 +74,12 @@ public class OldCommentPaperScroll : MonoBehaviour
 
     private void LoadAComment(LinkedListNode<Comment> cmt)
     {
-        currentOldCommentDisplayed = cmt;
-        FillText(cmt.Value.Content);
-        Debug.Log(cmt.Value.Content);
-        FillAuthor(cmt.Value.Author);
+        if (cmt != null)
+        {
+            currentOldCommentDisplayed = cmt;
+            FillText(cmt.Value.Content);
+            FillAuthor(cmt.Value.Author);
+        }
     }
 
     public void DeleteComment()
