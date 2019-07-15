@@ -19,6 +19,10 @@ public class MainMenu : MonoBehaviour
     public Text newsPrompt;
     public Text state;
 
+    //notification list
+    public GameObject notifTemplate;
+    public GameObject content;
+
     public List<Button> listBtnNews = new List<Button>(10);
 
 
@@ -34,7 +38,7 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        DisplayNews();
+        //DisplayNews();
 
         if (StaticClass.CurrentPlayerName != "")
         {
@@ -59,7 +63,7 @@ public class MainMenu : MonoBehaviour
     
 
     //TODO: Add a parameter in order to know how to sort
-    public void DisplayNews()
+   /* public void DisplayNews()
     {
         int index;
         int nbTotalNews = StaticClass.newsList.Count;
@@ -83,7 +87,6 @@ public class MainMenu : MonoBehaviour
 
 
     }
-
 
 
 
@@ -113,7 +116,7 @@ public class MainMenu : MonoBehaviour
 
        
 
-    }
+    }*/
 
 
     /**************************/

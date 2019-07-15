@@ -51,7 +51,7 @@ public class Profil : MonoBehaviour
     /** DROPDOWN INITIALISATION **/
     void PopulatePositionList()
     {
-        List<string> positions = new List<string>() { "Left","Rigth" };
+        List<string> positions = new List<string>() { "Left","Rigth", "Above","Behind"};
         cmtPositionDD.AddOptions(positions);
     }
 

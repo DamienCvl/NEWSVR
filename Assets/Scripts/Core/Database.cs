@@ -51,7 +51,7 @@ namespace Assets.Scripts.Core
         /*************************************************************************************************************************************************************************/
         /*************************************************************************************************************************************************************************/
         /*************************************************************************************************************************************************************************/
-        /*  1 - MainMenu.cs  2 - Registration.cs   3 - Login.cs   4 - Profil.cs 5 - Comments 6-News*/
+        /*  1-MainMenu.cs   2-Registration.cs   3-Login.cs   4-Profil.cs  5-Comments  6-News*/
 
         /*******************/
         /*******************/
@@ -63,7 +63,7 @@ namespace Assets.Scripts.Core
         public static void GenerateNewsList()
         {
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews, NEWS.title, NEWS.text, NEWS.positionX, NEWS.positionZ, NEWS.nbView, NEWS.creationDate FROM NEWS;", con);
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews, NEWS.title, NEWS.text, NEWS.positionX, NEWS.positionZ, NEWS.nbView, NEWS.creationDate FROM NEWS ORDER BY date DESC;", con);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
 
             List<string> tagsTemp = new List<string>();
