@@ -24,7 +24,7 @@ namespace Assets.Scripts.Core
 
         public static void ConnectDB()
         {
-            string constr = "Server='mysql-levelup.alwaysdata.net';DATABASE='levelup_newsvr';User ID='levelup';Password='LevelUp20!)';Pooling=true;Charset=utf8;";
+            string constr = "Server='sql7.freesqldatabase.com';DATABASE='sql7298682';User ID='sql7298682';Password='lDbBkmjULu';Pooling=true;Charset=utf8;";
             try
             {
                 con = new MySqlConnection(constr);
