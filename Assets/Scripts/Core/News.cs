@@ -84,7 +84,7 @@ public class News
         }
         else
         {
-            return Color.yellow;
+            return Color.white;
         }
     }
 }

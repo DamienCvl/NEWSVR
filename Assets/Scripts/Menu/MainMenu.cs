@@ -23,10 +23,10 @@ public class MainMenu : MonoBehaviour
     //notification list
     public GameObject notifTemplate;
     public GameObject content;
+
     public const int MAX_NOTIF_TO_DISPLAY = 20;
 
-    //TODO Delete when color on notif will be implement
-    public ColorBlock cb = new ColorBlock();
+  
 
 
     public List<GameObject> listBtnNews = new List<GameObject>();
@@ -69,7 +69,7 @@ public class MainMenu : MonoBehaviour
         {
             var copy = Instantiate(notifTemplate);
             copy.transform.parent = content.transform;
-            copy.transform.GetComponentInChildren<Text>().text = n.GetTitle() + "\n" + n.GetTagsToString() + " - " + n.GetDist() + "m .";
+            copy.transform.GetComponentInChildren<Text>().text = n.GetTitle() + "\n" + n.GetTagsToString() + " - " + n.GetDist() + "m - ("+n.GetViews()+"-"+n.GetNbComment()+").";
             copy.SetActive(true);
 
 
@@ -79,16 +79,23 @@ public class MainMenu : MonoBehaviour
                     if (StaticClass.newsBeaconedList.Exists(x => x == n.GetId()))
                     {
                         StaticClass.newsBeaconedList.Remove(n.GetId());
-                        copy.GetComponent<Button>().colors = ColorBlock.defaultColorBlock;
+                        copy.GetComponent<Button>().colors = notifTemplate.GetComponent<Button>().colors;
+                        
                     }
                     else
                     {
                         StaticClass.newsBeaconedList.Add(n.GetId());
 
                         ColorBlock cb = copy.GetComponent<Button>().colors;
-                        cb.normalColor = n.GetNewsColor();
+                        // cb.normalColor = n.GetNewsColor();
+                        cb.normalColor = Color.gray;
                         copy.GetComponent<Button>().colors = cb;
                     }
+
+                    //TODO ugly way to refresh the content
+                    content.SetActive(false);
+                    content.SetActive(true);
+
 
                     Debug.Log(StaticClass.newsBeaconedList.Count());
                 }
@@ -223,11 +230,15 @@ public void GoToRegister()
     public void NotifSortedByDist()
     {
         ClearNotification();
+        List<News> SortedList = StaticClass.newsList.OrderBy(o => o.GetDist()).ToList();
+        DisplayNews(SortedList);
     }
 
     public void NotifSortedByPoularity()
     {
-
+        ClearNotification();
+        List<News> SortedList = StaticClass.newsList.OrderByDescending(o => o.GetViews()).ToList();
+        DisplayNews(SortedList);
     }
 
     public void NotifSortedByTag()
@@ -244,6 +255,7 @@ public void GoToRegister()
                 Destroy(go);
             }
             listBtnNews.Clear();
+            StaticClass.newsBeaconedList.Clear();
         }
     }
 }
