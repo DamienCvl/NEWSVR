@@ -15,6 +15,8 @@ public class NewsPlacement : MonoBehaviour {
 
     public bool aNewsIsOpen;
 
+    public GameObject newsPreview;
+
     // Use this for initialization
     void Start () {
         

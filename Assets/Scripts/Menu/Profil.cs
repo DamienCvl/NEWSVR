@@ -7,6 +7,8 @@ using MySql.Data.MySqlClient;
 using System.IO;
 using Assets.Scripts.Core;
 using UnityEditor;
+using System;
+using System.Linq;
 
 public class Profil : MonoBehaviour
 {
@@ -51,7 +53,7 @@ public class Profil : MonoBehaviour
     /** DROPDOWN INITIALISATION **/
     void PopulatePositionList()
     {
-        List<string> positions = new List<string>() { "Left","Rigth" };
+        List<string> positions = Enum.GetNames(typeof(CommentGameObject.Positions)).ToList();
         cmtPositionDD.AddOptions(positions);
     }
 
@@ -110,7 +112,7 @@ public class Profil : MonoBehaviour
 
     public void SaveButtonAction()
     {
-        if (Database.PrefSucessfullySaved(cmtNumbersDD.value, cmtPositionDD.value))
+        if (Database.PrefSucessfullySaved(Convert.ToInt32(cmtNumbersDD.options[cmtNumbersDD.value].text), cmtPositionDD.value))
         {
             savePrompt.color = Color.green;
             savePrompt.text = "Sucessfuly saved !";

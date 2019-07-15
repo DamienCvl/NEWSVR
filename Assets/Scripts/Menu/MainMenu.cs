@@ -19,6 +19,10 @@ public class MainMenu : MonoBehaviour
     public Text newsPrompt;
     public Text state;
 
+    //notification list
+    public GameObject notifTemplate;
+    public GameObject content;
+
     public List<Button> listBtnNews = new List<Button>(10);
 
 
@@ -34,14 +38,16 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        DisplayNews();
+        //DisplayNews();
 
         if (StaticClass.CurrentPlayerName != "")
         {
             state.text = "User log :  " + StaticClass.CurrentPlayerName;
             profilButton.interactable = (true);
             playGameButton.interactable = (true);
+            StaticClass.newsList.Clear();
             Database.GenerateNewsList();
+            DisplayNews();
         }
         else
         {
@@ -53,73 +59,90 @@ public class MainMenu : MonoBehaviour
     /*******************************/
     /****** Notification List ******/
     /*******************************/
+    public void DisplayNews() { 
 
-
-
-    
-
-    //TODO: Add a parameter in order to know how to sort
-    public void DisplayNews()
-    {
-        int index;
-        int nbTotalNews = StaticClass.newsList.Count;
-
-        if (nbTotalNews >= 10)
+        foreach(string s in Database.GetTags())
         {
-            index = 10;
-        }
-        else
-        {
-            index = nbTotalNews;
-        }
+            var copy = Instantiate(notifTemplate);
+            copy.transform.parent = content.transform;
+            copy.transform.GetComponentInChildren<Text>().text = s;
+            copy.SetActive(true);
 
-        for(int i=0 ; i < index; i++)
-        {
-            News n = StaticClass.newsList[i];
-            listBtnNews[i].gameObject.SetActive(true);
-            listBtnNews[i].GetComponentInChildren<Text>().text = n.GetTitle() + "\n" + n.GetTagsToString() + " - " + n.GetDist() + "m .";
-            
+            copy.GetComponent<Button>().onClick.AddListener(
+                () =>
+                {
+              
+                }                
+           );
         }
-
-
     }
 
 
 
 
 
+//TODO: Add a parameter in order to know how to sort
+/* public void DisplayNews()
+ {
 
-    public void OnClickNewsActivateBeacon(Button temp)
-    {
-        
-        int index = listBtnNews.FindIndex(a => a == temp);
-        News n = StaticClass.newsList[index]; ///changer pour mettre la liste [10] de´s news "active" (en place actuellement)
+     int index;
+     int nbTotalNews = StaticClass.newsList.Count;
 
-        if( StaticClass.newsBeaconedList.Exists(x => x == n.GetId()) )
-        {
+     if (nbTotalNews >= 10)
+     {
+         index = 10;
+     }
+     else
+     {
+         index = nbTotalNews;
+     }
 
-            StaticClass.newsBeaconedList.Remove(n.GetId());
-            temp.colors = ColorBlock.defaultColorBlock;
-        }
-        else
-        {
-            StaticClass.newsBeaconedList.Add(n.GetId());
-            Color color = StaticClass.tagPrefColorList[n.GetTags()[0]];  // we take the choosen color (by the player) of the "main" (first) tag of the news
+     for(int i=0 ; i < index; i++)
+     {
+         News n = StaticClass.newsList[i];
+         listBtnNews[i].gameObject.SetActive(true);
+         listBtnNews[i].GetComponentInChildren<Text>().text = n.GetTitle() + "\n" + n.GetTagsToString() + " - " + n.GetDist() + "m .";
 
-            ColorBlock cb = temp.colors;
-            cb.normalColor = color;
-            temp.colors = cb;
-        }
-
-       
-
-    }
+     }
 
 
-    /**************************/
-    /****** MENU BUTTONS ******/
-    /**************************/
-    public void GoToRegister()
+ }
+
+
+
+
+
+ public void OnClickNewsActivateBeacon(Button temp)
+ {
+
+     int index = listBtnNews.FindIndex(a => a == temp);
+     News n = StaticClass.newsList[index]; ///changer pour mettre la liste [10] de´s news "active" (en place actuellement)
+
+     if( StaticClass.newsBeaconedList.Exists(x => x == n.GetId()) )
+     {
+
+         StaticClass.newsBeaconedList.Remove(n.GetId());
+         temp.colors = ColorBlock.defaultColorBlock;
+     }
+     else
+     {
+         StaticClass.newsBeaconedList.Add(n.GetId());
+         Color color = StaticClass.tagPrefColorList[n.GetTags()[0]];  // we take the choosen color (by the player) of the "main" (first) tag of the news
+
+         ColorBlock cb = temp.colors;
+         cb.normalColor = color;
+         temp.colors = cb;
+     }
+
+
+
+ }*/
+
+
+/**************************/
+/****** MENU BUTTONS ******/
+/**************************/
+public void GoToRegister()
     {
         SceneManager.LoadScene(3);
     }
@@ -169,5 +192,8 @@ public class MainMenu : MonoBehaviour
 
 
 
+    public void NotifSortedByDate()
+    {
 
+    }
 }

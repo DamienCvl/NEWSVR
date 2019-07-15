@@ -8,20 +8,33 @@ public class NewsPreview : MonoBehaviour
     private NewsGameObject news = null;
 
     private Transform followHead;
-    public Vector3 panelPreviewPostion = new Vector3(-0.3f, 0f, 0.5f);
+    public Vector3 panelPreviewPostion = new Vector3(-0.3f, 0f, 0.7f);
 
-    public void SetNews(NewsGameObject news)
+    public TagListGameObject tagList;
+    public ViewNbrComment viewNbrComment;
+    public ViewNbrView viewNbrView;
+
+
+    // Use to get infos from the news pointed on and display its
+    public void SetPreviewInfos(NewsGameObject news)
     {
         this.news = news;
-        GetComponentInChildren<TagListGameObject>().newsGameObject = news;
-        GetComponentInChildren<ViewNbrComment>().news = news;
-        GetComponentInChildren<ViewNbrView>().news = news;
+
+        tagList.newsGameObject = news;
+        tagList.gameObject.SetActive(true);
+
+        viewNbrView.GetComponent<TextMesh>().text = news.newsInfos.GetViews().ToString();
+        viewNbrComment.GetComponent<TextMesh>().text = news.newsInfos.GetNbComment().ToString();
+        
     }
 
     // Start is called before the first frame update
     void Awake()
     {
         followHead = GameObject.Find("FollowHead").transform;
+        tagList = GetComponentInChildren<TagListGameObject>();
+        viewNbrComment = GetComponentInChildren<ViewNbrComment>();
+        viewNbrView = GetComponentInChildren<ViewNbrView>();
     }
 
     private void OnEnable()

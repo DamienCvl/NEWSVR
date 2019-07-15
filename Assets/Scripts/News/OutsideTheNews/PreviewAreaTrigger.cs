@@ -31,7 +31,7 @@ public class PreviewAreaTrigger : MonoBehaviour
 
         followHead = GameObject.Find("FollowHead").transform;
 
-        newsPreviewGameObject = GameObject.Find("NewsPreview");
+        newsPreviewGameObject = GetComponentInParent<NewsPlacement>().newsPreview;
 
         teleporting = GameObject.FindObjectOfType<Teleport>().gameObject;
         destinationReticle = teleporting.transform.Find("DestinationReticle").gameObject;
@@ -48,7 +48,7 @@ public class PreviewAreaTrigger : MonoBehaviour
         if (distReticleToNews <= previewAreaRadius && !isPreviewEnabled && destinationReticle.activeSelf && distPlayerToNews >= 12.0f)
         {
             isPreviewEnabled = true;
-            newsPreviewGameObject.GetComponent<NewsPreview>().SetNews(GetComponent<NewsGameObject>());
+            newsPreviewGameObject.GetComponent<NewsPreview>().SetPreviewInfos(GetComponent<NewsGameObject>());
             newsPreviewGameObject.SetActive(true);
         }
 

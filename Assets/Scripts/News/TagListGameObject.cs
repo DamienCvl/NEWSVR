@@ -20,14 +20,19 @@ public class TagListGameObject : MonoBehaviour
         {
             foreach (string tag in newsGameObject.Tags)
             {
+                Color color;
                 if (StaticClass.tagPrefColorList.ContainsKey(tag))
                 {
-                    Color color = StaticClass.tagPrefColorList[tag];
-                    color.a = 100f / 255f;
-                    GameObject tagGO = Instantiate(tagPreFab, transform);
-                    tagGO.GetComponent<Image>().color = color;
-                    tagGO.GetComponentInChildren<Text>().text = tag;
+                    color = StaticClass.tagPrefColorList[tag];
                 }
+                else
+                {
+                    color = Color.white;
+                }
+                color.a = 100f / 255f;
+                GameObject tagGO = Instantiate(tagPreFab, transform);
+                tagGO.GetComponent<Image>().color = color;
+                tagGO.GetComponentInChildren<Text>().text = tag;
             }
         }
     }
