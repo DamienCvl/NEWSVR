@@ -293,7 +293,7 @@ namespace Assets.Scripts.Core
             try
             {
                 if (reader.HasRows)
-                {              
+                {
                     while (reader.Read())
                     {
                         if (ColorUtility.TryParseHtmlString(reader.GetString(1), out Color color))
@@ -302,11 +302,18 @@ namespace Assets.Scripts.Core
                         }
                         else
                         {
-                            StaticClass.tagPrefColorList.Add(reader.GetString(0), Color.white);
                             Debug.Log("Impossible to read hexadecimal color on database. Set to default (white).");
                         }
                     }
                     reader.Dispose();
+                }
+                else  // if there is nothing from this id player in the db yet, initialize every tag to white
+                {
+                    StaticClass.tagPrefColorList.Clear();
+                    foreach (string s in Database.GetTags())
+                    {
+                        StaticClass.tagPrefColorList.Add(s, Color.white);
+                    }
                 }
             }
             catch (IOException ex)
@@ -344,6 +351,57 @@ namespace Assets.Scripts.Core
         }
 
         public static bool SaveTagColorChoice(string tag, string hexColor)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT * FROM  `NOTIFICATIONS` WHERE `tagName`= @dbTextTag AND `idPlayer`= @dbPlayerId", con);
+            cmdSQL.Parameters.AddWithValue("@dbTextTag", tag);
+            cmdSQL.Parameters.AddWithValue("@dbPlayerId", StaticClass.CurrentPlayerId);
+
+            try
+            {
+                //if data are already in the db, update them and return if the query succeed
+                if (cmdSQL.ExecuteNonQuery() > 0)
+                {
+                   return ChangeTagColorChoice(tag,hexColor);
+                }
+                else //if not, insert data and return if the query succeed
+                {
+                    return InsertTagColorChoice(tag, hexColor);
+                }
+            }
+            catch (IOException ex)
+            {
+                cmdSQL.Dispose();
+                Debug.Log(ex);
+                return false;
+            }
+        }
+
+        public static bool InsertTagColorChoice(string tag, string hexColor)
+        {
+            // Add comment to database
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO NOTIFICATIONS (tagName, idPlayer, color) VALUES(@dbTextTag,@dbUserId,@dbHexColor); ", con);
+            cmdSQL.Parameters.AddWithValue("@dbTextTag", tag);
+            cmdSQL.Parameters.AddWithValue("@dbHexColor", hexColor);
+            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);        
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                reader.Read();
+                cmdSQL.Dispose();
+                return true;
+            }
+            catch (IOException ex)
+            {
+                cmdSQL.Dispose();
+                Debug.Log(ex);
+                return false;
+            }
+        }
+
+        public static bool ChangeTagColorChoice(string tag, string hexColor)
         {
             ConnectDB();
             MySqlCommand cmdSQL = new MySqlCommand("UPDATE `NOTIFICATIONS` SET `color`= @dbHexColor WHERE `tagName`= @dbTextTag AND `idPlayer`= @dbPlayerId", con);

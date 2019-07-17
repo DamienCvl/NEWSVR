@@ -41,7 +41,6 @@ public class Login : MonoBehaviour
         if (Database.IsThisUserAnAuthenticPlayer(logNameField.text, logPasswordField.text))
         {
             StaticClass.CurrentPlayerName = logNameField.text;
-            InitializeHomePageDataNeeded();
             SceneManager.LoadScene(0);
         }
         else
@@ -50,10 +49,6 @@ public class Login : MonoBehaviour
         }
     }
 
-    private void InitializeHomePageDataNeeded()
-    {
-        Database.GetTagColors();
-    }
 
     public void GoBackToMenu()
     {

@@ -36,6 +36,7 @@ public class Profil : MonoBehaviour
         AskStatData();
         AskCommentNumberData();
         AskCommentPositionData();
+        Database.GetTagColors();
         DisplayTagsList();
 
         picker.onValueChanged.AddListener(color =>
@@ -112,8 +113,21 @@ public class Profil : MonoBehaviour
             copy.transform.parent = content.transform;
             copy.transform.GetComponentInChildren<Text>().text = s;
 
-            //color the button with the pref color saved
-            Color c = StaticClass.tagPrefColorList[s];
+
+            Debug.Log(StaticClass.tagPrefColorList.Count);
+            Debug.Log(s);
+
+            Color c;
+            if (StaticClass.tagPrefColorList.ContainsKey(s))
+            {
+                 c = StaticClass.tagPrefColorList[s];
+            }
+            else
+            {
+                c = Color.white;
+            }
+
+            //color the button with the pref color save
             ColorBlock cb = copy.GetComponent<Button>().colors;
             cb.normalColor = c;
             cb.selectedColor = c;
@@ -149,6 +163,7 @@ public class Profil : MonoBehaviour
 
     public void SaveButtonAction()
     {
+        savePrompt.text = "";  //clear the prompt
         bool isColorSaved = true;
         StaticClass.tagPrefColorList.Clear();
         foreach (GameObject ob in tagList)
