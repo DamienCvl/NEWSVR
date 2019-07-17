@@ -33,7 +33,17 @@ public class TagListGameObject : MonoBehaviour
                 GameObject tagGO = Instantiate(tagPreFab, transform);
                 tagGO.GetComponent<Image>().color = color;
                 tagGO.GetComponentInChildren<Text>().text = tag;
+                tagGO.SetActive(false);
+                tagGO.SetActive(true);
             }
+        }
+    }
+
+    private void OnDisable()
+    {
+        foreach (Transform tag in transform)
+        {
+            Destroy(tag.gameObject);
         }
     }
 
