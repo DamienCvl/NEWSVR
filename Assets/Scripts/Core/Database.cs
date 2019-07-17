@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+
 namespace Assets.Scripts.Core
 {
 
@@ -371,6 +372,34 @@ namespace Assets.Scripts.Core
             return response;
         }
 
+        public static bool SaveTagColorChoice(string tag, string hexColor)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE `NOTIFICATIONS` SET `color`= @dbHexColor WHERE `tagName`= @dbTextTag AND `idPlayer`= @dbPlayerId", con);
+            cmdSQL.Parameters.AddWithValue("@dbTextTag", tag);
+            cmdSQL.Parameters.AddWithValue("@dbHexColor", hexColor);
+            cmdSQL.Parameters.AddWithValue("@dbPlayerId", StaticClass.CurrentPlayerId);
+           
+            try
+            {
+                if (cmdSQL.ExecuteNonQuery() > 0)
+                {
+                    cmdSQL.Dispose();
+                    return true;
+                }
+                else
+                {
+                    cmdSQL.Dispose();
+                    return false;
+                }
+            }
+            catch (IOException ex)
+            {
+                cmdSQL.Dispose();
+                Debug.Log(ex);
+                return false;
+            }
+        }
 
         public static List<string> GetTags()
         {
