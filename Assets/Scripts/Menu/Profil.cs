@@ -23,6 +23,9 @@ public class Profil : MonoBehaviour
     //tags list
     public GameObject tagTemplate;
     public GameObject content;
+    public ColorPicker picker;
+    private List<GameObject> tagList = new List<GameObject>();
+    private Color choice;
 
 
 
@@ -34,8 +37,20 @@ public class Profil : MonoBehaviour
         AskCommentNumberData();
         AskCommentPositionData();
         DisplayTagsList();
+
+        picker.onValueChanged.AddListener(color =>
+        {
+            choice = color;
+        });
     }
 
+
+    /*
+     ColorBlock cb = copy.GetComponent<Button>().colors;
+            cb.normalColor = color;
+            cb.selectedColor = color;
+            copy.GetComponent<Button>().colors = cb;
+         */
 
     // Update is called once per frame
     void Update()
@@ -96,12 +111,34 @@ public class Profil : MonoBehaviour
             var copy = Instantiate(tagTemplate);
             copy.transform.parent = content.transform;
             copy.transform.GetComponentInChildren<Text>().text = s;
+
+            //color the button with the pref color saved
+            Color c = StaticClass.tagPrefColorList[s];
+            ColorBlock cb = copy.GetComponent<Button>().colors;
+            cb.normalColor = c;
+            cb.selectedColor = c;
+            copy.GetComponent<Button>().colors = cb;
+
             copy.SetActive(true);
+            tagList.Add(copy);
+
 
             copy.GetComponent<Button>().onClick.AddListener(
                 () =>
                 {
-              
+                    if(picker.gameObject.active)
+                    {
+                        cb = copy.GetComponent<Button>().colors;
+                        cb.normalColor = choice;
+                        cb.selectedColor = choice;
+                        copy.GetComponent<Button>().colors = cb;
+
+                        picker.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        picker.gameObject.SetActive(true);
+                    }    
                 }                
            );
         }
@@ -112,8 +149,24 @@ public class Profil : MonoBehaviour
 
     public void SaveButtonAction()
     {
-        if (Database.PrefSucessfullySaved(Convert.ToInt32(cmtNumbersDD.options[cmtNumbersDD.value].text), cmtPositionDD.value))
+        bool isColorSaved = true;
+        StaticClass.tagPrefColorList.Clear();
+        foreach (GameObject ob in tagList)
         {
+            string text = ob.GetComponentInChildren<Text>().text;
+            Color color = ob.GetComponent<Button>().colors.normalColor;
+            StaticClass.tagPrefColorList.Add(text, color);
+            if (!Database.SaveTagColorChoice(text, ColorUtility.ToHtmlStringRGB(color))) {
+                isColorSaved = false;
+                Debug.Log(text);
+                break;  // if one time the color save process failed, stop the loop
+            } 
+        }
+
+        if (isColorSaved && Database.PrefSucessfullySaved(Convert.ToInt32(cmtNumbersDD.options[cmtNumbersDD.value].text), cmtPositionDD.value))
+        {
+            
+
             savePrompt.color = Color.green;
             savePrompt.text = "Sucessfuly saved !";
         }
@@ -121,6 +174,7 @@ public class Profil : MonoBehaviour
         {
             savePrompt.color = Color.red;
             savePrompt.text = "Something wrong append ...";
+            Debug.Log(isColorSaved);
         }
     }
 

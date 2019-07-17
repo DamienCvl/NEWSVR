@@ -87,8 +87,7 @@ public class MainMenu : MonoBehaviour
                         StaticClass.newsBeaconedList.Add(n.GetId());
 
                         ColorBlock cb = copy.GetComponent<Button>().colors;
-                        // cb.normalColor = n.GetNewsColor();
-                        cb.normalColor = Color.gray;
+                        cb.normalColor = n.GetNewsColor();
                         copy.GetComponent<Button>().colors = cb;
                     }
 
