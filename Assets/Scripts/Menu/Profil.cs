@@ -91,8 +91,8 @@ public class Profil : MonoBehaviour
     void AskCommentPositionData()
     {
         PopulatePositionList();
-        int.TryParse(Database.SqlCmd("cmtPositionPref"), out int res);
-        cmtPositionDD.value = res;
+        string res = Database.SqlCmd("cmtPositionPref");
+        cmtPositionDD.value = cmtPositionDD.options.FindIndex((x) => { return x.text == res; });
     }
 
     void AskStatData()

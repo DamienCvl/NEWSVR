@@ -34,6 +34,7 @@ namespace Valve.VR.InteractionSystem
         public GameObject contentNews;
         public GameObject comments;
         public GameObject oldCommentsScroll;
+        public GameObject tagsGO;
 
         private RectTransform numberToMove;
         private float whereIsTheArticle;
@@ -67,6 +68,10 @@ namespace Valve.VR.InteractionSystem
 
             oldCommentsScroll.SetActive(true);
             comments.SetActive(true);
+
+            // Set tag list above the news content
+            tagsGO.transform.position = transform.TransformPoint(new Vector3(-0.35f, 0.72f, 0));
+            tagsGO.transform.rotation = transform.rotation;
         }
 
         private void OnDisable()
