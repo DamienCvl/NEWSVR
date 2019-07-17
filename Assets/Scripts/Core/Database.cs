@@ -31,7 +31,7 @@ namespace Assets.Scripts.Core
                 con = new MySqlConnection(constr);
                 con.Open();
 
-
+                
             }
             catch (IOException ex)
             {
@@ -39,7 +39,17 @@ namespace Assets.Scripts.Core
             }
         }
 
-        
+        public static void DisconnectDB()
+        {
+            try
+            {
+                con.Close();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+        }
 
 
 
@@ -117,6 +127,7 @@ namespace Assets.Scripts.Core
 
             readerTags.Dispose();
             cmdSQL.Dispose();
+            DisconnectDB();
         }
 
 
@@ -127,6 +138,7 @@ namespace Assets.Scripts.Core
             MySqlCommand cmdSQL = new MySqlCommand(sqlCmdName, con);
             cmdSQL.Parameters.AddWithValue("@dbUserName", StaticClass.CurrentPlayerName);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
+            int response;
 
             try
             {
@@ -135,11 +147,11 @@ namespace Assets.Scripts.Core
                     int res = reader.GetInt32(0);
                     cmdSQL.Dispose();
                     con.Dispose();
-                    return res;
+                    response = res;
                 }
                 else
                 {
-                    return 6;
+                    response = 6;
                 }
             }
             catch (IOException ex)
@@ -147,8 +159,10 @@ namespace Assets.Scripts.Core
                 cmdSQL.Dispose();
                 con.Dispose();
                 Debug.Log(ex);
-                return 6;  ///default number shown
+                response = 6;  ///default number shown
             }
+            DisconnectDB();
+            return response;
         }
 
         public static int ReadCommentPosition()
@@ -158,6 +172,7 @@ namespace Assets.Scripts.Core
             MySqlCommand cmdSQL = new MySqlCommand(sqlCmdName, con);
             cmdSQL.Parameters.AddWithValue("@dbUserName", StaticClass.CurrentPlayerName);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
+            int response;
 
             try
             {
@@ -166,11 +181,11 @@ namespace Assets.Scripts.Core
                     int res = reader.GetInt32(0);
                     cmdSQL.Dispose();
                     con.Dispose();
-                    return res;
+                    response = res;
                 }
                 else
                 {
-                    return 0;
+                    response = 0;
                 }
             }
             catch (IOException ex)
@@ -178,8 +193,10 @@ namespace Assets.Scripts.Core
                 cmdSQL.Dispose();
                 con.Dispose();
                 Debug.Log(ex);
-                return 0;  ///default position
+                response = 0;  ///default position
             }
+            DisconnectDB();
+            return response;
         }
 
         /*********************/
@@ -193,6 +210,7 @@ namespace Assets.Scripts.Core
             string sqlCmdName = "SELECT name FROM PLAYERS WHERE name = @dbUserName;";
             MySqlCommand cmdVerifName = new MySqlCommand(sqlCmdName, con);
             cmdVerifName.Parameters.AddWithValue("@dbUserName", name);
+            bool response;
 
             try
             {
@@ -203,13 +221,13 @@ namespace Assets.Scripts.Core
                     reader = null;
                     reader.Dispose();
                     cmdVerifName.Dispose();
-                    return false;
+                    response = false;
                 }
                 else
                 {
                     reader.Dispose();
                     cmdVerifName.Dispose();
-                    return true;
+                    response = true;
                 }
 
             }
@@ -217,8 +235,10 @@ namespace Assets.Scripts.Core
             {
                 Debug.Log(ex.ToString());
                 cmdVerifName.Dispose();
-                return false;
+                response = false;
             }
+            DisconnectDB();
+            return response;
         }
 
         public static bool InsertNewPlayer(string name,string password)
@@ -227,19 +247,22 @@ namespace Assets.Scripts.Core
             MySqlCommand cmdReg = new MySqlCommand("INSERT INTO PLAYERS VALUES (default,@dbUserName,@dbUserMDP,0,0,0,0,default);", con);
             cmdReg.Parameters.AddWithValue("@dbUserName", name);
             cmdReg.Parameters.AddWithValue("@dbUserMDP", password);
+            bool response;
 
             try
             {
                 cmdReg.ExecuteReader();
                 cmdReg.Dispose();
-                return true;
+                response = true;
             }
             catch (IOException ex)
             {
                 Debug.Log(ex.ToString());
                 cmdReg.Dispose();
-                return false;
+                response = false;
             }
+            DisconnectDB();
+            return response;
         }
 
 
@@ -255,6 +278,7 @@ namespace Assets.Scripts.Core
             cmdSQL.Parameters.AddWithValue("@dbUserName", name);
             cmdSQL.Parameters.AddWithValue("@dbUserMDP", password);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
+            bool response;
 
             try
             {
@@ -263,14 +287,14 @@ namespace Assets.Scripts.Core
                     StaticClass.CurrentPlayerId = reader.GetUInt32(0);
                     cmdSQL.Dispose();
                     reader.Dispose();
-                    return true;
+                    response = true;
 
                 }
                 else
                 {
                     cmdSQL.Dispose();
                     reader.Dispose();
-                    return false;
+                    response = false;
                 }
                 
             }
@@ -279,8 +303,10 @@ namespace Assets.Scripts.Core
                 Debug.Log(ex.ToString());
                 cmdSQL.Dispose();
                 reader.Dispose();
-                return false;
+                response = false;
             }
+            DisconnectDB();
+            return response;
         }
 
         public static void GetTagColors()
@@ -321,6 +347,7 @@ namespace Assets.Scripts.Core
                 Debug.Log(ex.ToString());
                 cmdSQL.Dispose();
             }
+            DisconnectDB();
         }
 
 
@@ -335,19 +362,21 @@ namespace Assets.Scripts.Core
             ConnectDB();
             MySqlCommand cmdSQL = new MySqlCommand("SELECT " + selectName + " FROM PLAYERS WHERE name = '" + StaticClass.CurrentPlayerName + "'", con);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
-
+            string response;
             try
             {
                 reader.Read();
                 string var = "" + reader.GetValue(0);
                 cmdSQL.Dispose();
-                return var;
+                response = var;
             }
             catch (IOException ex)
             {
                 cmdSQL.Dispose();
-                return "" + ex;
+                response = "" + ex;
             }
+            DisconnectDB();
+            return response;
         }
 
         public static bool SaveTagColorChoice(string tag, string hexColor)
@@ -454,6 +483,7 @@ namespace Assets.Scripts.Core
                 Debug.Log(ex.ToString());
                 cmdSQL.Dispose();
             }
+            DisconnectDB();
             return tagsList;
         }
 
@@ -463,26 +493,29 @@ namespace Assets.Scripts.Core
         {
             ConnectDB();
             MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET cmtNbShown = '" + cmtNumbers + "', cmtPositionPref = '" + cmtPosition + "' WHERE name = '" + StaticClass.CurrentPlayerName + "'; ", con);
+            bool response;
 
             try
             {
                 if (cmdSQL.ExecuteNonQuery() > 0)
                 {
                     cmdSQL.Dispose();
-                    return true;
+                    response = true;
                 }
                 else
                 {
                     cmdSQL.Dispose();
-                    return false;
+                    response = false;
                 }
             }
             catch (IOException ex)
             {              
                 cmdSQL.Dispose();
                 Debug.Log(ex);
-                return false;
+                response = false;
             }
+            DisconnectDB();
+            return response;
         }
 
 
@@ -497,6 +530,7 @@ namespace Assets.Scripts.Core
             MySqlCommand cmdSQL = new MySqlCommand("SELECT nbComment FROM NEWS WHERE idNews = @dbNewsId", con);
             cmdSQL.Parameters.AddWithValue("@dbNewsId", id);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
+            string response;
 
             try
             {
@@ -505,11 +539,11 @@ namespace Assets.Scripts.Core
                     int res = reader.GetInt32(0);
                     cmdSQL.Dispose();
                     con.Dispose();
-                    return "" + res;
+                    response = "" + res;
                 }
                 else
                 {
-                    return "/";
+                    response = "/";
                 }
             }
             catch (IOException ex)
@@ -517,8 +551,10 @@ namespace Assets.Scripts.Core
                 cmdSQL.Dispose();
                 con.Dispose();
                 Debug.Log(ex);
-                return "/";
+                response = "/";
             }
+            DisconnectDB();
+            return response;
         }
 
         public static void AddComment(uint idNews, string text)
@@ -542,6 +578,7 @@ namespace Assets.Scripts.Core
                 cmdSQL.Dispose();
                 Debug.Log(ex);
             }      
+            DisconnectDB();
         }
 
         public static void Add1CommentToPlayer()
@@ -560,6 +597,7 @@ namespace Assets.Scripts.Core
                 cmdSQL.Dispose();
                 Debug.Log(ex);
             }            
+            DisconnectDB();
         }
 
 
@@ -591,6 +629,7 @@ namespace Assets.Scripts.Core
                 cmdSQL.Dispose();
                 reader.Dispose();
             }
+            DisconnectDB();
             return cmntList;
         }
     
@@ -611,6 +650,7 @@ namespace Assets.Scripts.Core
                 cmdSQL.Dispose();
                 Debug.Log(ex);
             }
+            DisconnectDB();
         }
 
 
@@ -631,6 +671,7 @@ namespace Assets.Scripts.Core
 
             cmdDeleteAction.Dispose();
             con.Dispose();
+            DisconnectDB();
         }
 
 
@@ -663,7 +704,7 @@ namespace Assets.Scripts.Core
 
             cmdCreateNews.Dispose();
             cmdCreateNews = null;
-            Database.con.Close();
+            DisconnectDB();
 
 
         }
@@ -684,6 +725,7 @@ namespace Assets.Scripts.Core
                 cmdSQL.Dispose();
                 Debug.Log(ex);
             }
+            DisconnectDB();
         }
 
         public static void Add1ViewToPlayer()
@@ -702,6 +744,7 @@ namespace Assets.Scripts.Core
                 cmdSQL.Dispose();
                 Debug.Log(ex);
             }
+            DisconnectDB();
         }
 
         public static string NumOfReatcionToNews(string rea, uint idNews)
@@ -711,6 +754,7 @@ namespace Assets.Scripts.Core
             cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
             cmdSQL.Parameters.AddWithValue("@reaToSelect", "nb" + rea);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
+            string response;
 
             try
             {
@@ -719,11 +763,11 @@ namespace Assets.Scripts.Core
                     int res = reader.GetInt32(0);
                     cmdSQL.Dispose();
                     con.Dispose();
-                    return "" + res;
+                    response = "" + res;
                 }
                 else
                 {
-                    return "/";
+                    response = "/";
                 }
 
             }
@@ -732,8 +776,10 @@ namespace Assets.Scripts.Core
                 cmdSQL.Dispose();
                 con.Dispose();
                 Debug.Log(ex);
-                return "/";
+                response = "/";
             }
+            DisconnectDB();
+            return response;
         }
 
         internal static string ReadViewNum(uint id)
@@ -742,6 +788,7 @@ namespace Assets.Scripts.Core
             MySqlCommand cmdSQL = new MySqlCommand("SELECT nbView FROM NEWS WHERE idNews = @dbNewsId", con);
             cmdSQL.Parameters.AddWithValue("@dbNewsId", id);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
+            string response;
 
             try
             {
@@ -750,11 +797,11 @@ namespace Assets.Scripts.Core
                     int res = reader.GetInt32(0);
                     cmdSQL.Dispose();
                     con.Dispose();
-                    return "" + res;
+                    response = "" + res;
                 }
                 else
                 {
-                    return "/";
+                    response = "/";
                 }
             }
             catch (IOException ex)
@@ -762,8 +809,10 @@ namespace Assets.Scripts.Core
                 cmdSQL.Dispose();
                 con.Dispose();
                 Debug.Log(ex);
-                return "/";
+                response = "/";
             }
+            DisconnectDB();
+            return response;
         }
 
         /***********************/
@@ -793,6 +842,7 @@ namespace Assets.Scripts.Core
             }
             cmdSQL.Dispose();
             con.Dispose();
+            DisconnectDB();
         }
 
         
