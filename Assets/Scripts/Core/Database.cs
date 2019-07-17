@@ -382,6 +382,7 @@ namespace Assets.Scripts.Core
         public static bool SaveTagColorChoice(string tag, string hexColor)
         {
             ConnectDB();
+            bool res = true;
             MySqlCommand cmdSQL = new MySqlCommand("SELECT * FROM  `NOTIFICATIONS` WHERE `tagName`= @dbTextTag AND `idPlayer`= @dbPlayerId", con);
             cmdSQL.Parameters.AddWithValue("@dbTextTag", tag);
             cmdSQL.Parameters.AddWithValue("@dbPlayerId", StaticClass.CurrentPlayerId);
@@ -391,19 +392,21 @@ namespace Assets.Scripts.Core
                 //if data are already in the db, update them and return if the query succeed
                 if (cmdSQL.ExecuteNonQuery() > 0)
                 {
-                   return ChangeTagColorChoice(tag,hexColor);
+                   res = ChangeTagColorChoice(tag,hexColor);
                 }
                 else //if not, insert data and return if the query succeed
                 {
-                    return InsertTagColorChoice(tag, hexColor);
+                    res = InsertTagColorChoice(tag, hexColor);
                 }
             }
             catch (IOException ex)
             {
                 cmdSQL.Dispose();
                 Debug.Log(ex);
-                return false;
+                res = false;
             }
+            DisconnectDB();
+            return res;
         }
 
         public static bool InsertTagColorChoice(string tag, string hexColor)

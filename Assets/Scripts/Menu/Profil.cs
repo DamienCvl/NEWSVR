@@ -75,7 +75,7 @@ public class Profil : MonoBehaviour
 
     void PopulateDisplayNumberList()
     {
-        List<string> display = new List<string>() { "5", "6", "7", "8", "9" };
+        List<string> display = new List<string>() { "1", "2", "3", "4", "5" };
         cmtNumbersDD.AddOptions(display);
     }
 
