@@ -3184,7 +3184,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4595883215595192}
-  - component: {fileID: 114310901197950418}
   m_Layer: 0
   m_Name: InTheNews
   m_TagString: Untagged
@@ -3209,20 +3208,6 @@ Transform:
   m_Father: {fileID: 4754870790169874}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114310901197950418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1596768318435840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d12b6e3aa1b852b4998e8546d9f9a19d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ForCommentsPlacement: 0
-  ForCommentsPlacementDeepness: 0
 --- !u!1 &1601720691510626
 GameObject:
   m_ObjectHideFlags: 0
@@ -5657,6 +5642,16 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 9015344173246875338, guid: 1b1c06778348b854ea627e47c4b884fa,
+        type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2811429758279427813, guid: 1b1c06778348b854ea627e47c4b884fa,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 569866473205693926, guid: 1b1c06778348b854ea627e47c4b884fa,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -5677,16 +5672,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0.00000035762787
       objectReference: {fileID: 0}
-    - target: {fileID: 9015344173246875338, guid: 1b1c06778348b854ea627e47c4b884fa,
-        type: 3}
-      propertyPath: m_Text
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2811429758279427813, guid: 1b1c06778348b854ea627e47c4b884fa,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 318274624281651242, guid: 1b1c06778348b854ea627e47c4b884fa,
         type: 3}
       propertyPath: m_LocalPosition.x
