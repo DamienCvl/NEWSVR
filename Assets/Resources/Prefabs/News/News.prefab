@@ -1288,7 +1288,7 @@ MonoBehaviour:
     actionPath: /actions/default/in/Scroll
     needsReinit: 0
   panelDistance: 0.9
-  panelHeightDownOffset: 0.4
+  panelHeightDownOffset: 0.5
   newsGameObject: {fileID: 4864526121448403360}
   commentParent: {fileID: 4971567643513768}
   contentNews: {fileID: 1622781136838476}

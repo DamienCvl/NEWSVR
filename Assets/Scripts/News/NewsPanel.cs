@@ -58,7 +58,7 @@ namespace Valve.VR.InteractionSystem
             transform.rotation = Quaternion.LookRotation(faceDirection, Vector3.up);
 
             // Set first comment position
-            CommentGameObject.SetFirstCommentPosition(playerFirstTransform, faceDirection);
+            CommentGameObject.SetFirstCommentPosition(playerFirstTransform, transform.rotation);
 
             // Load all the comments from the database associate to the news
             Comment.commentsList = Database.QueryComments(newsGameObject.Id);

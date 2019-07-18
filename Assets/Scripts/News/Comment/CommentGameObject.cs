@@ -86,11 +86,11 @@ public class CommentGameObject : Grabbable
     ///<summary>
     ///Set the position where the first comment will be placed relative to player first position entering the news
     ///</summary>
-    public static void SetFirstCommentPosition(Transform playerFirstTransform, Vector3 faceDirection)
+    public static void SetFirstCommentPosition(Transform playerFirstTransform, Quaternion rotationDirection)
     {
         // Set the transform properties where the first comment will be placed
         Transform temp = playerFirstTransform;
-        temp.rotation = Quaternion.FromToRotation(temp.forward, faceDirection);
+        temp.rotation = rotationDirection;
         nextCommentPosition = temp.TransformPoint(commentsPosition);
         nextCommentRotation = Quaternion.LookRotation(nextCommentPosition - playerFirstTransform.position, Vector3.up);
         firstCommentPosition = nextCommentPosition;
