@@ -53,6 +53,7 @@ public class OldCommentPaperScroll : MonoBehaviour
         // Set position and rotation of the old comment scroll paper
         transform.position = CommentGameObject.nextCommentPosition;
         transform.rotation = CommentGameObject.nextCommentRotation;
+        transform.Translate(Vector3.left * 0.5f + Vector3.forward * 0.1f);
 
         LoadOldComments();
     }

@@ -34,7 +34,7 @@ public class CommentGameObject : Grabbable
     public static List<GameObject> commentsGameObjectList = new List<GameObject>();
 
     // Translation vector relative to the player for comments placement
-    private static Vector3 commentsPosition = Vector3.left * 0.7f + Vector3.down * 0.2f;
+    private static Vector3 commentsPosition = Vector3.left * 0.7f + Vector3.down * 0.1f;
     // Position and rotation for the next comment
     public static Vector3 nextCommentPosition;
     public static Quaternion nextCommentRotation;
@@ -54,7 +54,7 @@ public class CommentGameObject : Grabbable
         {
             // Left
             case 0:
-                commentsPosition = Vector3.left * 0.7f + Vector3.down * 0.2f;
+                commentsPosition = Vector3.left * 0.7f + Vector3.down * 0.1f;
                 break;
             // Above
             case 1:
@@ -62,11 +62,11 @@ public class CommentGameObject : Grabbable
                 break;
             // Right
             case 2:
-                commentsPosition = Vector3.right * 0.7f + Vector3.down * 0.2f;
+                commentsPosition = Vector3.right * 0.7f + Vector3.down * 0.1f;
                 break;
             // Behind
             case 3:
-                commentsPosition = Vector3.back * 0.7f + Vector3.down * 0.2f;
+                commentsPosition = Vector3.back * 0.7f + Vector3.down * 0.1f;
                 break;
         }
     }
