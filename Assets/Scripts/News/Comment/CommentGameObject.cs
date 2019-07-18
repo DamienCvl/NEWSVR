@@ -34,15 +34,12 @@ public class CommentGameObject : Grabbable
     public static List<GameObject> commentsGameObjectList = new List<GameObject>();
 
     // Translation vector relative to the player for comments placement
-    private static Vector3 commentsPosition = Vector3.left * 0.7f;
+    private static Vector3 commentsPosition = Vector3.left * 0.7f + Vector3.down * 0.2f;
     // Position and rotation for the next comment
     public static Vector3 nextCommentPosition;
     public static Quaternion nextCommentRotation;
     // Offset vector to separate comments
     public static Vector3 commentOffset = new Vector3(-0.05f, 0, 0.05f);
-
-    public static Vector3 firstCommentPosition;
-    public static Quaternion firstCommentRotation;
 
     // Used to see if there is a hand to release when you go out of the news and which one it is
     private Hand handToRelease;
@@ -57,7 +54,7 @@ public class CommentGameObject : Grabbable
         {
             // Left
             case 0:
-                commentsPosition = Vector3.left * 0.7f;
+                commentsPosition = Vector3.left * 0.7f + Vector3.down * 0.2f;
                 break;
             // Above
             case 1:
@@ -65,11 +62,11 @@ public class CommentGameObject : Grabbable
                 break;
             // Right
             case 2:
-                commentsPosition = Vector3.right * 0.7f;
+                commentsPosition = Vector3.right * 0.7f + Vector3.down * 0.2f;
                 break;
             // Behind
             case 3:
-                commentsPosition = Vector3.back * 0.7f;
+                commentsPosition = Vector3.back * 0.7f + Vector3.down * 0.2f;
                 break;
         }
     }
@@ -86,15 +83,13 @@ public class CommentGameObject : Grabbable
     ///<summary>
     ///Set the position where the first comment will be placed relative to player first position entering the news
     ///</summary>
-    public static void SetFirstCommentPosition(Transform playerFirstTransform, Vector3 faceDirection)
+    public static void SetFirstCommentPosition(Transform playerFirstTransform, Quaternion rotationDirection)
     {
         // Set the transform properties where the first comment will be placed
         Transform temp = playerFirstTransform;
-        temp.rotation = Quaternion.FromToRotation(temp.forward, faceDirection);
+        temp.rotation = rotationDirection;
         nextCommentPosition = temp.TransformPoint(commentsPosition);
         nextCommentRotation = Quaternion.LookRotation(nextCommentPosition - playerFirstTransform.position, Vector3.up);
-        firstCommentPosition = nextCommentPosition;
-        firstCommentRotation = nextCommentRotation;
 
     }
 
