@@ -39,7 +39,7 @@ public class CommentGameObject : Grabbable
     public static Vector3 nextCommentPosition;
     public static Quaternion nextCommentRotation;
     // Offset vector to separate comments
-    public static Vector3 commentOffset = new Vector3(-0.1f, 0, 0.1f);
+    public static Vector3 commentOffset = new Vector3(-0.05f, 0, 0.05f);
 
     public static Vector3 firstCommentPosition;
     public static Quaternion firstCommentRotation;
@@ -86,10 +86,12 @@ public class CommentGameObject : Grabbable
     ///<summary>
     ///Set the position where the first comment will be placed relative to player first position entering the news
     ///</summary>
-    public static void SetFirstCommentPosition(Transform playerFirstTransform)
+    public static void SetFirstCommentPosition(Transform playerFirstTransform, Vector3 faceDirection)
     {
         // Set the transform properties where the first comment will be placed
-        nextCommentPosition = playerFirstTransform.TransformPoint(commentsPosition);
+        Transform temp = playerFirstTransform;
+        temp.rotation = Quaternion.FromToRotation(temp.forward, faceDirection);
+        nextCommentPosition = temp.TransformPoint(commentsPosition);
         nextCommentRotation = Quaternion.LookRotation(nextCommentPosition - playerFirstTransform.position, Vector3.up);
         firstCommentPosition = nextCommentPosition;
         firstCommentRotation = nextCommentRotation;

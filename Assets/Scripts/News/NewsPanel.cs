@@ -53,12 +53,12 @@ namespace Valve.VR.InteractionSystem
             playerFirstTransform = player.hmdTransform;
 
             // Put the news in front of the player every time the player pick up the newsSphere
-            Vector3 faceDirection = new Vector3(playerFirstTransform.forward.x, 0, playerFirstTransform.forward.z);
-            transform.position = playerFirstTransform.position + (faceDirection * panelDistance) + Vector3.down * panelHeightDownOffset;
+            Vector3 faceDirection = new Vector3(playerFirstTransform.forward.x, 0, playerFirstTransform.forward.z).normalized;
+            transform.position = playerFirstTransform.position + (faceDirection * panelDistance) + (Vector3.down * panelHeightDownOffset);
             transform.rotation = Quaternion.LookRotation(faceDirection, Vector3.up);
 
             // Set first comment position
-            CommentGameObject.SetFirstCommentPosition(playerFirstTransform);
+            CommentGameObject.SetFirstCommentPosition(playerFirstTransform, faceDirection);
 
             // Load all the comments from the database associate to the news
             Comment.commentsList = Database.QueryComments(newsGameObject.Id);
