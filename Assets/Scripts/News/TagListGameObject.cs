@@ -33,7 +33,7 @@ public class TagListGameObject : MonoBehaviour
                 GameObject tagGO = Instantiate(tagPreFab, transform);
                 tagGO.GetComponent<Image>().color = color;
                 tagGO.GetComponentInChildren<Text>().text = tag;
-                GetComponent<RectTransform>().ForceUpdateRectTransforms();
+                tagGO.GetComponent<ContentSizeFitter>().enabled = true;
             }
         }
     }
