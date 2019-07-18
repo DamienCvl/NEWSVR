@@ -66,12 +66,13 @@ namespace Valve.VR.InteractionSystem
             // Generate N first gameobject comments (N = user setting in StaticClass)
             CommentGameObject.GenerateComments(commentParent);
 
-            oldCommentsScroll.SetActive(true);
+            // Display old comments scroll if there are old comments to display (depend on user setting) 
+            if (StaticClass.nbrCommentDisplayed < Comment.commentsList.Count)
+            {
+                oldCommentsScroll.SetActive(true);
+            }
             comments.SetActive(true);
-
-            // Set tag list above the news content
-            tagsGO.transform.position = transform.TransformPoint(new Vector3(-0.35f, 0.72f, 0));
-            tagsGO.transform.rotation = transform.rotation;
+            
         }
 
         private void OnDisable()
