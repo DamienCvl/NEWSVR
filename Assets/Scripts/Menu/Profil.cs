@@ -120,7 +120,7 @@ public class Profil : MonoBehaviour
             }
             else
             {
-                c = Color.white;
+                c = StaticClass.tagDefaultColor;
             }
 
             //color the button with the pref color save
