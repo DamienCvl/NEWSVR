@@ -23,6 +23,8 @@ namespace Valve.VR.InteractionSystem
         private GameObject CommentPreFab;
         private GameObject Player;
 
+        public Transform commentParent;
+
         private Vector3 transformInit;
 
         private DictationRecognizer dictationRecognizer;
@@ -32,8 +34,7 @@ namespace Valve.VR.InteractionSystem
 
         private void Start()
         {
-            // Usefull to use it as parents location
-            Player = GameObject.FindObjectOfType<Player>().gameObject;
+
             CommentPreFab = (GameObject)Resources.Load("Prefabs/News/Comment", typeof(GameObject));
 
             // Create the voice recognition system
@@ -44,6 +45,7 @@ namespace Valve.VR.InteractionSystem
 
         private void OnEnable()
         {
+            Player = GameObject.Find("FollowHead");
             transformInit = transform.localPosition;
         }
 
@@ -59,12 +61,13 @@ namespace Valve.VR.InteractionSystem
         private void OnDictationResult(string text, ConfidenceLevel confidence)
         {
             // Create the comment with the text said
-            var comment = Instantiate(CommentPreFab, Player.transform);
+            var comment = Instantiate(CommentPreFab, commentParent);
             comment.GetComponent<CommentGameObject>().FillText(text);
 
             // Put the new comment in front of you
-            comment.transform.position += Player.transform.forward * 0.4f;
-            comment.transform.rotation = Quaternion.LookRotation(Player.transform.position - comment.transform.position, Vector3.up);
+            comment.transform.position = Player.transform.position;
+            comment.transform.position += new Vector3(Player.transform.forward.x, 0, Player.transform.forward.z).normalized * 0.5f;
+            comment.transform.rotation = Quaternion.LookRotation(comment.transform.position - Player.transform.position, Vector3.up);
         }
 
         // Use if there is a problem in the voice recognition
