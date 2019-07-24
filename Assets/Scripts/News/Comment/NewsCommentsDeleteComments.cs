@@ -16,14 +16,14 @@ namespace Valve.VR.InteractionSystem
 {
     //-------------------------------------------------------------------------
     [RequireComponent(typeof(Interactable))]
-    public class NewsCommentsDeleteComments : MonoBehaviour
+    public class NewsCommentsDeleteComments : Grabbable
     {
 
         public UnityEvent OnClickDelete;
 
         // Action when you click X, delete the Comments
         //-------------------------------------------------
-        protected void OnAttachedToHand(Hand hand)
+        protected new void OnAttachedToHand(Hand hand)
         {
             OnClickDelete.Invoke();
         }

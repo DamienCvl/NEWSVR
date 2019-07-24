@@ -30,7 +30,6 @@ namespace Valve.VR.InteractionSystem
             var text = comment.GetComponent<CommentGameObject>().textOfComment;
 
             Database.AddComment(StaticClass.CurrentNewsId, text);
-            Database.Add1CommentToPlayer();
 
             // Create Comment object
             Comment tmp = Database.GetLastComment();
