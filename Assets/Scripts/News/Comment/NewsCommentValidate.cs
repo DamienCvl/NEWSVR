@@ -19,57 +19,38 @@ namespace Valve.VR.InteractionSystem
     [RequireComponent(typeof(Interactable))]
     public class NewsCommentValidate : Grabbable
     {
-
+        
         public GameObject Buttons;
-        public GameObject Comment;
+        public GameObject comment;
 
         // Action when you click validate, delete the two buttons
         private void ValidateAction()
         {
-            // Retrieve the text of the comment and the title of the news
-            var id = Comment.GetComponent<CommentGameObject>().idComment;
-            var text = Comment.GetComponent<CommentGameObject>().textOfComment;
+            // Retrieve the text of the comment
+            var text = comment.GetComponent<CommentGameObject>().textOfComment;
 
-            Database.AddComment(id, text);
+            Database.AddComment(StaticClass.CurrentNewsId, text);
             Database.Add1CommentToPlayer();
 
-            FillId();
-
+            // Create Comment object
+            Comment tmp = Database.GetLastComment();
+            if (tmp.Author != null)
+            {
+                Comment.commentsList.Add(tmp);
+                comment.GetComponent<CommentGameObject>().idComment = tmp.IdComment;
+                comment.GetComponent<CommentGameObject>().FillAuthor(StaticClass.CurrentPlayerName);
+                // If you just created it, it's yours so you can destroy it
+                comment.GetComponent<CommentGameObject>().DeleteButton.SetActive(true);
+            }
+            else
+            {
+                comment.GetComponent<CommentGameObject>().DeleteButton.SetActive(false);
+            }
             Destroy(Buttons);
             // Wait 1 second to delete the validate button to not cause bug
             Destroy(gameObject, 1);
         }
 
-        
-
-        
-
-        private void FillId()
-        {
-            string conn = "URI=file:" + Application.dataPath + "/NewsDatabase.db"; //Path to database.
-            IDbConnection dbconn;
-            dbconn = (IDbConnection)new SqliteConnection(conn);
-            dbconn.Open(); //Open connection to the database.
-            IDbCommand dbcmd = dbconn.CreateCommand();
-            // The Id increases automatically so if you selecte the max, you have the last one added.
-            string sqlQuery = "SELECT ID FROM COMMENTS WHERE ID = (SELECT MAX(ID) FROM COMMENTS); ; ";
-            dbcmd.CommandText = sqlQuery;
-            IDataReader reader = dbcmd.ExecuteReader();
-            while (reader.Read())
-            {
-                uint newId = (uint)reader.GetInt32(0);
-
-                Comment.GetComponent<CommentGameObject>().idComment = newId;
-                // If you just created it, it's yours so you can destroy it
-                Comment.GetComponent<CommentGameObject>().DeleteButton.SetActive(true);
-            }
-            reader.Close();
-            reader = null;
-            dbcmd.Dispose();
-            dbcmd = null;
-            dbconn.Close();
-            dbconn = null;
-        }
 
         //-------------------------------------------------
         protected new void OnAttachedToHand(Hand hand)

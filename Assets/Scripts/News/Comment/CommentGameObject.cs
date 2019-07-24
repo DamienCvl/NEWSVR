@@ -23,21 +23,21 @@ public class CommentGameObject : Grabbable
     public GameObject Buttons;
 
     public TextMesh Author;
-    [HideInInspector]
-    public uint idComment;
     public GameObject DeleteButton;
 
     [HideInInspector]
+    public uint idComment;
+
+    [HideInInspector]
     public string textOfComment;
-    
-    //List of loaded comments in the news
-    public static List<GameObject> commentsGameObjectList = new List<GameObject>();
 
     // Translation vector relative to the player for comments placement
     private static Vector3 commentsPosition = Vector3.left * 0.7f + Vector3.down * 0.1f;
+
     // Position and rotation for the next comment
     public static Vector3 nextCommentPosition;
     public static Quaternion nextCommentRotation;
+
     // Offset vector to separate comments
     public static Vector3 commentOffset = new Vector3(-0.05f, 0, 0.05f);
 
@@ -102,21 +102,6 @@ public class CommentGameObject : Grabbable
         }
     }
 
-    private void Start()
-    {
-
-    }
-
-
-    private void OnEnable()
-    {
-        // Set position and rotation of this comment
-        transform.position = nextCommentPosition;
-        transform.rotation = nextCommentRotation;
-        // We add an offset on position for next comments
-        nextCommentPosition = transform.TransformPoint(commentOffset);
-    }
-
     private void OnDisable()
     {
 
@@ -127,10 +112,18 @@ public class CommentGameObject : Grabbable
 
     }
 
+    public void PlaceComment()
+    {
+        // Set position and rotation of this comment
+        transform.position = nextCommentPosition;
+        transform.rotation = nextCommentRotation;
+        // We add an offset on position for next comments
+        nextCommentPosition = transform.TransformPoint(commentOffset);
+    }
+
     public void DeleteComment()
     {
         Comment.commentsList.Find((Comment c) => { return c.IdComment == idComment; }).Delete();
-        commentsGameObjectList.Remove(gameObject);
         Destroy(gameObject);
     }
 

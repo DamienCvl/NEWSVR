@@ -19,7 +19,7 @@ namespace Assets.Scripts.Core
         public static List<Comment> commentsList = new List<Comment>();
 
         //null comment
-        public Comment(){}
+        public Comment(){ this.Author = null; }
 
         public Comment(uint idComment, DateTime date, string content, string author)
         {
@@ -32,10 +32,11 @@ namespace Assets.Scripts.Core
         public void GenerateGameObject(Transform commentParent)
         {
             GameObject comment = UnityEngine.Object.Instantiate(commentPreFab, commentParent);
-            comment.GetComponent<CommentGameObject>().FillText(Content);
-            comment.GetComponent<CommentGameObject>().FillAuthor(Author);
-            comment.GetComponent<CommentGameObject>().idComment = IdComment;
-            comment.GetComponent<CommentGameObject>().DestroyButtons();
+            CommentGameObject cmtGO = comment.GetComponent<CommentGameObject>();
+            cmtGO.FillText(Content);
+            cmtGO.FillAuthor(Author);
+            cmtGO.idComment = IdComment;
+            cmtGO.DestroyButtons();
 
             // Add the delete comments option if the current player is the one who made the comments before.
             if (Author == StaticClass.CurrentPlayerName)
@@ -43,7 +44,7 @@ namespace Assets.Scripts.Core
                 comment.GetComponent<CommentGameObject>().DeleteButton.SetActive(true);
             }
 
-            CommentGameObject.commentsGameObjectList.Add(comment);
+            cmtGO.PlaceComment();
         }
 
         public void Delete()

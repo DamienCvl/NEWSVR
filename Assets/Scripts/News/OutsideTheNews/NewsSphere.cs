@@ -131,7 +131,7 @@ namespace Valve.VR.InteractionSystem
             // Free the news sphere and put it back to his initial location
             canGoToTheHead = false;
 
-            // Active the news
+            // Active the news. Trigger OnEnable in NewsPanel which activate comments and many stuff.
             InTheNews.SetActive(true);
 
             // Set up the NewsEnvironnement
