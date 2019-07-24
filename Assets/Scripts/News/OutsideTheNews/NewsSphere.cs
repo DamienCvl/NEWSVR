@@ -115,6 +115,13 @@ namespace Valve.VR.InteractionSystem
             // Set the id of the news opened in StaticClass
             StaticClass.CurrentNewsId = news.Id;
 
+            // Desactivate beacon linked to the news if it is activated
+            if (StaticClass.newsBeaconedList.Contains(news.Id))
+            {
+                StaticClass.newsBeaconedList.Remove(news.Id);
+                news.beacon.SetActive(false);
+            }
+            
             // Add 1 to the view number in the database
             ViewNbr.GetComponent<ViewNbrView>().Add1ViewNbr();
 
@@ -148,7 +155,6 @@ namespace Valve.VR.InteractionSystem
             canGoToTheHead = false;
 
             // Put the news panel away
-            InTheNews.GetComponent<FloatPlacementComments>().ForCommentsPlacement = 0f;
             InTheNews.SetActive(false);
 
             // Put the news environnement away

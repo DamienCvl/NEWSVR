@@ -53,12 +53,12 @@ namespace Valve.VR.InteractionSystem
             playerFirstTransform = player.hmdTransform;
 
             // Put the news in front of the player every time the player pick up the newsSphere
-            Vector3 faceDirection = new Vector3(playerFirstTransform.forward.x, 0, playerFirstTransform.forward.z);
-            transform.position = playerFirstTransform.position + (faceDirection * panelDistance) + Vector3.down * panelHeightDownOffset;
+            Vector3 faceDirection = new Vector3(playerFirstTransform.forward.x, 0, playerFirstTransform.forward.z).normalized;
+            transform.position = playerFirstTransform.position + (faceDirection * panelDistance) + (Vector3.down * panelHeightDownOffset);
             transform.rotation = Quaternion.LookRotation(faceDirection, Vector3.up);
 
             // Set first comment position
-            CommentGameObject.SetFirstCommentPosition(playerFirstTransform);
+            CommentGameObject.SetFirstCommentPosition(playerFirstTransform, transform.rotation);
 
             // Load all the comments from the database associate to the news
             Comment.commentsList = Database.QueryComments(newsGameObject.Id);
@@ -66,12 +66,13 @@ namespace Valve.VR.InteractionSystem
             // Generate N first gameobject comments (N = user setting in StaticClass)
             CommentGameObject.GenerateComments(commentParent);
 
-            oldCommentsScroll.SetActive(true);
             comments.SetActive(true);
 
-            // Set tag list above the news content
-            tagsGO.transform.position = transform.TransformPoint(new Vector3(-0.35f, 0.72f, 0));
-            tagsGO.transform.rotation = transform.rotation;
+            // Display old comments scroll if there are old comments to display (depend on user setting) 
+            if (StaticClass.nbrCommentDisplayed < Comment.commentsList.Count)
+            {
+                oldCommentsScroll.SetActive(true);
+            }
         }
 
         private void OnDisable()
