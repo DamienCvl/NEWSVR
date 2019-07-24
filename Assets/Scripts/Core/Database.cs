@@ -77,7 +77,7 @@ namespace Assets.Scripts.Core
             MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews, NEWS.title, NEWS.text, NEWS.positionX, NEWS.positionZ, NEWS.nbView, NEWS.nbComment, NEWS.creationDate FROM NEWS ORDER BY creationDate DESC;", con);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
 
-            List<string> tagsTemp = new List<string>();
+            List<string> tagsTemp;
 
             try
             {
@@ -85,7 +85,8 @@ namespace Assets.Scripts.Core
                 {
                     
                     while (reader.Read())
-                    {                               
+                    {
+                        tagsTemp = new List<string>();
                         StaticClass.newsList.Add(new News(reader.GetUInt32(0), reader.GetString(1), reader.GetString(2), reader.GetFloat(3), reader.GetFloat(4), reader.GetUInt32(5), reader.GetUInt32(6), reader.GetDateTime(7), tagsTemp));
                     }
                     reader.Dispose();
@@ -99,16 +100,14 @@ namespace Assets.Scripts.Core
             reader.Dispose();
             cmdSQL.Dispose();
 
-
-            uint idNewsTemp = 1;
-            MySqlCommand cmdSQLtags = new MySqlCommand("SELECT * FROM TOPICS WHERE idNews = @dbIdNews ;", con);
-            cmdSQLtags.Parameters.AddWithValue("@dbIdNews", idNewsTemp);
-            MySqlDataReader readerTags = cmdSQLtags.ExecuteReader();
-
             try
             {
                 foreach (News n in StaticClass.newsList)
                 {
+                    MySqlCommand cmdSQLtags = new MySqlCommand("SELECT * FROM TOPICS WHERE idNews = @dbIdNews ;", con);
+                    cmdSQLtags.Parameters.AddWithValue("@dbIdNews", n.GetId());
+                    MySqlDataReader readerTags = cmdSQLtags.ExecuteReader();
+
                     if (readerTags.HasRows)
                     {
                         while (readerTags.Read())
@@ -116,8 +115,9 @@ namespace Assets.Scripts.Core
                             n.GetTags().Add(readerTags.GetString(1));
                         }
                     }
-
-                    idNewsTemp++;
+                    Debug.Log(n.GetTags().Count);
+                    readerTags.Dispose();
+                    cmdSQL.Dispose();
                 }
             }
             catch (IOException ex)
@@ -125,8 +125,8 @@ namespace Assets.Scripts.Core
                 Debug.Log(ex.ToString());
             }
 
-            readerTags.Dispose();
-            cmdSQL.Dispose();
+
+           
             DisconnectDB();
         }
 
@@ -313,7 +313,6 @@ namespace Assets.Scripts.Core
         {
             ConnectDB();
             StaticClass.tagPrefColorList.Clear();
-            Debug.Log(StaticClass.tagPrefColorList.Count);
             MySqlCommand cmdSQL = new MySqlCommand("SELECT tagName, color FROM `NOTIFICATIONS` WHERE idPlayer= @dbUserId;", con);
             cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
@@ -340,7 +339,7 @@ namespace Assets.Scripts.Core
                     
                     foreach (string s in Database.GetTags())
                     {
-                        StaticClass.tagPrefColorList.Add(s, Color.white);
+                        StaticClass.tagPrefColorList.Add(s, StaticClass.tagDefaultColor);
                     }
                 }
             }
