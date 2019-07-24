@@ -43,7 +43,7 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         //DisplayNews();
-
+        Database.GetTagColors();
         if (StaticClass.CurrentPlayerName != "")
         {
             state.text = "User log :  " + StaticClass.CurrentPlayerName;
@@ -94,9 +94,6 @@ public class MainMenu : MonoBehaviour
                     //TODO ugly way to refresh the content
                     content.SetActive(false);
                     content.SetActive(true);
-
-
-                    Debug.Log(StaticClass.newsBeaconedList.Count());
                 }
             );
 

@@ -113,10 +113,6 @@ public class Profil : MonoBehaviour
             copy.transform.parent = content.transform;
             copy.transform.GetComponentInChildren<Text>().text = s;
 
-
-            Debug.Log(StaticClass.tagPrefColorList.Count);
-            Debug.Log(s);
-
             Color c;
             if (StaticClass.tagPrefColorList.ContainsKey(s))
             {
@@ -165,13 +161,11 @@ public class Profil : MonoBehaviour
     {
         savePrompt.text = "";  //clear the prompt
         bool isColorSaved = true;
-        StaticClass.tagPrefColorList.Clear();
         foreach (GameObject ob in tagList)
         {
             string text = ob.GetComponentInChildren<Text>().text;
             Color color = ob.GetComponent<Button>().colors.normalColor;
-            StaticClass.tagPrefColorList.Add(text, color);
-            if (!Database.SaveTagColorChoice(text, ColorUtility.ToHtmlStringRGB(color))) {
+            if (!Database.ChangeTagColorChoice(text, "#"+ColorUtility.ToHtmlStringRGB(color))) {
                 isColorSaved = false;
                 Debug.Log(text);
                 break;  // if one time the color save process failed, stop the loop

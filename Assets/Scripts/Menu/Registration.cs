@@ -56,6 +56,12 @@ public class Registration : MonoBehaviour
             {
                 if(Database.InsertNewPlayer(nameField.text, passwordField.text))
                 {
+                    //initialize every colortags to white for the player
+                    foreach (string s in Database.GetTags())
+                    {
+                        Database.InsertTagColorChoice(s, nameField.text);
+                    }
+
                     state.color = Color.green;
                     state.text = "User created sucessfully.";
                     emptyRuleField.text = "";
