@@ -33,6 +33,7 @@ public static class StaticClass {
     // Tags settings
     public static List<uint> newsBeaconedList = new List<uint>();
     public static Dictionary<string, Color> tagPrefColorList = new Dictionary<string, Color>();
+    public static Color tagDefaultColor = new Color(255, 255, 175);
 
 
     //return the uclidian distance between a new's location and the spawn

@@ -27,7 +27,7 @@ public class TagListGameObject : MonoBehaviour
                 }
                 else
                 {
-                    color = Color.white;
+                    color = StaticClass.tagDefaultColor;
                 }
                 color.a = 100f / 255f;
                 GameObject tagGO = Instantiate(tagPreFab, transform);
