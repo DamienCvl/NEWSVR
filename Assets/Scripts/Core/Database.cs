@@ -655,6 +655,33 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
+        static public Comment GetLastComment()
+        {
+            ConnectDB();
+            Comment cmt = new Comment();
+            MySqlCommand cmdLastComment = new MySqlCommand("SELECT idComment,date,text FROM COMMENTS WHERE idPlayer = @dbIdPlayer AND idNews = @dbIdNews ORDER BY idComment DESC LIMIT 1;", Database.con);
+            cmdLastComment.Parameters.AddWithValue("@dbIdPlayer", StaticClass.CurrentPlayerId);
+            cmdLastComment.Parameters.AddWithValue("@dbIdNews", StaticClass.CurrentNewsId);
+            MySqlDataReader reader = cmdLastComment.ExecuteReader();
+
+            try
+            {
+                if (reader.Read())
+                {               
+                    cmt = new Comment(reader.GetUInt32(0), reader.GetDateTime(1), reader.GetString(2), StaticClass.CurrentPlayerName);                                       
+                }
+
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+            reader.Dispose();
+            cmdLastComment.Dispose();
+            con.Dispose();
+            DisconnectDB();
+            return cmt;
+        }
 
 
         /******************/

@@ -18,6 +18,9 @@ namespace Assets.Scripts.Core
 
         public static List<Comment> commentsList = new List<Comment>();
 
+        //null comment
+        public Comment(){}
+
         public Comment(uint idComment, DateTime date, string content, string author)
         {
             this.IdComment = idComment;
