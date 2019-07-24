@@ -505,11 +505,11 @@ namespace Assets.Scripts.Core
         /* 5 - Comments **/
         /******************/
         /******************/
-        internal static string ReadComntNum(uint id)
+        internal static string ReadComntNum(uint idNews)
         {
             ConnectDB();
             MySqlCommand cmdSQL = new MySqlCommand("SELECT nbComment FROM NEWS WHERE idNews = @dbNewsId", con);
-            cmdSQL.Parameters.AddWithValue("@dbNewsId", id);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
             string response;
 
@@ -552,7 +552,9 @@ namespace Assets.Scripts.Core
             try
             {
                 reader.Read();               
-                cmdSQL.Dispose();                                 
+                cmdSQL.Dispose();
+                Add1CommentToPlayer();
+                Add1CommentToNews();
             }
             catch (IOException ex)
             {
@@ -582,44 +584,11 @@ namespace Assets.Scripts.Core
         }
 
 
-        static public List<Comment> QueryComments(uint idNews)
+        public static void Add1CommentToNews()
         {
             ConnectDB();
-            List<Comment> cmntList = new List<Comment>();
-
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT idComment,date,text,PLAYERS.name FROM `COMMENTS` INNER JOIN PLAYERS ON COMMENTS.idPlayer = PLAYERS.idPlayer WHERE IdNews = "+idNews+" ORDER BY date DESC;", con);
-            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
-            MySqlDataReader reader = cmdSQL.ExecuteReader();
-           
-
-            try
-            {
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        cmntList.Add(new Comment(reader.GetUInt32(0), reader.GetDateTime(1), reader.GetString(2), reader.GetString(3)));
-                    }
-                    reader.Dispose();
-                }
-
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex.ToString());
-                cmdSQL.Dispose();
-                reader.Dispose();
-            }
-            DisconnectDB();
-            return cmntList;
-        }
-    
-
-        public static void Add1ComntToPlayer()
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfComment = nbOfComment + 1 WHERE  name = @dbUserId", con);
-            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbComment = nbComment + 1 WHERE  idNews = @dbUserId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNEwsId", StaticClass.CurrentNewsId);
 
             try
             {
@@ -644,6 +613,8 @@ namespace Assets.Scripts.Core
             try
             {
                 cmdDeleteAction.ExecuteReader();
+                Remove1CommentToPlayer();
+                Remove1CommentToNews();
             }
             catch (IOException ex)
             {
@@ -654,6 +625,79 @@ namespace Assets.Scripts.Core
             con.Dispose();
             DisconnectDB();
         }
+
+        public static void Remove1CommentToPlayer()
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYER SET nbOfComment = nbOfComment - 1 WHERE name = @dbUserId", con);
+            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+                cmdSQL.Dispose();
+            }
+            catch (IOException ex)
+            {
+                cmdSQL.Dispose();
+                Debug.Log(ex);
+            }
+            DisconnectDB();
+        }
+
+
+        public static void Remove1CommentToNews()
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbComment = nbComment - 1 WHERE  idNews = @dbUserId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNEwsId", StaticClass.CurrentNewsId);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+                cmdSQL.Dispose();
+            }
+            catch (IOException ex)
+            {
+                cmdSQL.Dispose();
+                Debug.Log(ex);
+            }
+            DisconnectDB();
+        }
+
+
+        static public List<Comment> QueryComments(uint idNews)
+        {
+            ConnectDB();
+            List<Comment> cmntList = new List<Comment>();
+
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT idComment,date,text,PLAYERS.name FROM `COMMENTS` INNER JOIN PLAYERS ON COMMENTS.idPlayer = PLAYERS.idPlayer WHERE IdNews = " + idNews + " ORDER BY date DESC;", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+
+            try
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        cmntList.Add(new Comment(reader.GetUInt32(0), reader.GetDateTime(1), reader.GetString(2), reader.GetString(3)));
+                    }
+                    reader.Dispose();
+                }
+
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex.ToString());
+                cmdSQL.Dispose();
+                reader.Dispose();
+            }
+            DisconnectDB();
+            return cmntList;
+        }
+
 
         static public Comment GetLastComment()
         {
