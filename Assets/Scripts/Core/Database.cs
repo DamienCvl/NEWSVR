@@ -161,6 +161,7 @@ namespace Assets.Scripts.Core
                 Debug.Log(ex);
                 response = 6;  ///default number shown
             }
+            reader.Dispose();
             DisconnectDB();
             return response;
         }
@@ -195,6 +196,7 @@ namespace Assets.Scripts.Core
                 Debug.Log(ex);
                 response = 0;  ///default position
             }
+            reader.Dispose();
             DisconnectDB();
             return response;
         }
@@ -237,6 +239,7 @@ namespace Assets.Scripts.Core
                 cmdVerifName.Dispose();
                 response = false;
             }
+
             DisconnectDB();
             return response;
         }
@@ -348,6 +351,7 @@ namespace Assets.Scripts.Core
                 Debug.Log(ex.ToString());
                 cmdSQL.Dispose();
             }
+            reader.Dispose();
             DisconnectDB();
         }
 
@@ -376,6 +380,7 @@ namespace Assets.Scripts.Core
                 cmdSQL.Dispose();
                 response = "" + ex;
             }
+            reader.Dispose();
             DisconnectDB();
             return response;
         }
@@ -404,6 +409,7 @@ namespace Assets.Scripts.Core
                 Debug.Log(ex);
                 res = false;
             }
+            reader.Dispose();
             DisconnectDB();
             return res;
         }
@@ -455,15 +461,17 @@ namespace Assets.Scripts.Core
                     {
                         tagsList.Add(reader.GetString(0));
                     }
-                    reader.Dispose();
+                   
                 }
                 
             }
             catch (IOException ex)
             {
                 Debug.Log(ex.ToString());
-                cmdSQL.Dispose();
             }
+
+            cmdSQL.Dispose();
+            reader.Dispose();
             DisconnectDB();
             return tagsList;
         }
@@ -518,8 +526,6 @@ namespace Assets.Scripts.Core
                 if (reader.Read())
                 {
                     int res = reader.GetInt32(0);
-                    cmdSQL.Dispose();
-                    con.Dispose();
                     response = "" + res;
                 }
                 else
@@ -529,11 +535,13 @@ namespace Assets.Scripts.Core
             }
             catch (IOException ex)
             {
-                cmdSQL.Dispose();
-                con.Dispose();
                 Debug.Log(ex);
                 response = "/";
             }
+
+            reader.Dispose();
+            cmdSQL.Dispose();
+            con.Dispose();
             DisconnectDB();
             return response;
         }
@@ -552,15 +560,15 @@ namespace Assets.Scripts.Core
             try
             {
                 reader.Read();               
-                cmdSQL.Dispose();
                 Add1CommentToPlayer();
                 Add1CommentToNews();
             }
             catch (IOException ex)
             {
-                cmdSQL.Dispose();
                 Debug.Log(ex);
-            }      
+            }
+            reader.Dispose();
+            cmdSQL.Dispose();
             DisconnectDB();
         }
 
@@ -676,16 +684,16 @@ namespace Assets.Scripts.Core
                     {
                         cmntList.Add(new Comment(reader.GetUInt32(0), reader.GetDateTime(1), reader.GetString(2), reader.GetString(3)));
                     }
-                    reader.Dispose();
                 }
 
             }
             catch (IOException ex)
             {
                 Debug.Log(ex.ToString());
-                cmdSQL.Dispose();
-                reader.Dispose();
+                
             }
+            cmdSQL.Dispose();
+            reader.Dispose();
             DisconnectDB();
             return cmntList;
         }
@@ -804,8 +812,7 @@ namespace Assets.Scripts.Core
                 if (reader.Read())
                 {
                     response = Convert.ToString(reader.GetUInt32(0));
-                    cmdSQL.Dispose();
-                    con.Dispose();
+                    
                 }
                 else
                 {
@@ -815,11 +822,12 @@ namespace Assets.Scripts.Core
             }
             catch (IOException ex)
             {
-                cmdSQL.Dispose();
-                con.Dispose();
                 Debug.Log(ex);
                 response = "/";
             }
+            reader.Dispose();
+            cmdSQL.Dispose();
+            con.Dispose();
             DisconnectDB();
             return response;
         }
@@ -837,8 +845,6 @@ namespace Assets.Scripts.Core
                 if (reader.Read())
                 {
                     int res = reader.GetInt32(0);
-                    cmdSQL.Dispose();
-                    con.Dispose();
                     response = "" + res;
                 }
                 else
@@ -848,11 +854,12 @@ namespace Assets.Scripts.Core
             }
             catch (IOException ex)
             {
-                cmdSQL.Dispose();
-                con.Dispose();
                 Debug.Log(ex);
                 response = "/";
             }
+            reader.Dispose();
+            cmdSQL.Dispose();
+            con.Dispose();
             DisconnectDB();
             return response;
         }
