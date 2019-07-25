@@ -566,7 +566,6 @@ namespace Assets.Scripts.Core
 
         public static void Add1CommentToPlayer()
         {
-            ConnectDB();
             MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfComment = nbOfComment + 1 WHERE idPlayer = @dbUserId", con);
             cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
 
@@ -579,14 +578,12 @@ namespace Assets.Scripts.Core
             {
                 cmdSQL.Dispose();
                 Debug.Log(ex);
-            }            
-            DisconnectDB();
+            }
         }
 
 
         public static void Add1CommentToNews()
         {
-            ConnectDB();
             MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbComment = nbComment + 1 WHERE  idNews = @dbNewsId", con);
             cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
 
@@ -600,7 +597,6 @@ namespace Assets.Scripts.Core
                 cmdSQL.Dispose();
                 Debug.Log(ex);
             }
-            DisconnectDB();
         }
 
 
@@ -628,7 +624,6 @@ namespace Assets.Scripts.Core
 
         public static void Remove1CommentToPlayer()
         {
-            ConnectDB();
             MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfComment = nbOfComment - 1 WHERE idPlayer = @dbUserId", con);
             cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
 
@@ -642,13 +637,11 @@ namespace Assets.Scripts.Core
                 cmdSQL.Dispose();
                 Debug.Log(ex);
             }
-            DisconnectDB();
         }
 
 
         public static void Remove1CommentToNews()
         {
-            ConnectDB();
             MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbComment = nbComment - 1 WHERE  idNews = @dbNewsId", con);
             cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
 
@@ -662,7 +655,6 @@ namespace Assets.Scripts.Core
                 cmdSQL.Dispose();
                 Debug.Log(ex);
             }
-            DisconnectDB();
         }
 
 
@@ -802,9 +794,8 @@ namespace Assets.Scripts.Core
         public static string NumOfReatcionToNews(string rea, uint idNews)
         {
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT @reaToSelect FROM NEWS WHERE idNews = @dbNewsId", con);
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT nb"+rea+" FROM NEWS WHERE idNews = @dbNewsId", con);
             cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
-            cmdSQL.Parameters.AddWithValue("@reaToSelect", "nb" + rea);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
             string response;
 
@@ -812,10 +803,9 @@ namespace Assets.Scripts.Core
             {
                 if (reader.Read())
                 {
-                    int res = reader.GetInt32(0);
+                    response = Convert.ToString(reader.GetUInt32(0));
                     cmdSQL.Dispose();
                     con.Dispose();
-                    response = "" + res;
                 }
                 else
                 {
