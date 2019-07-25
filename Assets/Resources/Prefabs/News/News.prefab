@@ -3657,7 +3657,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58aa183b9423ca74c95e381aff8b3892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewAreaRadius: 5
+  minimalDistantFromPlayer: 13
+  previewAreaRadius: 7
   panelPreviewPostion: {x: -0.3, y: 0, z: 0.7}
   distReticleToNews: 0
   distPlayerToNews: 0

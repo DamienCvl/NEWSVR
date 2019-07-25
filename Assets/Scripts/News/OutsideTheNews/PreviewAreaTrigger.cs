@@ -7,8 +7,8 @@ using Valve.VR;
 [RequireComponent(typeof(NewsGameObject))]
 public class PreviewAreaTrigger : MonoBehaviour
 {
-
-    public float previewAreaRadius = 5.0f;
+    public float minimalDistantFromPlayer = 13.0f;
+    public float previewAreaRadius = 7.0f;
     public Vector3 panelPreviewPostion = new Vector3(-0.3f, 0f, 0.5f);
 
     private GameObject destinationReticle;
@@ -45,14 +45,14 @@ public class PreviewAreaTrigger : MonoBehaviour
         distReticleToNews = Vector3.Distance(destinationReticle.transform.position, transform.position);
         distPlayerToNews = Vector3.Distance(followHead.transform.position, transform.position);
 
-        if (distReticleToNews <= previewAreaRadius && !isPreviewEnabled && destinationReticle.activeSelf && distPlayerToNews >= 12.0f)
+        if (distReticleToNews <= previewAreaRadius && !isPreviewEnabled && destinationReticle.activeSelf && distPlayerToNews >= minimalDistantFromPlayer)
         {
             isPreviewEnabled = true;
             newsPreviewGameObject.GetComponent<NewsPreview>().SetPreviewInfos(GetComponent<NewsGameObject>());
             newsPreviewGameObject.SetActive(true);
         }
 
-        if (isPreviewEnabled && (!(destinationReticle.activeSelf) || distReticleToNews > previewAreaRadius || distPlayerToNews < 12.0f))
+        if (isPreviewEnabled && (!(destinationReticle.activeSelf) || distReticleToNews > previewAreaRadius || distPlayerToNews < minimalDistantFromPlayer))
         {
             isPreviewEnabled = false;
             newsPreviewGameObject.SetActive(false);
