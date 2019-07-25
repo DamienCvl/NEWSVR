@@ -876,9 +876,9 @@ namespace Assets.Scripts.Core
         public static void AddReactionToDatabaseNews(string reactionType, uint idNews)
         {
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET @reaToSelect = @reaToSelect + 1 WHERE idNews = @dbNewsId", con);
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nb"+reactionType+ " = nb" + reactionType + " + 1 WHERE idNews = @dbNewsId", con);
             cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
-            cmdSQL.Parameters.AddWithValue("@reaToSelect", "nb" + reactionType);
+       
            
 
             try
