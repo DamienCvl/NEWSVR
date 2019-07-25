@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attachmentFlags: 12
   restoreOriginalParent: 1
+  commentParent: {fileID: 4971567643513768}
 --- !u!23 &23217548552541172
 MeshRenderer:
   m_ObjectHideFlags: 0

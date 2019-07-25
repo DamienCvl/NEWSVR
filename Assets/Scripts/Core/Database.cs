@@ -567,7 +567,7 @@ namespace Assets.Scripts.Core
         public static void Add1CommentToPlayer()
         {
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYER SET nbOfComment = nbOfComment + 1 WHERE name = @dbUserId", con);
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfComment = nbOfComment + 1 WHERE idPlayer = @dbUserId", con);
             cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
 
             try
@@ -587,8 +587,8 @@ namespace Assets.Scripts.Core
         public static void Add1CommentToNews()
         {
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbComment = nbComment + 1 WHERE  idNews = @dbUserId", con);
-            cmdSQL.Parameters.AddWithValue("@dbNEwsId", StaticClass.CurrentNewsId);
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbComment = nbComment + 1 WHERE  idNews = @dbNewsId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
 
             try
             {
@@ -607,7 +607,7 @@ namespace Assets.Scripts.Core
         static public void DeleteComment(uint id)
         {
             ConnectDB();
-            MySqlCommand cmdDeleteAction = new MySqlCommand("DELETE FROM COMMENTS WHERE ID = @dbIdComment;", Database.con);
+            MySqlCommand cmdDeleteAction = new MySqlCommand("DELETE FROM COMMENTS WHERE idComment = @dbIdComment;", Database.con);
             cmdDeleteAction.Parameters.AddWithValue("@dbIdComment", id);
 
             try
@@ -629,7 +629,7 @@ namespace Assets.Scripts.Core
         public static void Remove1CommentToPlayer()
         {
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYER SET nbOfComment = nbOfComment - 1 WHERE name = @dbUserId", con);
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfComment = nbOfComment - 1 WHERE idPlayer = @dbUserId", con);
             cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
 
             try
@@ -649,8 +649,8 @@ namespace Assets.Scripts.Core
         public static void Remove1CommentToNews()
         {
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbComment = nbComment - 1 WHERE  idNews = @dbUserId", con);
-            cmdSQL.Parameters.AddWithValue("@dbNEwsId", StaticClass.CurrentNewsId);
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbComment = nbComment - 1 WHERE  idNews = @dbNewsId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
 
             try
             {

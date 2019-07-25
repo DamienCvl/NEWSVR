@@ -1150,7 +1150,7 @@ MonoBehaviour:
   attachmentFlags: 12
   restoreOriginalParent: 0
   Buttons: {fileID: 1485874285643480}
-  Comment: {fileID: 1523905128466686}
+  comment: {fileID: 1523905128466686}
 --- !u!1 &1336593767827138
 GameObject:
   m_ObjectHideFlags: 0
@@ -1826,8 +1826,8 @@ MonoBehaviour:
   content: {fileID: 1898067572951730}
   Buttons: {fileID: 1485874285643480}
   Author: {fileID: 102609096603548476}
-  idComment: 0
   DeleteButton: {fileID: 1336593767827138}
+  idComment: 0
   textOfComment: 
 --- !u!114 &114838081238745492
 MonoBehaviour:
@@ -2178,7 +2178,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1789290763504220}
-  m_Text: Hello World
+  m_Text: 
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1

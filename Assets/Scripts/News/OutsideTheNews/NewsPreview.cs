@@ -14,6 +14,8 @@ public class NewsPreview : MonoBehaviour
     public ViewNbrComment viewNbrComment;
     public ViewNbrView viewNbrView;
 
+    private bool refresh = false;
+
 
     // Use to get infos from the news pointed on and display its
     public void SetPreviewInfos(NewsGameObject news)
@@ -53,12 +55,18 @@ public class NewsPreview : MonoBehaviour
         foreach (Transform tag in tagList.gameObject.transform)
         {
             Destroy(tag.gameObject);
-        }   
+        }
+        refresh = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (!refresh && tagList.transform.childCount > 0)
+        {
+            tagList.transform.GetChild(0).gameObject.SetActive(false);
+            tagList.transform.GetChild(0).gameObject.SetActive(true);
+            refresh = true;
+        }
     }
 }
