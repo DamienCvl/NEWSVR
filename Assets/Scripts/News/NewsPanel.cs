@@ -28,8 +28,7 @@ namespace Valve.VR.InteractionSystem
         public float panelDistance = 0.8f;
         // Change this parameter to change the heigth of the news item, microphone and reaction box.
         public float panelHeightDownOffset = 0.3f;
-
-        public NewsGameObject newsGameObject;
+        
         public Transform commentParent;
         public GameObject contentNews;
         public GameObject comments;
@@ -58,10 +57,10 @@ namespace Valve.VR.InteractionSystem
             transform.rotation = Quaternion.LookRotation(faceDirection, Vector3.up);
 
             // Set first comment position
-            CommentGameObject.SetFirstCommentPosition(playerFirstTransform, transform.rotation);
+            CommentGameObject.SetFirstCommentPosition(playerFirstTransform);
 
             // Load all the comments from the database associate to the news
-            Comment.commentsList = Database.QueryComments(newsGameObject.Id);
+            Comment.commentsList = Database.QueryComments(StaticClass.CurrentNewsId);
 
             // Generate N first gameobject comments (N = user setting in StaticClass)
             CommentGameObject.GenerateComments(commentParent);

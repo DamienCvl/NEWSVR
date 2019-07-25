@@ -1102,7 +1102,7 @@ MonoBehaviour:
     needsReinit: 0
   panelDistance: 0.8
   panelHeightDownOffset: 0.5
-  newsGameObject: {fileID: 4864526121448403360}
+  newsGameObject: {fileID: 0}
   commentParent: {fileID: 4971567643513768}
   contentNews: {fileID: 1622781136838476}
   comments: {fileID: 1843407421984924}
