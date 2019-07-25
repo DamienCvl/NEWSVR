@@ -728,12 +728,20 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
+       
+        //just to make sure they are always called together
+        public static void CountView()
+        {
+            Add1ViewToNews();
+            Add1ViewToPlayer();
+        }
+
         //Call when a player pick a news
-        public static void Add1ViewToNews(uint idNews)
+        static void Add1ViewToNews()
         {
             ConnectDB();
             MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbView = nbView + 1 WHERE idNews = @dbNewsId", con);
-            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
 
             try
             {
@@ -749,7 +757,7 @@ namespace Assets.Scripts.Core
         }
 
         //Call when a player pick a news
-        public static void Add1ViewToPlayer()
+        static void Add1ViewToPlayer()
         {
             ConnectDB();
             MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfView = nbOfView + 1 WHERE idPlayer = @dbUserId", con);
@@ -844,6 +852,94 @@ namespace Assets.Scripts.Core
                 Debug.Log(ex);
             }
 
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
+        /********************/
+        /********************/
+        /******  VIEW  ******/
+        /********************/
+        /********************/
+
+        static void InsertDateTimeView()
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO VIEWS (idNews, idPlayer, `dateLatestView`) VALUES (@dbNewsId,@dbPlayerId,@dbDateTime);", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
+            cmdSQL.Parameters.AddWithValue("@dbPlayerId", StaticClass.CurrentPlayerId);
+            cmdSQL.Parameters.AddWithValue("@dbDateTime", DateTime.Now);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
+        static void UpdateDateTimeView()
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE VIEWS SET `dateLatestView` = @dbDateTime WHERE idNews = @dbNewsId AND idPlayer = @dbPlayerId;", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
+            cmdSQL.Parameters.AddWithValue("@dbPlayerId", StaticClass.CurrentPlayerId);
+            cmdSQL.Parameters.AddWithValue("@dbDateTime", DateTime.Now);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
+        //Count the view if the last time the player saw this news is less than 10 min
+        public static void ViewCountApproval()
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT `dateLatestView` FROM VIEWS WHERE `idNews` =  @dbNewsId AND `idPlayer` = @dbPlayerId;", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
+            cmdSQL.Parameters.AddWithValue("@dbPlayerId", StaticClass.CurrentPlayerId);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                if (reader.HasRows)
+                {
+                    
+                    reader.Read();
+                    DateTime dt = reader.GetDateTime(0);
+
+                    //true if the save datetime is at least passed by 10 minutes
+                    if (DateTime.Compare(dt.AddMinutes(1), DateTime.Now) <= 0)
+                    {
+                        UpdateDateTimeView();
+                        CountView();
+                    }
+                }
+                else
+                {
+                    InsertDateTimeView();
+                    CountView(); //if there is no result, the player never saw this news, so we approved the view count
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            reader.Dispose();
             cmdSQL.Dispose();
             DisconnectDB();
         }

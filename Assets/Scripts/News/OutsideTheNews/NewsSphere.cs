@@ -121,9 +121,8 @@ namespace Valve.VR.InteractionSystem
                 StaticClass.newsBeaconedList.Remove(news.Id);
                 news.beacon.SetActive(false);
             }
-            
-            // Add 1 to the view number in the database
-            ViewNbr.GetComponent<ViewNbrView>().Add1ViewNbr();
+
+            Database.ViewCountApproval();
 
             // Update the view number above the sphere
             ViewNbr.GetComponent<ViewNbrView>().ReadViewNbr();
@@ -136,9 +135,6 @@ namespace Valve.VR.InteractionSystem
 
             // Set up the NewsEnvironnement
             NewsEnvironnement.SetActive(true);
-
-            // Add 1 to the number of news that the current player read
-            Database.Add1ViewToPlayer();
 
             // Put the sphere in green when in the news and smaller
             mat.color = Color.green;
