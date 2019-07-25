@@ -41,21 +41,10 @@ namespace Valve.VR.InteractionSystem
         // Used to see if there is a hand to release when you go out of the news and which one it is
         private Hand handToRelease;
 
-        private void Start()
+        private bool loadComment = false;
+
+        public void LoadComment()
         {
-            whereIsTheArticle = 0.0f;
-        }
-
-        private void OnEnable()
-        {
-            player = FindObjectOfType<Player>();
-            playerFirstTransform = player.hmdTransform;
-
-            // Put the news in front of the player every time the player pick up the newsSphere
-            Vector3 faceDirection = new Vector3(playerFirstTransform.forward.x, 0, playerFirstTransform.forward.z).normalized;
-            transform.position = playerFirstTransform.position + (faceDirection * panelDistance) + (Vector3.down * panelHeightDownOffset);
-            transform.rotation = Quaternion.LookRotation(faceDirection, Vector3.up);
-
             // Set first comment position
             CommentGameObject.SetFirstCommentPosition(playerFirstTransform);
 
@@ -72,6 +61,33 @@ namespace Valve.VR.InteractionSystem
             {
                 oldCommentsScroll.SetActive(true);
             }
+        }
+
+        private void Start()
+        {
+            whereIsTheArticle = 0.0f;
+        }
+
+        private void Update()
+        {
+            if (loadComment)
+            {
+                LoadComment();
+                loadComment = false;
+            }
+        }
+
+        private void OnEnable()
+        {
+            player = FindObjectOfType<Player>();
+            playerFirstTransform = player.hmdTransform;
+
+            // Put the news in front of the player every time the player pick up the newsSphere
+            Vector3 faceDirection = new Vector3(playerFirstTransform.forward.x, 0, playerFirstTransform.forward.z).normalized;
+            transform.position = playerFirstTransform.position + (faceDirection * panelDistance) + (Vector3.down * panelHeightDownOffset);
+            transform.rotation = Quaternion.LookRotation(faceDirection, Vector3.up);
+
+            loadComment = true;
         }
 
         private void OnDisable()
