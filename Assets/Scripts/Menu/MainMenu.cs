@@ -42,7 +42,6 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        //DisplayNews();
         Database.GetTagColors();
         if (StaticClass.CurrentPlayerName != "")
         {
@@ -72,6 +71,18 @@ public class MainMenu : MonoBehaviour
             copy.transform.GetComponentInChildren<Text>().text = n.GetTitle() + "\n" + n.GetTagsToString() + " - " + n.GetDist() + "m - ("+n.GetViews()+"-"+n.GetNbComment()+").";
             copy.SetActive(true);
 
+            if (StaticClass.newsBeaconedList.Exists(x => x == n.GetId()))
+            {
+                ColorBlock cb = copy.GetComponent<Button>().colors;
+                cb.normalColor = n.GetNewsColor();
+                copy.GetComponent<Button>().colors = cb; 
+            }
+            else
+            {
+                copy.GetComponent<Button>().colors = notifTemplate.GetComponent<Button>().colors;
+            }
+
+           
 
             copy.GetComponent<Button>().onClick.AddListener(
                 () =>
@@ -100,68 +111,6 @@ public class MainMenu : MonoBehaviour
             listBtnNews.Add(copy);
         }
     }
-
-
-
-
-
-//TODO: Add a parameter in order to know how to sort
-/* public void DisplayNews()
- {
-
-     int index;
-     int nbTotalNews = StaticClass.newsList.Count;
-
-     if (nbTotalNews >= 10)
-     {
-         index = 10;
-     }
-     else
-     {
-         index = nbTotalNews;
-     }
-
-     for(int i=0 ; i < index; i++)
-     {
-         News n = StaticClass.newsList[i];
-         listBtnNews[i].gameObject.SetActive(true);
-         listBtnNews[i].GetComponentInChildren<Text>().text = n.GetTitle() + "\n" + n.GetTagsToString() + " - " + n.GetDist() + "m .";
-
-     }
-
-
- }
-
-
-
-
-
- public void OnClickNewsActivateBeacon(Button temp)
- {
-
-     int index = listBtnNews.FindIndex(a => a == temp);
-     News n = StaticClass.newsList[index]; ///changer pour mettre la liste [10] de´s news "active" (en place actuellement)
-
-     if( StaticClass.newsBeaconedList.Exists(x => x == n.GetId()) )
-     {
-
-         StaticClass.newsBeaconedList.Remove(n.GetId());
-         temp.colors = ColorBlock.defaultColorBlock;
-     }
-     else
-     {
-         StaticClass.newsBeaconedList.Add(n.GetId());
-         Color color = StaticClass.tagPrefColorList[n.GetTags()[0]];  // we take the choosen color (by the player) of the "main" (first) tag of the news
-
-         ColorBlock cb = temp.colors;
-         cb.normalColor = color;
-         temp.colors = cb;
-     }
-
-
-
- }*/
-
 
 /**************************/
 /****** MENU BUTTONS ******/
@@ -215,33 +164,41 @@ public void GoToRegister()
     }
 
 
+    /**************************************/
+    /****** NOTIFICATION LIST ACTION ******/
+    /**************************************/
 
+    //Date sort action
     public void NotifSortedByDate()
     {
         ClearNotification();
-        DisplayNews(StaticClass.newsList); 
+        List<News> SortedList = StaticClass.newsList.OrderBy(o => o.GetDate()).ToList();
+        DisplayNews(SortedList);
     }
-    
-    //Closest
+
+    //Closest sort action
     public void NotifSortedByDist()
     {
         ClearNotification();
         List<News> SortedList = StaticClass.newsList.OrderBy(o => o.GetDist()).ToList();
         DisplayNews(SortedList);
     }
-
+    //Popularity sort action
     public void NotifSortedByPoularity()
     {
         ClearNotification();
         List<News> SortedList = StaticClass.newsList.OrderByDescending(o => o.GetViews()).ToList();
         DisplayNews(SortedList);
     }
-
+    //Tag sort action
     public void NotifSortedByTag()
     {
-
+        
+        ClearNotification();
+        DisplayNews(StaticClass.newsList);
     }
 
+    //Clear the notification list
     public void ClearNotification()
     {
         if(listBtnNews.Count > 0)
@@ -251,7 +208,8 @@ public void GoToRegister()
                 Destroy(go);
             }
             listBtnNews.Clear();
-            StaticClass.newsBeaconedList.Clear();
+            Debug.Log(StaticClass.newsBeaconedList.Count);
+           // StaticClass.newsBeaconedList.Clear();
         }
     }
 }
