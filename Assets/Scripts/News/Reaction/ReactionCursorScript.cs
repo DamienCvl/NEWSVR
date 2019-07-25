@@ -37,18 +37,17 @@ namespace Valve.VR.InteractionSystem
         private bool attached = false;
 
         public GameObject Highlight;
-        public NewsGameObject news;
        
 
-        private Vector3 scale;
-        private Quaternion rotation;
+        //private Vector3 scale;
+        //private Quaternion rotation;
 
         private void Start()
         {
             // Resolve the bug that the cursor will grow when release in vr (don't know where that come from)
             // Not really resolve but a bit better.
-            scale = this.gameObject.transform.localScale;
-            rotation = this.gameObject.transform.rotation;
+            //scale = this.gameObject.transform.localScale;
+            //rotation = this.gameObject.transform.rotation;
         }
 
         private void OnEnable()
@@ -64,14 +63,12 @@ namespace Valve.VR.InteractionSystem
                 if(transform.localPosition.z < 0f)
                 {
                     // Add 1 to Sad in NEWS table and PLAYER table
-                    Database.AddReactionToDatabaseNews("Sad", news.Id);
-                    //AddReactionToDatabasePlayer("NBRSAD");
+                    Database.AddReactionToDatabaseNews("Sad", StaticClass.CurrentNewsId);
                 }
                 else
                 {
                     // Add 1 to Angry in NEWS table and PLAYER table
-                    Database.AddReactionToDatabaseNews("Angry", news.Id);
-                    //AddReactionToDatabasePlayer("NBRANGRY");
+                    Database.AddReactionToDatabaseNews("Angry", StaticClass.CurrentNewsId);
                 }
             }
 
@@ -80,14 +77,12 @@ namespace Valve.VR.InteractionSystem
                 if (transform.localPosition.z < 0f)
                 {
                     // Add 1 to Happy in NEWS table and PLAYER table
-                    Database.AddReactionToDatabaseNews("Happy", news.Id);
-                    //AddReactionToDatabasePlayer("NBRHAPPY");
+                    Database.AddReactionToDatabaseNews("Happy", StaticClass.CurrentNewsId);
                 }
                 else
                 {
                     // Add 1 to Surprise in NEWS table and PLAYER table
-                    Database.AddReactionToDatabaseNews("Surprised", news.Id);
-                    //AddReactionToDatabasePlayer("NBRSURPRISE");
+                    Database.AddReactionToDatabaseNews("Surprised", StaticClass.CurrentNewsId);
                 }
             }
         }
@@ -185,8 +180,8 @@ namespace Valve.VR.InteractionSystem
             transform.localPosition = pos;
 
             // Fot the deformation bug but doesn't really do the job.
-            this.gameObject.transform.localScale = scale;
-            this.gameObject.transform.rotation = rotation;
+            //this.gameObject.transform.localScale = scale;
+            //this.gameObject.transform.rotation = rotation;
         }
 
 
