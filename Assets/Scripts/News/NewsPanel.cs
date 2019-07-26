@@ -28,8 +28,7 @@ namespace Valve.VR.InteractionSystem
         public float panelDistance = 0.8f;
         // Change this parameter to change the heigth of the news item, microphone and reaction box.
         public float panelHeightDownOffset = 0.3f;
-
-        public NewsGameObject newsGameObject;
+        
         public Transform commentParent;
         public GameObject contentNews;
         public GameObject comments;
@@ -42,9 +41,40 @@ namespace Valve.VR.InteractionSystem
         // Used to see if there is a hand to release when you go out of the news and which one it is
         private Hand handToRelease;
 
+        private bool loadComment = false;
+
+        public void LoadComment()
+        {
+            // Set first comment position
+            CommentGameObject.SetFirstCommentPosition(playerFirstTransform);
+
+            // Load all the comments from the database associate to the news
+            Comment.commentsList = Database.QueryComments(StaticClass.CurrentNewsId);
+
+            // Generate N first gameobject comments (N = user setting in StaticClass)
+            CommentGameObject.GenerateComments(commentParent);
+
+            comments.SetActive(true);
+
+            // Display old comments scroll if there are old comments to display (depend on user setting) 
+            if (StaticClass.nbrCommentDisplayed < Comment.commentsList.Count)
+            {
+                oldCommentsScroll.SetActive(true);
+            }
+        }
+
         private void Start()
         {
             whereIsTheArticle = 0.0f;
+        }
+
+        private void Update()
+        {
+            if (loadComment)
+            {
+                LoadComment();
+                loadComment = false;
+            }
         }
 
         private void OnEnable()
@@ -57,22 +87,7 @@ namespace Valve.VR.InteractionSystem
             transform.position = playerFirstTransform.position + (faceDirection * panelDistance) + (Vector3.down * panelHeightDownOffset);
             transform.rotation = Quaternion.LookRotation(faceDirection, Vector3.up);
 
-            // Set first comment position
-            CommentGameObject.SetFirstCommentPosition(playerFirstTransform, transform.rotation);
-
-            // Load all the comments from the database associate to the news
-            Comment.commentsList = Database.QueryComments(newsGameObject.Id);
-
-            // Generate N first gameobject comments (N = user setting in StaticClass)
-            CommentGameObject.GenerateComments(commentParent);
-
-            comments.SetActive(true);
-
-            // Display old comments scroll if there are old comments to display (depend on user setting) 
-            if (StaticClass.nbrCommentDisplayed < Comment.commentsList.Count)
-            {
-                oldCommentsScroll.SetActive(true);
-            }
+            loadComment = true;
         }
 
         private void OnDisable()

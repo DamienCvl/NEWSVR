@@ -79,6 +79,15 @@ public class OldCommentPaperScroll : MonoBehaviour
             currentOldCommentDisplayed = cmt;
             FillText(cmt.Value.Content);
             FillAuthor(cmt.Value.Author);
+
+            if (Author.text == StaticClass.CurrentPlayerName)
+            {
+                DeleteButton.SetActive(true);
+            }
+            else
+            {
+                DeleteButton.SetActive(false);
+            }
         }
     }
 

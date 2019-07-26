@@ -11,11 +11,8 @@ using Assets.Scripts.Core;
 
 public class SadNbrView : MonoBehaviour {
 
-    public Text Title;
-    public uint idN;
-
     private void OnEnable()
     {
-        this.GetComponent<Text>().text = Database.NumOfReatcionToNews("Sad", idN);
+        this.GetComponent<Text>().text = Database.NumOfReatcionToNews("Sad", StaticClass.CurrentNewsId);
     }
 }

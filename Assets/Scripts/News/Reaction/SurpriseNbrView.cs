@@ -12,12 +12,9 @@ using Assets.Scripts.Core;
 public class SurpriseNbrView : MonoBehaviour
 {
 
-    public Text Title;
-    public uint idN;
-
     private void OnEnable()
     {
-        this.GetComponent<Text>().text = Database.NumOfReatcionToNews("Surprised", idN);
+        this.GetComponent<Text>().text = Database.NumOfReatcionToNews("Surprised", StaticClass.CurrentNewsId);
     }
 }
 

@@ -32,7 +32,6 @@ public class Profil : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
- 
         AskStatData();
         AskCommentNumberData();
         AskCommentPositionData();
@@ -84,15 +83,14 @@ public class Profil : MonoBehaviour
     void AskCommentNumberData()
     {
         PopulateDisplayNumberList();
-        int.TryParse(Database.SqlCmd("cmtNbShown"), out int res);
-        cmtNumbersDD.value = res;
+        cmtNumbersDD.value = cmtNumbersDD.options.FindIndex((x) => { return x.text == Database.SqlCmd("cmtNbShown"); });
     }
 
     void AskCommentPositionData()
     {
         PopulatePositionList();
-        string res = Database.SqlCmd("cmtPositionPref");
-        cmtPositionDD.value = cmtPositionDD.options.FindIndex((x) => { return x.text == res; });
+        int.TryParse(Database.SqlCmd("cmtPositionPref"), out int res);
+        cmtPositionDD.value = res; 
     }
 
     void AskStatData()

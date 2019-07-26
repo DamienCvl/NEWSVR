@@ -16,11 +16,6 @@ public class ViewNbrView : MonoBehaviour
 {
     public NewsGameObject news;
 
-    public void Add1ViewNbr()
-    {
-        Database.Add1ViewToNews(news.Id);
-    }
-
     public void ReadViewNbr()
     {
         this.GetComponent<TextMesh>().text = Database.ReadViewNum(news.Id);
