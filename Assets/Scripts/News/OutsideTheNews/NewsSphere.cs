@@ -171,10 +171,10 @@ namespace Valve.VR.InteractionSystem
             tpcontrol.changeTeleport(false);
 
             // Detach any object in the other hand when we grab the news sphere
-            hand.otherHand.DetachObject(hand.otherHand.currentAttachedObject);
+            if (hand.otherHand != null) hand.otherHand.DetachObject(hand.otherHand.currentAttachedObject);
 
             // Disable other hand to not grab anything
-            hand.otherHand.enabled = false;
+            if (hand.otherHand != null) hand.otherHand.enabled = false;
         }
 
 
@@ -195,7 +195,7 @@ namespace Valve.VR.InteractionSystem
                 tpcontrol.changeTeleport(true);
             }
 
-            hand.otherHand.enabled = true;
+            if (hand.otherHand != null) hand.otherHand.enabled = true;
         }
 	}
 }

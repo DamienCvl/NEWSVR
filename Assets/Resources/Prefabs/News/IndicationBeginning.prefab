@@ -837,7 +837,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114384597452582128}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4683972872228583673}
+        m_MethodName: UnderstandAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!65 &65330958141194250
@@ -964,6 +975,7 @@ GameObject:
   - component: {fileID: 65168206256077496}
   - component: {fileID: 5934901956637362678}
   - component: {fileID: 7023527995252454334}
+  - component: {fileID: 5523654379364549892}
   m_Layer: 0
   m_Name: IndicationBeginning
   m_TagString: Canvas
@@ -1125,6 +1137,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0720c5901e47df54990e67612176b456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attachmentFlags: 12
+  restoreOriginalParent: 0
+--- !u!114 &5523654379364549892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616764798901438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf72f918be392f9438a42df922beaf57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   attachmentFlags: 12
