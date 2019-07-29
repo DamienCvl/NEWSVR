@@ -13,10 +13,9 @@ using Valve.VR;
 namespace Valve.VR.InteractionSystem
 {
     [RequireComponent(typeof(Interactable))]
-    public class UnderstandButton : Grabbable
+    public class UnderstandButton : MonoBehaviour
     {
         private GameObject Teleport;
-        public SteamVR_Action_Boolean UI_Interaction_Action = SteamVR_Input.GetBooleanAction("InteractUI");
         public GameObject IndicationBegin;
         public GameObject EveryNews;
 
@@ -26,7 +25,7 @@ namespace Valve.VR.InteractionSystem
         }
 
         // Action when you click the button, delete all the begin Information
-        private void UnderstandAction()
+        public void UnderstandAction()
         {
             var tpcontrol = Teleport.GetComponent<TeleportController>();
             tpcontrol.changeTeleport(true);
@@ -36,12 +35,6 @@ namespace Valve.VR.InteractionSystem
             Destroy(IndicationBegin);
             // Wait 1 second to delete the IndicationBegin button to not cause bug
             Destroy(gameObject, 1);
-        }
-
-        //-------------------------------------------------
-        private new void OnDetachedFromHand(Hand hand)
-        {
-            UnderstandAction();
         }
     }
 }
