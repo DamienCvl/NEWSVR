@@ -526,6 +526,22 @@ PrefabInstance:
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6049880248574984613, guid: 809aacb94eaab5a49b6bb4cc480f9703,
+        type: 3}
+      propertyPath: m_AspectRatio
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6049880248574984613, guid: 809aacb94eaab5a49b6bb4cc480f9703,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6049880248574984613, guid: 809aacb94eaab5a49b6bb4cc480f9703,
+        type: 3}
+      propertyPath: m_VideoClip
+      value: 
+      objectReference: {fileID: 32900000, guid: c686adcecd3fada489640797d66c9c7d,
+        type: 3}
     - target: {fileID: 4651971763335147951, guid: 809aacb94eaab5a49b6bb4cc480f9703,
         type: 3}
       propertyPath: m_RootOrder
