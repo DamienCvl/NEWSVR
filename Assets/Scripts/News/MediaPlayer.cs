@@ -4,22 +4,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using Valve.VR.InteractionSystem;
 
 public class MediaPlayer : MonoBehaviour
 {
 
-    private VideoPlayer videoPlayer;
+    public VideoPlayer videoPlayer;
     public Slider slider;
+    public LinearDrive linearDrive;
 
-    // Start is called before the first frame update
+    private float previousLinearMappingValue;
+
     void OnEnable()
     {
-        videoPlayer = GetComponent<VideoPlayer>();
+        if (videoPlayer == null)
+        {
+            videoPlayer = GetComponentInChildren<VideoPlayer>();
+        }
         videoPlayer.Prepare();
 
         if (slider == null)
         {
-            transform.parent.GetComponentInChildren<Slider>();
+             slider = GetComponentInChildren<Slider>();
+        }
+
+        if (linearDrive == null)
+        {
+            linearDrive = GetComponentInChildren<LinearDrive>();
+        }
+
+        previousLinearMappingValue = linearDrive.linearMapping.value;
+    }
+
+    private void Update()
+    {
+        if (linearDrive.linearMapping.value != previousLinearMappingValue)
+        {
+            previousLinearMappingValue = linearDrive.linearMapping.value;
+            slider.value = previousLinearMappingValue;
         }
     }
 
@@ -48,4 +70,6 @@ public class MediaPlayer : MonoBehaviour
             videoPlayer.SetDirectAudioVolume(i, slider.value);
         }
     }
+
+    
 }

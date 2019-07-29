@@ -7,9 +7,10 @@ using Valve.VR;
 
 
 [RequireComponent(typeof(Interactable))]
-public class OldCommentArrow : MonoBehaviour
+[RequireComponent(typeof(Collider))]
+public class ClickableUIVR : MonoBehaviour
 {
-    public SteamVR_Action_Boolean UI_Interaction_Action = SteamVR_Input.GetBooleanAction("InteractUI");
+    public SteamVR_Action_Boolean Boolean_Action = SteamVR_Input.GetBooleanAction("InteractUI");
     public UnityEvent OnClickEvent;
 
     // Start is called before the first frame update
@@ -30,7 +31,7 @@ public class OldCommentArrow : MonoBehaviour
 
     protected void HandHoverUpdate(Hand hand)
     {
-        if (UI_Interaction_Action.GetStateDown(hand.handType))
+        if (Boolean_Action.GetStateDown(hand.handType))
         {
             OnClickEvent.Invoke();
         }

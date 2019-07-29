@@ -729,6 +729,7 @@ GameObject:
   - component: {fileID: 65330958141194250}
   - component: {fileID: 7997163529269828466}
   - component: {fileID: 4683972872228583673}
+  - component: {fileID: 4689287197488001438}
   m_Layer: 0
   m_Name: UnderstandButton
   m_TagString: Untagged
@@ -915,13 +916,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a91906e95bbf778498597fba639c7fdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachmentFlags: 12
-  restoreOriginalParent: 0
-  UI_Interaction_Action:
-    actionPath: /actions/default/in/InteractUI
-    needsReinit: 0
   IndicationBegin: {fileID: 1616764798901438}
   EveryNews: {fileID: 0}
+--- !u!114 &4689287197488001438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614136624892140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a0ae21f0ceaf940ade0dff438d61d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Boolean_Action:
+    actionPath: /actions/default/in/InteractUI
+    needsReinit: 0
+  OnClickEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4683972872228583673}
+        m_MethodName: UnderstandAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1616764798901438
 GameObject:
   m_ObjectHideFlags: 0
