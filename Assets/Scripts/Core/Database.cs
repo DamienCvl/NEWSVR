@@ -76,6 +76,7 @@ namespace Assets.Scripts.Core
             MySqlDataReader reader = cmdSQL.ExecuteReader();
 
             List<string> tagsTemp;
+            List<Media> medium;
 
             try
             {
@@ -84,7 +85,8 @@ namespace Assets.Scripts.Core
                     while (reader.Read())
                     {
                         tagsTemp = new List<string>();
-                        StaticClass.newsList.Add(new News(reader.GetUInt32(0), reader.GetString(1), reader.GetString(2), reader.GetFloat(3), reader.GetFloat(4), reader.GetUInt32(5), reader.GetUInt32(6), reader.GetDateTime(7), tagsTemp));
+                        medium = new List<Media>();
+                        StaticClass.newsList.Add(new News(reader.GetUInt32(0), reader.GetString(1), reader.GetString(2), reader.GetFloat(3), reader.GetFloat(4), reader.GetUInt32(5), reader.GetUInt32(6), reader.GetDateTime(7), tagsTemp, medium));
                     }
                 }
             }
@@ -108,6 +110,32 @@ namespace Assets.Scripts.Core
                         while (readerTags.Read())
                         {
                             n.GetTags().Add(readerTags.GetString(1));
+                        }
+                    }
+                    Debug.Log(n.GetTags().Count);
+                    readerTags.Dispose();
+                    cmdSQL.Dispose();
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+
+            //get media from the db
+            try
+            {
+                foreach (News n in StaticClass.newsList)
+                {
+                    MySqlCommand cmdSQLtags = new MySqlCommand("SELECT * FROM MEDIA WHERE idNews = @dbIdNews ;", con);
+                    cmdSQLtags.Parameters.AddWithValue("@dbIdNews", n.GetId());
+                    MySqlDataReader readerTags = cmdSQLtags.ExecuteReader();
+
+                    if (readerTags.HasRows)
+                    {
+                        while (readerTags.Read())
+                        {
+                            n.GetMedium().Add(new Media(readerTags.GetUInt32(0), readerTags.GetString(1), readerTags.GetByte(2)));
                         }
                     }
                     Debug.Log(n.GetTags().Count);
