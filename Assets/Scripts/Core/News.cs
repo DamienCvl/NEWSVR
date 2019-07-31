@@ -20,12 +20,13 @@ public class News
     private readonly uint nbOfView;   // AKA Popularity
     private readonly uint nbComment;
     private readonly DateTime date;
+    private readonly List<Media> medium;
 
     private readonly GameObject NewsPreFab = (GameObject)Resources.Load("Prefabs/News/News", typeof(GameObject));
     public GameObject NewsGameObject { get; private set; }
 
 
-    public News(uint id, string title, string content, float posX, float posZ, uint nbOfView, uint nbComment, DateTime date, List<string> tags)
+    public News(uint id, string title, string content, float posX, float posZ, uint nbOfView, uint nbComment, DateTime date, List<string> tags, List<Media> m)
     {
         this.id = id;
         this.title = title;
@@ -37,6 +38,7 @@ public class News
         this.nbOfView = nbOfView;
         this.nbComment = nbComment;
         this.date = date;
+        this.medium = m;
     }
 
 
@@ -50,6 +52,7 @@ public class News
     public Vector3 GetPos() { return new Vector3(posX, 0f, posZ); }
     public List<string> GetTags() { return this.tags; }
     public DateTime GetDate() { return this.date; }
+    public List<Media> GetMedium() { return this.medium; }
 
     public string GetTagsToString()
     {
