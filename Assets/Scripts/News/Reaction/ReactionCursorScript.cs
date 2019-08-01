@@ -48,11 +48,34 @@ namespace Valve.VR.InteractionSystem
             // Not really resolve but a bit better.
             //scale = this.gameObject.transform.localScale;
             //rotation = this.gameObject.transform.rotation;
+            switch (Database.ReadReactionSelected())
+            {
+                case 0 :
+                    transform.localPosition = new Vector3(-0.1f, 0, 0);
+                    break;
+
+                case 1: //happy
+                    transform.localPosition = new Vector3(0, 0.25f, -0.25f);
+                    break;
+
+                case 2: //sad
+                    transform.localPosition = new Vector3(0, -0.25f, -0.25f);
+                    break;
+
+                case 3: //Angry
+                    transform.localPosition = new Vector3(0, -0.25f, -0.25f);
+                    break;
+
+                case 4: //Surprised
+                    transform.localPosition = new Vector3(0, 0.25f, 0.25f);
+                    break;
+            }
+            
         }
 
         private void OnEnable()
         {
-            transform.localPosition = new Vector3(-0.1f, 0, 0);
+            //transform.localPosition = new Vector3(-0.1f, 0, 0);
         }
 
 
@@ -64,11 +87,13 @@ namespace Valve.VR.InteractionSystem
                 {
                     // Add 1 to Sad in NEWS table and PLAYER table
                     Database.AddReactionToDatabaseNews("Sad", StaticClass.CurrentNewsId);
+                    Database.SaveReactionSelected(2);
                 }
                 else
                 {
                     // Add 1 to Angry in NEWS table and PLAYER table
                     Database.AddReactionToDatabaseNews("Angry", StaticClass.CurrentNewsId);
+                    Database.SaveReactionSelected(3);
                 }
             }
 
@@ -78,12 +103,19 @@ namespace Valve.VR.InteractionSystem
                 {
                     // Add 1 to Happy in NEWS table and PLAYER table
                     Database.AddReactionToDatabaseNews("Happy", StaticClass.CurrentNewsId);
+                    Database.SaveReactionSelected(1);
                 }
                 else
                 {
                     // Add 1 to Surprise in NEWS table and PLAYER table
                     Database.AddReactionToDatabaseNews("Surprised", StaticClass.CurrentNewsId);
+                    Database.SaveReactionSelected(4);
                 }
+            }
+
+            if (transform.localPosition.y == 0f && transform.localPosition.z == 0f)
+            {
+                Database.SaveReactionSelected(0);
             }
         }
 

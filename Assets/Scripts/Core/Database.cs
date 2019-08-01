@@ -865,6 +865,58 @@ namespace Assets.Scripts.Core
         /***********************/
         /***********************/
 
+
+        public static byte ReadReactionSelected()
+        {
+            byte res = 0;
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT reactionSelected FROM VIEWS WHERE idNews = @dbNewsId AND idPlayer = @dbPlayerId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
+            cmdSQL.Parameters.AddWithValue("@dbPlayerId", StaticClass.CurrentPlayerId);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                if (reader.Read())
+                {
+                    res = reader.GetByte(0);
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+            return res;
+        }
+
+
+        public static void SaveReactionSelected(byte b)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE `VIEWS` SET `reactionSelected`= @dbReacToSave WHERE idNews = @dbNewsId AND idPlayer = @dbPlayerId", con);
+            cmdSQL.Parameters.AddWithValue("@dbReacToSave", b);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
+            cmdSQL.Parameters.AddWithValue("@dbPlayerId", StaticClass.CurrentPlayerId);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
+
         public static void AddReactionToDatabaseNews(string reactionType, uint idNews)
         {
             ConnectDB();
@@ -884,6 +936,7 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
+
         /********************/
         /********************/
         /******  VIEW  ******/
@@ -893,7 +946,7 @@ namespace Assets.Scripts.Core
         static void InsertDateTimeView()
         {
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO VIEWS (idNews, idPlayer, `dateLatestView`) VALUES (@dbNewsId,@dbPlayerId,@dbDateTime);", con);
+            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO VIEWS (idNews, idPlayer, `dateLatestView`, ) VALUES (@dbNewsId,@dbPlayerId,@dbDateTime);", con);
             cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
             cmdSQL.Parameters.AddWithValue("@dbPlayerId", StaticClass.CurrentPlayerId);
             cmdSQL.Parameters.AddWithValue("@dbDateTime", DateTime.Now);
