@@ -19,4 +19,19 @@ public class Media
     public uint GetId(){ return this.id; }
     public string GetUrl() { return this.url; }
     public byte GetMediaType() { return this.type; }
+
+    public string GetMediaTypeToString()
+    {
+        switch (this.type)
+        {
+            case 0:
+                return "Image";
+            case 1:
+                return "Video";
+            case 2:
+                return "Audio";
+            default:
+                return "Unknown";
+        }
+    }
 }
