@@ -132,9 +132,7 @@ public void GoToRegister()
 
     public void GoToDevMode()
     {
-        // Disable VR to go to the dev mode since it's on a screen.
-        DisableVR();
-        SceneManager.LoadScene("DevMode", LoadSceneMode.Single);
+        SceneManager.LoadScene(6);
     }
 
     public void Play()

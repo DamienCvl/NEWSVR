@@ -111,15 +111,8 @@ public class Profil : MonoBehaviour
             copy.transform.parent = content.transform;
             copy.transform.GetComponentInChildren<Text>().text = s;
 
-            Color c;
-            if (StaticClass.tagPrefColorList.ContainsKey(s))
-            {
-                 c = StaticClass.tagPrefColorList[s];
-            }
-            else
-            {
-                c = StaticClass.tagDefaultColor;
-            }
+            Color c = StaticClass.tagPrefColorList[s];
+            
 
             //color the button with the pref color save
             ColorBlock cb = copy.GetComponent<Button>().colors;
