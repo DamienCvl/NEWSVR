@@ -14,7 +14,7 @@ public class MediaPlayer : MonoBehaviour
     
     public VideoPlayer videoPlayer;
     public AudioSource audioSource;
-    public GameObject image;
+    public Image image;
     public Slider slider;
     public LinearDrive linearDrive;
 
@@ -28,9 +28,6 @@ public class MediaPlayer : MonoBehaviour
         if (audioSource == null)
             audioSource = GetComponentInChildren<AudioSource>();
 
-        if (image == null)
-            image = transform.Find("Image").gameObject;
-
         if (slider == null)
             slider = GetComponentInChildren<Slider>();
 
@@ -38,6 +35,11 @@ public class MediaPlayer : MonoBehaviour
             linearDrive = GetComponentInChildren<LinearDrive>();
 
         previousLinearMappingValue = linearDrive.linearMapping.value;
+
+        if (image == null)
+        {
+            image = GetComponentInChildren<Image>();
+        }
     }
 
     private void Update()
@@ -72,13 +74,22 @@ public class MediaPlayer : MonoBehaviour
         }
         else
         {
-            image.GetComponent<Renderer>().material.mainTexture = DownloadHandlerTexture.GetContent(www);
+            Texture2D texture = DownloadHandlerTexture.GetContent(www);
+            image.overrideSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            float ratio = (float)texture.width / texture.height;
+            float ratio16_9 = 16f / 9f;
+            if (ratio > ratio16_9)
+                image.transform.GetChild(0).localScale = new Vector3(10f, 1f, 5.625f / (ratio / ratio16_9));
+            else if (ratio < ratio16_9)
+                image.transform.GetChild(0).localScale = new Vector3(10f / (ratio16_9 / ratio), 1f, 5.625f);
+            else
+                image.transform.GetChild(0).localScale = new Vector3(10f, 1f, 5.625f);
         }
     }
 
     public IEnumerator SetAudioFromWeb(string url)
     {
-        UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.MPEG); // AudioType need to be automatic depending on the audio source
+        UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.WAV); // AudioType need to be automatic depending on the audio source
         yield return www.SendWebRequest();
         if (www.isNetworkError || www.isHttpError)
         {

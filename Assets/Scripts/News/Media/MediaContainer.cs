@@ -14,10 +14,7 @@ public class MediaContainer : MonoBehaviour
     private void Awake()
     {
         buttonPrefab = (GameObject)Resources.Load("Prefabs/News/Media/Button", typeof(GameObject));
-    }
-
-    private void OnEnable()
-    {
+    
         if (news == null)
         {
             try
@@ -29,25 +26,36 @@ public class MediaContainer : MonoBehaviour
                 Debug.Log("NewsGameObject not found");
             }
         }
-        if (news != null)
+
+        // Create all buttons associate with medium
+        if (news != null && news.newsInfos != null)
         {
             foreach (Media m in news.newsInfos.GetMedium())
             {
+                // Get components
                 GameObject button = Instantiate(buttonPrefab, buttonList.transform);
                 RectTransform buttonRect = button.GetComponent<RectTransform>();
                 ClickableUIVR buttonClickable = button.GetComponentInChildren<ClickableUIVR>();
-
+                
+                // Set button text
                 button.GetComponentInChildren<Text>().text = m.GetMediaTypeToString();
-                buttonClickable.gameObject.transform.localScale = new Vector3(buttonRect.rect.width / 10, 1.0f, buttonRect.rect.height / 10); // Use to set the size of the VR clickable area
-                buttonClickable.OnClickEvent.AddListener(delegate { ChangeMedia(m); });
-                button.GetComponentInChildren<Button>().onClick.AddListener(delegate { ChangeMedia(m); });
+
+                // Use to set the size of the VR clickable area
+                StartCoroutine(UpdateVRAreaButton(buttonClickable, buttonRect));
+
+                // Set called function when click on button
+                buttonClickable.OnClickEvent.AddListener(() => { ChangeMedia(m); });
+                button.GetComponentInChildren<Button>().onClick.AddListener(() => { ChangeMedia(m); });
             }
             if (news.newsInfos.GetMedium().Count > 0)
                 ChangeMedia(news.newsInfos.GetMedium()[0]);
         }
-        // Test
-        mediaPlayer.image.SetActive(true);
-        StartCoroutine(mediaPlayer.SetImageFromWeb("https://interactive-examples.mdn.mozilla.net/media/examples/grapefruit-slice-332-332.jpg"));
+    }
+
+    public IEnumerator UpdateVRAreaButton(ClickableUIVR buttonClickable, RectTransform buttonRect)
+    {
+        yield return null;
+        buttonClickable.gameObject.transform.localScale = new Vector3(buttonRect.rect.width / 10, buttonClickable.gameObject.transform.localScale.y, buttonClickable.gameObject.transform.localScale.z);
     }
 
     public void ChangeMedia(Media m)
@@ -61,17 +69,17 @@ public class MediaContainer : MonoBehaviour
         {
             case 0: // Image
                 StartCoroutine(mediaPlayer.SetImageFromWeb(m.GetUrl()));
-                mediaPlayer.image.SetActive(true);
+                mediaPlayer.image.gameObject.SetActive(true);
                 break;
             case 1: // Video
                 mediaPlayer.videoPlayer.url = m.GetUrl();
-                mediaPlayer.SetMediaController();
                 mediaPlayer.videoPlayer.gameObject.SetActive(true);
+                mediaPlayer.SetMediaController();
                 break;
             case 2: // Audio
                 StartCoroutine(mediaPlayer.SetAudioFromWeb(m.GetUrl()));
-                mediaPlayer.SetMediaController();
                 mediaPlayer.audioSource.gameObject.SetActive(true);
+                mediaPlayer.SetMediaController();
                 break;
             default:
                 Debug.Log("Unknown media type");

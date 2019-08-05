@@ -114,7 +114,7 @@ namespace Assets.Scripts.Core
                     }
                     Debug.Log(n.GetTags().Count);
                     readerTags.Dispose();
-                    cmdSQL.Dispose();
+                    cmdSQLtags.Dispose();
                 }
             }
             catch (IOException ex)
@@ -135,12 +135,12 @@ namespace Assets.Scripts.Core
                     {
                         while (readerTags.Read())
                         {
-                            n.GetMedium().Add(new Media(readerTags.GetUInt32(0), readerTags.GetString(1), readerTags.GetByte(2)));
+                            n.GetMedium().Add(new Media(readerTags.GetUInt32(0), readerTags.GetString(2), readerTags.GetByte(3)));
                         }
                     }
                     Debug.Log(n.GetTags().Count);
                     readerTags.Dispose();
-                    cmdSQL.Dispose();
+                    cmdSQLtags.Dispose();
                 }
             }
             catch (IOException ex)
