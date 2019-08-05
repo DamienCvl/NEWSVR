@@ -49,6 +49,7 @@ namespace Assets.Scripts.Core
             }
         }
 
+      
 
 
         /*************************************************************************************************************************************************************************/
@@ -1025,6 +1026,59 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
-    }
 
+
+
+        /******** ADMIN **********/
+
+        public static bool InsertTag(string tag)
+        {
+            bool res = false;
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO `TAGS`(`tagLabel`) VALUES (@dbTagName);", con);
+            cmdSQL.Parameters.AddWithValue("@dbTagName", tag);
+            
+            try
+            {
+                if (cmdSQL.ExecuteNonQuery() > 0)
+                {
+                    res = true;
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+
+            return res;
+        }
+
+
+        public static void RemoveTag(string tag)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("DELETE FROM `TAGS` WHERE `tagLabel` = @dbTagName;", con);
+            cmdSQL.Parameters.AddWithValue("@dbTagName", tag);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
+
+
+
+    }
 }
