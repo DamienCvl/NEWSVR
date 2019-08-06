@@ -39,15 +39,15 @@ namespace Valve.VR.InteractionSystem
         public GameObject Highlight;
        
 
-        //private Vector3 scale;
-        //private Quaternion rotation;
+        private Vector3 scale;
+        private Quaternion rotation;
 
         private void Start()
         {
             // Resolve the bug that the cursor will grow when release in vr (don't know where that come from)
             // Not really resolve but a bit better.
-            //scale = this.gameObject.transform.localScale;
-            //rotation = this.gameObject.transform.rotation;
+            scale = this.gameObject.transform.localScale;
+            rotation = this.gameObject.transform.rotation;
             switch (Database.ReadReactionSelected())
             {
                 case 0 :
@@ -85,12 +85,14 @@ namespace Valve.VR.InteractionSystem
             {
                 if(transform.localPosition.z < 0f)
                 {
+                    UpdateCountReaction();
                     // Add 1 to Sad in NEWS table and PLAYER table
                     Database.AddReactionToDatabaseNews("Sad", StaticClass.CurrentNewsId);
                     Database.SaveReactionSelected(2);
                 }
                 else
                 {
+                    UpdateCountReaction();
                     // Add 1 to Angry in NEWS table and PLAYER table
                     Database.AddReactionToDatabaseNews("Angry", StaticClass.CurrentNewsId);
                     Database.SaveReactionSelected(3);
@@ -101,12 +103,14 @@ namespace Valve.VR.InteractionSystem
             {
                 if (transform.localPosition.z < 0f)
                 {
+                    UpdateCountReaction();
                     // Add 1 to Happy in NEWS table and PLAYER table
                     Database.AddReactionToDatabaseNews("Happy", StaticClass.CurrentNewsId);
                     Database.SaveReactionSelected(1);
                 }
                 else
                 {
+                    UpdateCountReaction();
                     // Add 1 to Surprise in NEWS table and PLAYER table
                     Database.AddReactionToDatabaseNews("Surprised", StaticClass.CurrentNewsId);
                     Database.SaveReactionSelected(4);
@@ -212,8 +216,8 @@ namespace Valve.VR.InteractionSystem
             transform.localPosition = pos;
 
             // Fot the deformation bug but doesn't really do the job.
-            //this.gameObject.transform.localScale = scale;
-            //this.gameObject.transform.rotation = rotation;
+            this.gameObject.transform.localScale = scale;
+            this.gameObject.transform.rotation = rotation;
         }
 
 
@@ -255,5 +259,32 @@ namespace Valve.VR.InteractionSystem
         {
             gameObject.SetActive(false);
         }
+
+
+
+        public static void UpdateCountReaction()
+        {
+            //case 0: no need to decrement
+            switch (Database.ReadReactionSelected())
+            {
+                case 1: //happy
+                    Database.RemoveOneReasctionCount("Happy");
+                    break;
+
+                case 2: //sad
+                    Database.RemoveOneReasctionCount("Sad");
+                    break;
+
+                case 3: //Angry
+                    Database.RemoveOneReasctionCount("Angry");
+                    break;
+
+                case 4: //Surprised
+                    Database.RemoveOneReasctionCount("Surprised");
+                    break;
+            }
+        }
+
+
     }
 }

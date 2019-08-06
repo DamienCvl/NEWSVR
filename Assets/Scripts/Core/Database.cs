@@ -895,6 +895,26 @@ namespace Assets.Scripts.Core
             return res;
         }
 
+        //remove 1 to a reaction (old choice) count of a news if the player change his reaction
+        public static void RemoveOneReasctionCount(string reactionType)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nb" + reactionType + " = nb" + reactionType + " - 1 WHERE idNews = @dbNewsId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
 
         public static void SaveReactionSelected(byte b)
         {
@@ -999,12 +1019,11 @@ namespace Assets.Scripts.Core
             {
                 if (reader.HasRows)
                 {
-                    
                     reader.Read();
                     DateTime dt = reader.GetDateTime(0);
 
                     //true if the save datetime is at least passed by 10 minutes
-                    if (DateTime.Compare(dt.AddMinutes(1), DateTime.Now) <= 0)
+                    if (DateTime.Compare(dt.AddMinutes(10), DateTime.Now) <= 0)
                     {
                         UpdateDateTimeView();
                         CountView();
