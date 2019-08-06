@@ -15,8 +15,8 @@ public class MainMenu : MonoBehaviour
    
     public Button playGameButton;
     public Button profilButton;
-    
 
+    public Text sortedByTxt;
     public Text newsPrompt;
     public Text state;
 
@@ -172,6 +172,7 @@ public void GoToRegister()
         ClearNotification();
         List<News> SortedList = StaticClass.newsList.OrderBy(o => o.GetDate()).ToList();
         DisplayNews(SortedList);
+        sortedByTxt.text = "The 20 recent news";
     }
 
     //Closest sort action
@@ -180,6 +181,7 @@ public void GoToRegister()
         ClearNotification();
         List<News> SortedList = StaticClass.newsList.OrderBy(o => o.GetDist()).ToList();
         DisplayNews(SortedList);
+        sortedByTxt.text = "The 20 closest news";
     }
     //Popularity sort action
     public void NotifSortedByPoularity()
@@ -187,13 +189,14 @@ public void GoToRegister()
         ClearNotification();
         List<News> SortedList = StaticClass.newsList.OrderByDescending(o => o.nbOfView).ToList();
         DisplayNews(SortedList);
+        sortedByTxt.text = "The 20 most-viewed news";
     }
     //Tag sort action
     public void NotifSortedByTag()
     {
-        
         ClearNotification();
         DisplayNews(StaticClass.newsList);
+        sortedByTxt.text = "Sorted by tags";
     }
 
     //Clear the notification list
