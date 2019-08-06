@@ -5980,6 +5980,11 @@ PrefabInstance:
       propertyPath: news
       value: 
       objectReference: {fileID: 4864526121448403360}
+    - target: {fileID: 8000202986289407074, guid: 7186d06885afdcc4cb1e4f2816dbd0c8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7186d06885afdcc4cb1e4f2816dbd0c8, type: 3}
 --- !u!224 &4811427694681949389 stripped
