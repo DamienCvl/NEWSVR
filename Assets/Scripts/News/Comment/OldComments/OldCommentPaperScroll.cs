@@ -127,7 +127,7 @@ public class OldCommentPaperScroll : MonoBehaviour
         LoadAComment(currentOldCommentDisplayed.Previous);
 
         // Activate ArrowDown when we are not on last comment anymore
-        if (actualCommentNumberInt == totalCommentNumberInt)
+        if (actualCommentNumberInt == totalCommentNumberInt && totalCommentNumberInt != 1)
             SetArrowActive(arrowDown, true);
 
         // Change number of current comment
@@ -148,7 +148,7 @@ public class OldCommentPaperScroll : MonoBehaviour
         LoadAComment(currentOldCommentDisplayed.Next);
 
         // Activate ArrowUp when we are not on first comment anymore
-        if (actualCommentNumberInt == 1)
+        if (actualCommentNumberInt == 1 && totalCommentNumberInt != 1)
             SetArrowActive(arrowUp, true);
 
         // Change number of current comment
@@ -171,6 +171,7 @@ public class OldCommentPaperScroll : MonoBehaviour
         else
             arrow.GetComponent<Image>().color = Color.gray;
         arrow.GetComponent<ClickableUIVR>().enabled = value;
+        arrow.GetComponent<Interactable>().enabled = value;
         arrow.transform.Find("Plane").gameObject.SetActive(value);
     }
 
