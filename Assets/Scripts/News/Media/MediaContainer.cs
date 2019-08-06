@@ -11,6 +11,8 @@ public class MediaContainer : MonoBehaviour
     public MediaPlayer mediaPlayer;
     private GameObject buttonPrefab;
 
+    private bool buttonsIsRefresh = false;
+
     private void Awake()
     {
         buttonPrefab = (GameObject)Resources.Load("Prefabs/News/Media/Button", typeof(GameObject));
@@ -50,8 +52,6 @@ public class MediaContainer : MonoBehaviour
             if (news.newsInfos.GetMedium().Count > 0)
             {
                 ChangeMedia(news.newsInfos.GetMedium()[0]);
-                buttonList.transform.GetChild(0).gameObject.SetActive(false);
-                buttonList.transform.GetChild(0).gameObject.SetActive(true);
             }
         }
     }
@@ -88,6 +88,16 @@ public class MediaContainer : MonoBehaviour
             default:
                 Debug.Log("Unknown media type");
                 break;
+        }
+    }
+
+    private void Update()
+    {
+        if (!buttonsIsRefresh)
+        {
+            buttonList.SetActive(false);
+            buttonList.SetActive(true);
+            buttonsIsRefresh = true;
         }
     }
 }

@@ -65,12 +65,7 @@ public class OldCommentPaperScroll : MonoBehaviour
         transform.Translate(Vector3.left * 0.5f + Vector3.forward * 0.1f);
 
         LoadOldComments();
-
-        actualCommentNumberInt = 1;
-        actualCommentNumber.text = "1";
-        totalCommentNumberInt = oldCommentsList.Count;
-        totalCommentNumber.text = totalCommentNumberInt.ToString();
-        SetArrowActive(arrowUp, false);
+        NumbersCommentsInit();
     }
 
     private void OnDisable()
@@ -111,6 +106,7 @@ public class OldCommentPaperScroll : MonoBehaviour
         currentOldCommentDisplayed.Value.Delete();
         oldCommentsList.Remove(currentOldCommentDisplayed);
         LoadAComment(oldCommentsList.First);
+        NumbersCommentsInit();
     }
 
     // Use in MicroComments script to fill the comment
@@ -176,5 +172,18 @@ public class OldCommentPaperScroll : MonoBehaviour
             arrow.GetComponent<Image>().color = Color.gray;
         arrow.GetComponent<ClickableUIVR>().enabled = value;
         arrow.transform.Find("Plane").gameObject.SetActive(value);
+    }
+
+    private void NumbersCommentsInit()
+    {
+        actualCommentNumberInt = 1;
+        actualCommentNumber.text = "1";
+        totalCommentNumberInt = oldCommentsList.Count;
+        totalCommentNumber.text = totalCommentNumberInt.ToString();
+        SetArrowActive(arrowUp, false);
+        if (totalCommentNumberInt == 1)
+            SetArrowActive(arrowDown, false);
+        else
+            SetArrowActive(arrowDown, true);
     }
 }

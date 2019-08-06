@@ -1914,7 +1914,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 0486a568da5e68449b18db05f2fb5a69, type: 2}
+  m_Material: {fileID: 0}
   m_Color: {r: 0.7830189, g: 0.51030225, b: 0.31394625, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -2416,7 +2416,7 @@ GameObject:
   - component: {fileID: 8672082787900630564}
   - component: {fileID: 6210605242555055055}
   - component: {fileID: 2966938008698459361}
-  - component: {fileID: 7923423371763420065}
+  - component: {fileID: 5577537321175349650}
   m_Layer: 0
   m_Name: VRTrigger
   m_TagString: Untagged
@@ -2553,7 +2553,7 @@ MonoBehaviour:
   handFollowTransform: 1
   highlightOnHover: 1
   hideHighlight: []
---- !u!114 &7923423371763420065
+--- !u!114 &5577537321175349650
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2562,12 +2562,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7216466055928448732}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 541438152eb2aa248b3b6132987cd3ea, type: 3}
+  m_Script: {fileID: 11500000, guid: e9a0ae21f0ceaf940ade0dff438d61d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachmentFlags: 12
-  restoreOriginalParent: 0
-  OnClickDelete:
+  Boolean_Action:
+    actionPath: /actions/default/in/InteractUI
+    needsReinit: 0
+  OnClickEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4955211274911203828}
