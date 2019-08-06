@@ -70,6 +70,7 @@ public class OldCommentPaperScroll : MonoBehaviour
         actualCommentNumber.text = "1";
         totalCommentNumberInt = oldCommentsList.Count;
         totalCommentNumber.text = totalCommentNumberInt.ToString();
+        SetArrowActive(arrowUp, false);
     }
 
     private void OnDisable()
@@ -169,6 +170,10 @@ public class OldCommentPaperScroll : MonoBehaviour
     private void SetArrowActive(GameObject arrow, bool value)
     {
         arrow.GetComponent<Button>().enabled = value;
+        if (value)
+            arrow.GetComponent<Image>().color = Color.white;
+        else
+            arrow.GetComponent<Image>().color = Color.gray;
         arrow.GetComponent<ClickableUIVR>().enabled = value;
         arrow.transform.Find("Plane").gameObject.SetActive(value);
     }

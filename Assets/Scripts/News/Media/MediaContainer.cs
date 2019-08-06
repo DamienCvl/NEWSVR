@@ -48,7 +48,11 @@ public class MediaContainer : MonoBehaviour
                 button.GetComponentInChildren<Button>().onClick.AddListener(() => { ChangeMedia(m); });
             }
             if (news.newsInfos.GetMedium().Count > 0)
+            {
                 ChangeMedia(news.newsInfos.GetMedium()[0]);
+                buttonList.transform.GetChild(0).gameObject.SetActive(false);
+                buttonList.transform.GetChild(0).gameObject.SetActive(true);
+            }
         }
     }
 
