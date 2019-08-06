@@ -119,6 +119,7 @@ namespace Valve.VR.InteractionSystem
 
             if (transform.localPosition.y == 0f && transform.localPosition.z == 0f)
             {
+                UpdateCountReaction();
                 Database.SaveReactionSelected(0);
             }
         }
