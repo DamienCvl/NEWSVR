@@ -174,4 +174,9 @@ public class AdminPage : MonoBehaviour
         }
     }
 
+    public void GoBackToMenu()
+    {
+        StaticClass.GoBackToMenu();
+    }
+
 }
