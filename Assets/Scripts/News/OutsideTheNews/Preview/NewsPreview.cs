@@ -25,8 +25,8 @@ public class NewsPreview : MonoBehaviour
         tagList.newsGameObject = news;
         tagList.gameObject.SetActive(true);
 
-        viewNbrView.GetComponent<TextMesh>().text = news.newsInfos.GetViews().ToString();
-        viewNbrComment.GetComponent<TextMesh>().text = news.newsInfos.GetNbComment().ToString();
+        viewNbrView.GetComponent<TextMesh>().text = news.newsInfos.nbOfView.ToString();
+        viewNbrComment.GetComponent<TextMesh>().text = news.newsInfos.nbComment.ToString();
         
     }
 

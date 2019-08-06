@@ -18,6 +18,9 @@ public class ViewNbrComment : MonoBehaviour {
 
     public void DisplayCommentNbr()
     {
-        this.GetComponent<TextMesh>().text = Database.ReadComntNum(news.Id);
+        string nb = Database.ReadComntNum(news.Id);
+        this.GetComponent<TextMesh>().text = nb;
+        // Keep coherence with news object
+        news.newsInfos.nbComment = Convert.ToUInt32(nb);
     }
 }

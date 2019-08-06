@@ -68,7 +68,7 @@ public class MainMenu : MonoBehaviour
         {
             var copy = Instantiate(notifTemplate);
             copy.transform.parent = content.transform;
-            copy.transform.GetComponentInChildren<Text>().text = n.GetTitle() + "\n" + n.GetTagsToString() + " - " + n.GetDist() + "m - ("+n.GetViews()+"-"+n.GetNbComment()+").";
+            copy.transform.GetComponentInChildren<Text>().text = n.GetTitle() + "\n" + n.GetTagsToString() + " - " + n.GetDist() + "m - ("+n.nbOfView+"-"+n.nbComment+").";
             copy.SetActive(true);
 
             if (StaticClass.newsBeaconedList.Exists(x => x == n.GetId()))
@@ -185,7 +185,7 @@ public void GoToRegister()
     public void NotifSortedByPoularity()
     {
         ClearNotification();
-        List<News> SortedList = StaticClass.newsList.OrderByDescending(o => o.GetViews()).ToList();
+        List<News> SortedList = StaticClass.newsList.OrderByDescending(o => o.nbOfView).ToList();
         DisplayNews(SortedList);
     }
     //Tag sort action

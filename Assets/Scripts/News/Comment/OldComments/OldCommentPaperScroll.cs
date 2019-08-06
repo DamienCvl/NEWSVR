@@ -19,13 +19,21 @@ public class OldCommentPaperScroll : MonoBehaviour
 
     public GameObject DeleteButton;
 
+    public Text actualCommentNumber;
+    public Text totalCommentNumber;
+    private int actualCommentNumberInt;
+    private int totalCommentNumberInt;
+
+    public GameObject arrowUp;
+    public GameObject arrowDown;
+
 
     private LinkedList<Comment> oldCommentsList = new LinkedList<Comment>();
     private LinkedListNode<Comment> currentOldCommentDisplayed;
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if (openScroll == null)
         {
@@ -38,6 +46,7 @@ public class OldCommentPaperScroll : MonoBehaviour
         }
 
         rectScrollPaper = scrollPaper.GetComponent<RectTransform>();
+        scrollPaper.SetActive(false); // To avoid UI overlap
     }
 
     // Update is called once per frame
@@ -56,6 +65,11 @@ public class OldCommentPaperScroll : MonoBehaviour
         transform.Translate(Vector3.left * 0.5f + Vector3.forward * 0.1f);
 
         LoadOldComments();
+
+        actualCommentNumberInt = 1;
+        actualCommentNumber.text = "1";
+        totalCommentNumberInt = oldCommentsList.Count;
+        totalCommentNumber.text = totalCommentNumberInt.ToString();
     }
 
     private void OnDisable()
@@ -110,12 +124,52 @@ public class OldCommentPaperScroll : MonoBehaviour
         Author.text = author;
     }
 
+    // Call when ArrowUp is pressed
     public void PreviousComment()
     {
         LoadAComment(currentOldCommentDisplayed.Previous);
+
+        // Activate ArrowDown when we are not on last comment anymore
+        if (actualCommentNumberInt == totalCommentNumberInt)
+            SetArrowActive(arrowDown, true);
+
+        // Change number of current comment
+        if (actualCommentNumberInt > 1)
+        {
+            actualCommentNumberInt--;
+            actualCommentNumber.text = actualCommentNumberInt.ToString();
+        }
+
+        // Desactivate ArrowUp if we are on first comment
+        if (actualCommentNumberInt == 1)
+            SetArrowActive(arrowUp, false);
     }
+
+    // Call when ArrowDown is pressed
     public void NextComment()
     {
         LoadAComment(currentOldCommentDisplayed.Next);
+
+        // Activate ArrowUp when we are not on first comment anymore
+        if (actualCommentNumberInt == 1)
+            SetArrowActive(arrowUp, true);
+
+        // Change number of current comment
+        if (actualCommentNumberInt < totalCommentNumberInt)
+        {
+            actualCommentNumberInt++;
+            actualCommentNumber.text = actualCommentNumberInt.ToString();
+        }
+
+        // Desactivate ArrowDown if we are on last comment
+        if (actualCommentNumberInt == totalCommentNumberInt)
+            SetArrowActive(arrowDown, false);
+    }
+
+    private void SetArrowActive(GameObject arrow, bool value)
+    {
+        arrow.GetComponent<Button>().enabled = value;
+        arrow.GetComponent<ClickableUIVR>().enabled = value;
+        arrow.transform.Find("Plane").gameObject.SetActive(value);
     }
 }

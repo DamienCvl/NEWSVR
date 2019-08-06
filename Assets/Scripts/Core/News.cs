@@ -17,8 +17,8 @@ public class News
     private readonly float posZ;
     private readonly uint distEuclFromSpawn;   // In AR, should be the player position, not the "spawn"
     private readonly List<string> tags;
-    private readonly uint nbOfView;   // AKA Popularity
-    private readonly uint nbComment;
+    public uint nbOfView;  // AKA Popularity
+    public uint nbComment;
     private readonly DateTime date;
     private readonly List<Media> medium;
 
@@ -45,8 +45,6 @@ public class News
     // GETTERS
     public uint GetId() { return this.id; }
     public uint GetDist() { return this.distEuclFromSpawn; }
-    public uint GetViews() { return this.nbOfView; }
-    public uint GetNbComment() { return this.nbComment; }
     public string GetTitle() { return this.title; }
     public string GetContent() { return this.content; }
     public Vector3 GetPos() { return new Vector3(posX, 0f, posZ); }

@@ -70,6 +70,7 @@ namespace Valve.VR.InteractionSystem
 
         private void Update()
         {
+            // Load comments next frame after panel is loaded
             if (loadComment)
             {
                 LoadComment();

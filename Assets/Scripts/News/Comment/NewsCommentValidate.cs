@@ -17,14 +17,14 @@ namespace Valve.VR.InteractionSystem
 {
     //-------------------------------------------------------------------------
     [RequireComponent(typeof(Interactable))]
-    public class NewsCommentValidate : Grabbable
+    public class NewsCommentValidate : ClickableUIVR
     {
         
         public GameObject Buttons;
         public GameObject comment;
 
         // Action when you click validate, delete the two buttons
-        private void ValidateAction()
+        public void ValidateAction()
         {
             // Retrieve the text of the comment
             var text = comment.GetComponent<CommentGameObject>().textOfComment;
@@ -48,14 +48,6 @@ namespace Valve.VR.InteractionSystem
             Destroy(Buttons);
             // Wait 1 second to delete the validate button to not cause bug
             Destroy(gameObject, 1);
-        }
-
-
-        //-------------------------------------------------
-        protected new void OnAttachedToHand(Hand hand)
-        {
-            base.OnAttachedToHand(hand);
-            ValidateAction();
         }
     }
 }

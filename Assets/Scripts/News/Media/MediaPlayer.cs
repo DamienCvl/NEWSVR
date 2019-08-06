@@ -17,6 +17,7 @@ public class MediaPlayer : MonoBehaviour
     public Image image;
     public Slider slider;
     public LinearDrive linearDrive;
+    public GameObject controlBar;
 
     private float previousLinearMappingValue;
 
@@ -40,6 +41,9 @@ public class MediaPlayer : MonoBehaviour
         {
             image = GetComponentInChildren<Image>();
         }
+
+        if (controlBar == null)
+            controlBar = transform.Find("ControlBar").gameObject;
     }
 
     private void Update()
@@ -52,16 +56,24 @@ public class MediaPlayer : MonoBehaviour
     }
 
     // Call by MediaContainer
-    public void SetMediaController()
+    /// <summary>
+    /// Set control bar behaviours
+    /// </summary>
+    /// <param name="choice">0 = Video, 1 = Audio</param>
+    public void SetMediaController(byte choice)
     {
-        if (mediaController == null)
+        switch (choice)
         {
-            if (videoPlayer.gameObject.activeSelf)
+            case 0: // Video controller
                 mediaController = new MediaVideoController(videoPlayer, slider);
-            else if (audioSource.gameObject.activeSelf)
+                break;
+            case 1: // Audio controller
                 mediaController = new MediaAudioController(audioSource, slider);
+                break;
+            default:
+                break;
         }
-        transform.Find("ControlBar").gameObject.SetActive(true);
+        controlBar.SetActive(true);
     }
 
     public IEnumerator SetImageFromWeb(string url)
@@ -89,7 +101,7 @@ public class MediaPlayer : MonoBehaviour
 
     public IEnumerator SetAudioFromWeb(string url)
     {
-        UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.WAV); // AudioType need to be automatic depending on the audio source
+        UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.OGGVORBIS); // AudioType need to be automatic depending on the audio source
         yield return www.SendWebRequest();
         if (www.isNetworkError || www.isHttpError)
         {

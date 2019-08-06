@@ -18,7 +18,10 @@ public class ViewNbrView : MonoBehaviour
 
     public void ReadViewNbr()
     {
-        this.GetComponent<TextMesh>().text = Database.ReadViewNum(news.Id);
+        string nb = Database.ReadViewNum(news.Id);
+        this.GetComponent<TextMesh>().text = nb;
+        // Keep coherence with news object
+        news.newsInfos.nbOfView = Convert.ToUInt32(nb);
     }
 }
 

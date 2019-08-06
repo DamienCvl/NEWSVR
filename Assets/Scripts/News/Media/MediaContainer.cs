@@ -74,12 +74,12 @@ public class MediaContainer : MonoBehaviour
             case 1: // Video
                 mediaPlayer.videoPlayer.url = m.GetUrl();
                 mediaPlayer.videoPlayer.gameObject.SetActive(true);
-                mediaPlayer.SetMediaController();
+                mediaPlayer.SetMediaController(0);
                 break;
             case 2: // Audio
                 StartCoroutine(mediaPlayer.SetAudioFromWeb(m.GetUrl()));
                 mediaPlayer.audioSource.gameObject.SetActive(true);
-                mediaPlayer.SetMediaController();
+                mediaPlayer.SetMediaController(1);
                 break;
             default:
                 Debug.Log("Unknown media type");

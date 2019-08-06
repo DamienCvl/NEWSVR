@@ -1791,16 +1791,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4720430753404514478, guid: 71b4557bca6e70a4e90558831d5229a0,
-        type: 3}
-      propertyPath: m_DynamicPixelsPerUnit
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4720430753404514478, guid: 71b4557bca6e70a4e90558831d5229a0,
-        type: 3}
-      propertyPath: m_ReferencePixelsPerUnit
-      value: 60
-      objectReference: {fileID: 0}
     - target: {fileID: 6385383680930247033, guid: 71b4557bca6e70a4e90558831d5229a0,
         type: 3}
       propertyPath: m_Enabled

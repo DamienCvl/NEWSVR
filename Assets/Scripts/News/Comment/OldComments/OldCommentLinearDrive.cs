@@ -49,7 +49,7 @@ public class OldCommentLinearDrive : MonoBehaviour
             scrollPosition = value;
             if (scrollPosition == 0.0f && scrollPaper.activeSelf)
             {
-                scrollPaper.SetActive(false);
+                scrollPaper.SetActive(false); // To avoid UI overlap
             }
             else if (!scrollPaper.activeSelf)
             {

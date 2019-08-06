@@ -17,6 +17,7 @@ public class NewsGameObject : MonoBehaviour
     private GameObject CommentPreFab;
     public GameObject ParentsOfComments;
     public GameObject beacon;
+    public GameObject mediaContainer;
 
     [HideInInspector]
     public News newsInfos;
@@ -37,6 +38,8 @@ public class NewsGameObject : MonoBehaviour
         transform.position = newsInfos.GetPos();
         Tags = newsInfos.GetTags();
         ActivateBeacon();
+        if (newsInfos.GetMedium().Count > 0)
+            mediaContainer.SetActive(true);
     }
 
 

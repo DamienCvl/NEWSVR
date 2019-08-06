@@ -13,24 +13,17 @@ namespace Valve.VR.InteractionSystem
 {
     //-------------------------------------------------------------------------
     [RequireComponent(typeof(Interactable))]
-    public class NewsCommentReject : Grabbable
+    public class NewsCommentReject : ClickableUIVR
     {
 
         public GameObject Comment;
 
         // Action when you click the delete button, delete all the comment
-        private void RejectAction()
+        public void RejectAction()
         {
             Destroy(Comment);
             // Wait 1 second to delete the reject button to not cause bug
             Destroy(gameObject, 1);
-        }
-
-        //-------------------------------------------------
-        protected new void OnAttachedToHand(Hand hand)
-        {
-            base.OnAttachedToHand(hand);
-            RejectAction();
         }
     }
 }
