@@ -20,6 +20,14 @@ public class MainMenu : MonoBehaviour
     public Text newsPrompt;
     public Text state;
 
+    // Buttons from notif list
+    public Image notifDateImage;
+    public Image notifClosestImage;
+    public Image notifPopularityImage;
+    public Dropdown notifTagsDropdown;
+    private Color notifSelectedColor = new Color(124f / 255f, 162f / 255f, 142f / 255f);
+    private Color notifNotSelectedColor = new Color(177f / 255f, 232f / 255f, 202f / 255f);
+
     //notification list
     public GameObject notifTemplate;
     public GameObject content;
@@ -50,6 +58,9 @@ public class MainMenu : MonoBehaviour
             playGameButton.interactable = (true);
             StaticClass.newsList.Clear();
             Database.GenerateNewsList();
+            List<string> tmp = Database.GetTags();
+            tmp.Sort();
+            notifTagsDropdown.AddOptions(tmp);
             NotifSortedByDate();
         }
         else
@@ -173,6 +184,8 @@ public void GoToRegister()
         List<News> SortedList = StaticClass.newsList.OrderBy(o => o.GetDate()).ToList();
         DisplayNews(SortedList);
         sortedByTxt.text = "The 20 recent news";
+        notifTagsDropdown.value = 0; // Reset tags dropdown to default
+        notifDateImage.color = notifSelectedColor;
     }
 
     //Closest sort action
@@ -182,6 +195,8 @@ public void GoToRegister()
         List<News> SortedList = StaticClass.newsList.OrderBy(o => o.GetDist()).ToList();
         DisplayNews(SortedList);
         sortedByTxt.text = "The 20 closest news";
+        notifTagsDropdown.value = 0; // Reset tags dropdown to default
+        notifClosestImage.color = notifSelectedColor;
     }
     //Popularity sort action
     public void NotifSortedByPoularity()
@@ -190,13 +205,26 @@ public void GoToRegister()
         List<News> SortedList = StaticClass.newsList.OrderByDescending(o => o.nbOfView).ToList();
         DisplayNews(SortedList);
         sortedByTxt.text = "The 20 most-viewed news";
+        notifTagsDropdown.value = 0; // Reset tags dropdown to default
+        notifPopularityImage.color = notifSelectedColor;
     }
     //Tag sort action
     public void NotifSortedByTag()
     {
-        ClearNotification();
-        DisplayNews(StaticClass.newsList);
-        sortedByTxt.text = "Sorted by tags";
+        if (notifTagsDropdown.value != 0) // First option of tags dropdown ("Tag") do nothing when chosen
+        {
+            ClearNotification();
+            List<News> SortedList = new List<News>();
+            string tag = notifTagsDropdown.options[notifTagsDropdown.value].text;
+            foreach (News n in StaticClass.newsList)
+            {
+                if (n.GetTags().Contains(tag))
+                    SortedList.Add(n);
+            }
+            DisplayNews(SortedList);
+            sortedByTxt.text = "The 20 oldest "+tag+" news";
+            notifTagsDropdown.GetComponent<Image>().color = notifSelectedColor;
+        }
     }
 
     //Clear the notification list
@@ -212,5 +240,9 @@ public void GoToRegister()
             Debug.Log(StaticClass.newsBeaconedList.Count);
            // StaticClass.newsBeaconedList.Clear();
         }
+        notifDateImage.color = notifNotSelectedColor;
+        notifClosestImage.color = notifNotSelectedColor;
+        notifPopularityImage.color = notifNotSelectedColor;
+        notifTagsDropdown.GetComponent<Image>().color = notifNotSelectedColor;
     }
 }
