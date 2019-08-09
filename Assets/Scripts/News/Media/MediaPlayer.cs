@@ -91,6 +91,7 @@ public class MediaPlayer : MonoBehaviour
         {
             Texture2D texture = DownloadHandlerTexture.GetContent(www);
             image.overrideSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            // ** Set VR area size to grab the image ** //
             float ratio = (float)texture.width / texture.height;
             float ratio16_9 = 16f / 9f;
             if (ratio > ratio16_9)
@@ -99,6 +100,7 @@ public class MediaPlayer : MonoBehaviour
                 image.transform.GetChild(0).localScale = new Vector3(10f / (ratio16_9 / ratio), 1f, 5.625f);
             else
                 image.transform.GetChild(0).localScale = new Vector3(10f, 1f, 5.625f);
+            // **************************************** //
         }
     }
 

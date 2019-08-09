@@ -1030,9 +1030,9 @@ MonoBehaviour:
   sortedByTxt: {fileID: 94359296}
   newsPrompt: {fileID: 0}
   state: {fileID: 1562948691}
-  notifDateButton: {fileID: 1225435443}
-  notifClosestButton: {fileID: 466232207}
-  notifPopularityButton: {fileID: 916223772}
+  notifDateImage: {fileID: 1225435444}
+  notifClosestImage: {fileID: 466232208}
+  notifPopularityImage: {fileID: 916223773}
   notifTagsDropdown: {fileID: 333721643}
   notifTemplate: {fileID: 1758194275}
   content: {fileID: 1076455237}

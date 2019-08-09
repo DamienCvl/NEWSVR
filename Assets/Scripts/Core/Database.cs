@@ -1097,7 +1097,39 @@ namespace Assets.Scripts.Core
         }
 
 
+        /********************/
+        /********************/
+        /****  DEVMODE  *****/
+        /********************/
+        /********************/
 
+        public static Dictionary<int, string> GetPlayers()
+        {
+            Dictionary<int, string> response = new Dictionary<int, string>();
 
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT idPlayer, name FROM `PLAYERS` ORDER BY name", con);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        response.Add(reader.GetInt32(0), reader.GetString(1));
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+            return response;
+        }
     }
 }
