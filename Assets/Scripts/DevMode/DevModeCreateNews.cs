@@ -22,9 +22,6 @@ public class DevModeCreateNews : MonoBehaviour {
     [HideInInspector]
     public Vector3 newsPos;
 
-    //tags list
-    public GameObject tagTemplate;
-    public GameObject content;
 
     // Use this for initialization
     void Start () {
@@ -68,25 +65,6 @@ public class DevModeCreateNews : MonoBehaviour {
         }
     }
 
-    public void DisplayTagsList()
-    {
-
-
-        foreach (string s in Database.GetTags())
-        {
-            var copy = Instantiate(tagTemplate);
-            copy.transform.parent = content.transform;
-            copy.transform.GetComponentInChildren<Text>().text = s;
-            copy.SetActive(true);
-
-            copy.GetComponent<Button>().onClick.AddListener(
-                () =>
-                {
-
-                }
-           );
-        }
-    }
 
 
 }
