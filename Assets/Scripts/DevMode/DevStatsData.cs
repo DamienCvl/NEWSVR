@@ -8,11 +8,11 @@ namespace Assets.Scripts.DevMode
 {
     class DevStatsData
     {
-        private string playerName;
-        private string newsTitle;
-        private string reaction;
-        private uint nbCmt;
-        private DateTime date;
+        public readonly string playerName;
+        public readonly string newsTitle;
+        public readonly string reaction;
+        public readonly uint nbCmt;
+        public readonly DateTime date;
 
         public DevStatsData(string playerName, string newsTitle, uint reaction, uint nbCmt, DateTime date)
         {
