@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Assets.Scripts.DevMode
 {
-    class DevStatsData
+    public class DevStatsData
     {
         public readonly string playerName;
         public readonly string newsTitle;

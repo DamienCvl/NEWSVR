@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Assets.Scripts.DevMode;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -1187,9 +1188,9 @@ namespace Assets.Scripts.Core
         /********************/
         /********************/
 
-        public static Dictionary<int, string> GetPlayers()
+        public static Dictionary<uint, string> GetPlayers()
         {
-            Dictionary<int, string> response = new Dictionary<int, string>();
+            Dictionary<uint, string> response = new Dictionary<uint, string>();
 
             ConnectDB();
             MySqlCommand cmdSQL = new MySqlCommand("SELECT idPlayer, name FROM `PLAYERS` ORDER BY name", con);
@@ -1201,13 +1202,56 @@ namespace Assets.Scripts.Core
                 {
                     while (reader.Read())
                     {
-                        response.Add(reader.GetInt32(0), reader.GetString(1));
+                        response.Add(reader.GetUInt32(0), reader.GetString(1));
                     }
                 }
             }
             catch (IOException ex)
             {
                 Debug.Log(ex);
+            }
+
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+            return response;
+        }
+
+        public static List<DevStatsData> GetDevStatsData(uint idNews, uint idPlayer, bool filterNews, bool filterPlayer)
+        {
+            List<DevStatsData> response = new List<DevStatsData>();
+            string specialCondition = "";
+
+            if (filterNews)
+            {
+                if (filterPlayer)
+                    specialCondition = "WHERE NEWS.idNews = " + idNews.ToString() + " AND PLAYERS.idPlayer = " + idPlayer.ToString();
+                else
+                    specialCondition = "WHERE NEWS.idNews = " + idNews.ToString();
+            }
+            else
+            {
+                if (filterPlayer)
+                    specialCondition = "WHERE PLAYERS.idPlayer = " + idPlayer.ToString();
+            }
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews AS IDN, VIEWS.idPlayer AS IDP, (SELECT name FROM PLAYERS WHERE idPlayer = IDP) Player, (SELECT title FROM NEWS WHERE idNews = IDN) Title, VIEWS.reactionSelected,( SELECT COUNT(`idComment`) FROM `COMMENTS` JOIN NEWS ON COMMENTS.idNews = NEWS.idNews WHERE idPlayer = IDP AND NEWS.idNews = IDN ) NumOfCmt, VIEWS.dateLatestView FROM VIEWS JOIN NEWS ON NEWS.idNews = VIEWS.idNews JOIN PLAYERS ON PLAYERS.idPlayer = VIEWS.idPlayer "+ specialCondition + " ORDER BY VIEWS.dateLatestView DESC", con);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        response.Add(new DevStatsData(reader.GetString(2), reader.GetString(3), reader.GetUInt32(4), reader.GetUInt32(5), reader.GetDateTime(6)));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.ToString());
             }
 
             reader.Dispose();
