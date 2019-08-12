@@ -64,6 +64,7 @@ public class MediaContainer : MonoBehaviour
 
     public void ChangeMedia(Media m)
     {
+        mediaPlayer.Stop();
         // Set to default media player display
         foreach (Transform child in mediaPlayer.transform)
         {

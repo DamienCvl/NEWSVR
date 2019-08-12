@@ -73,7 +73,7 @@ namespace Assets.Scripts.Core
         public static void GenerateNewsList()
         {
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT DISTINCT NEWS.idNews, NEWS.title, NEWS.text, NEWS.positionX, NEWS.positionZ, NEWS.nbView, NEWS.nbComment, NEWS.creationDate FROM NEWS LEFT JOIN TOPICS ON NEWS.idNews = TOPICS.idNews ORDER BY TOPICS.tagName DESC;", con);
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT DISTINCT NEWS.idNews, NEWS.title, NEWS.text, NEWS.positionX, NEWS.positionZ, NEWS.nbView, NEWS.nbComment, NEWS.creationDate FROM NEWS ORDER BY NEWS.creationDate DESC;", con);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
 
             List<string> tagsTemp;
@@ -1180,6 +1180,42 @@ namespace Assets.Scripts.Core
 
         //SELECT NEWS.idNews AS ID, (SELECT name FROM PLAYERS WHERE idPlayer = 3) Player, NEWS.title, VIEWS.reactionSelected,( SELECT COUNT(`idComment`) FROM `COMMENTS` JOIN NEWS ON COMMENTS.idNews = NEWS.idNews WHERE idPlayer = 3 AND NEWS.idNews = ID ) NumOfCmt, VIEWS.dateLatestView FROM VIEWS JOIN NEWS ON NEWS.idNews = VIEWS.idNews WHERE idPlayer=3 ORDER BY VIEWS.dateLatestView DESC
         //SELECT VIEWS.idPlayer AS ID, PLAYERS.name,(SELECT title FROM NEWS WHERE idNews = 3) Title, VIEWS.reactionSelected, (SELECT COUNT(`idComment`) FROM `COMMENTS` JOIN NEWS ON COMMENTS.idNews = NEWS.idNews WHERE idPlayer = ID AND NEWS.idNews = 3) NumOfCmt, VIEWS.dateLatestView FROM VIEWS JOIN PLAYERS ON PLAYERS.idPlayer = VIEWS.idPlayer WHERE idNews = 3 ORDER BY VIEWS.dateLatestView DESC
+
+        /********************/
+        /********************/
+        /****  DEVMODE  *****/
+        /********************/
+        /********************/
+
+        public static Dictionary<int, string> GetPlayers()
+        {
+            Dictionary<int, string> response = new Dictionary<int, string>();
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT idPlayer, name FROM `PLAYERS` ORDER BY name", con);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        response.Add(reader.GetInt32(0), reader.GetString(1));
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+            return response;
+        }
+
 
     }
 }

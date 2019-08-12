@@ -14,6 +14,7 @@ public class MediaPlayer : MonoBehaviour
     
     public VideoPlayer videoPlayer;
     public AudioSource audioSource;
+    private Sprite audioSpriteInit;
     public Image image;
     public Slider slider;
     public LinearDrive linearDrive;
@@ -28,6 +29,8 @@ public class MediaPlayer : MonoBehaviour
 
         if (audioSource == null)
             audioSource = GetComponentInChildren<AudioSource>();
+
+        audioSpriteInit = audioSource.GetComponent<Image>().sprite;
 
         if (slider == null)
             slider = GetComponentInChildren<Slider>();
@@ -68,7 +71,7 @@ public class MediaPlayer : MonoBehaviour
                 mediaController = new MediaVideoController(videoPlayer, slider);
                 break;
             case 1: // Audio controller
-                mediaController = new MediaAudioController(audioSource, slider);
+                mediaController = new MediaAudioController(audioSource, slider, audioSpriteInit);
                 break;
             default:
                 break;
@@ -88,6 +91,7 @@ public class MediaPlayer : MonoBehaviour
         {
             Texture2D texture = DownloadHandlerTexture.GetContent(www);
             image.overrideSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            // ** Set VR area size to grab the image ** //
             float ratio = (float)texture.width / texture.height;
             float ratio16_9 = 16f / 9f;
             if (ratio > ratio16_9)
@@ -96,6 +100,7 @@ public class MediaPlayer : MonoBehaviour
                 image.transform.GetChild(0).localScale = new Vector3(10f / (ratio16_9 / ratio), 1f, 5.625f);
             else
                 image.transform.GetChild(0).localScale = new Vector3(10f, 1f, 5.625f);
+            // **************************************** //
         }
     }
 
@@ -117,17 +122,20 @@ public class MediaPlayer : MonoBehaviour
 
     public void PlayPause()
     {
-        mediaController.PlayPause();
+        if (mediaController != null)
+            mediaController.PlayPause();
     }
 
     public void Stop()
     {
-        mediaController.Stop();
+        if (mediaController != null)
+            mediaController.Stop();
     }
 
     public void OnChangeVolume()
     {
-        mediaController.OnChangeVolume();
+        if (mediaController != null)
+            mediaController.OnChangeVolume();
     }
 
     //***************************************//
@@ -183,12 +191,14 @@ public class MediaPlayer : MonoBehaviour
         private AudioSource audioSource;
         private Slider slider;
         private Animator anim;
+        private Sprite audioSpriteInit;
 
-        public MediaAudioController(AudioSource a, Slider s)
+        public MediaAudioController(AudioSource a, Slider s, Sprite sp)
         {
             audioSource = a;
             slider = s;
             anim = audioSource.transform.GetComponent<Animator>();
+            audioSpriteInit = sp;
         }
 
         public void PlayPause()
@@ -212,6 +222,7 @@ public class MediaPlayer : MonoBehaviour
             audioSource.Stop();
             anim.ResetTrigger("ButtonPlay");
             anim.SetTrigger("ButtonStop");
+            audioSource.GetComponent<Image>().sprite = audioSpriteInit;
         }
 
         public void OnChangeVolume()

@@ -183,7 +183,6 @@ namespace Valve.VR.InteractionSystem
 		{
             base.OnDetachedFromHand(hand);
             canGoToTheHead = false;
-            transform.position = transformInit;
 
             // Return the sphere to no rotation so that the title is above the sphere
             transform.rotation = new Quaternion (0, 0, 0 ,0);
@@ -193,6 +192,14 @@ namespace Valve.VR.InteractionSystem
             {
                 var tpcontrol = Teleport.GetComponent<TeleportController>();
                 tpcontrol.changeTeleport(true);
+
+                // Set sphere position to its original position when we quit the news
+                transform.position = transformInit;
+            }
+            else
+            {
+                // Set sphere position at your feet position when enter in the news
+                transform.position = new Vector3(HeadCollider.transform.position.x, transformInit.y, HeadCollider.transform.position.z);
             }
 
             if (hand.otherHand != null) hand.otherHand.enabled = true;
