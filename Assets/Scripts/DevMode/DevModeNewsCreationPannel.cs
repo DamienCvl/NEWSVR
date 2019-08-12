@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using MySql.Data.MySqlClient;
 using System.IO;
 using Assets.Scripts.Core;
+using UnityEngine.SceneManagement;
 
 // Handle the creation of a news after you choose the position by clicking on the town in devmode.
 
@@ -15,7 +16,7 @@ public class DevModeNewsCreationPannel : MonoBehaviour
 {
 
     public Button Cancel;
-    public Button OK;
+    public Button Next;
     public InputField Title;
     public InputField TextNews;
     public GameObject NewsPlacementManager;
@@ -23,7 +24,12 @@ public class DevModeNewsCreationPannel : MonoBehaviour
 	// Use this for initialization
 	void Start () {        
         Cancel.onClick.AddListener(CancelAction);
-        OK.onClick.AddListener(OkAction);
+        Next.onClick.AddListener(NextAction);
+    }
+
+    private void Update()
+    {
+        VerifyInputs();
     }
 
     private void OnDisable()
@@ -38,6 +44,7 @@ public class DevModeNewsCreationPannel : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
+    /*
     void OkAction()
     {
         // Create the news
@@ -48,6 +55,18 @@ public class DevModeNewsCreationPannel : MonoBehaviour
         NewsPlacementManager.GetComponent<DevModeCreateNews>().newsBeingCreated = false;
         this.gameObject.SetActive(false);
     }
+    */
 
-    
+    public void NextAction()
+    {
+        DontDestroyOnLoad(Title);
+        DontDestroyOnLoad(TextNews);
+        DontDestroyOnLoad(NewsPlacementManager);
+        SceneManager.LoadScene(7);
+    }
+
+    public void VerifyInputs()
+    {
+        Next.interactable = (Title.text.Length >= 1 && TextNews.text.Length >= 1);
+    }
 }

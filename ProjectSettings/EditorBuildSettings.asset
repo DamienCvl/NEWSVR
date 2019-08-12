@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Admin.unity
     guid: 53a02601b903d2347bbec2f46677cd83
+  - enabled: 1
+    path: Assets/Scenes/TagMedia.unity
+    guid: 31763c24b6273714baf587c41bd94413
   m_configObjects: {}

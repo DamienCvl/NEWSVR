@@ -77,10 +77,7 @@ public class MainMenu : MonoBehaviour
                 cb.normalColor = n.GetNewsColor();
                 copy.GetComponent<Button>().colors = cb; 
             }
-            else
-            {
-                copy.GetComponent<Button>().colors = notifTemplate.GetComponent<Button>().colors;
-            }
+
 
            
 

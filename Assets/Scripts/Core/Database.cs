@@ -1096,8 +1096,90 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
+        public static int LastNewsCreated()
+        {
+            int res = -1;
 
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT `idNews` FROM NEWS WHERE `idNews` = LAST_INSERT_ID();", con);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
 
+            try
+            {
+                if (reader.Read())
+                {
+                    res = reader.GetInt32(0);
+                }
+            
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+            return res;
+        }
+
+        public static bool InsertMedia(int idNews,string url,int type)
+        {
+            bool res = false;
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO `MEDIA`(`idNews`, `link`, `type`) VALUES (@dbIdNews,@dbUrl,@dbType);", con);
+            cmdSQL.Parameters.AddWithValue("@dbIdNews", idNews);
+            cmdSQL.Parameters.AddWithValue("@dbUrl", url);
+            cmdSQL.Parameters.AddWithValue("@dbType", type);
+
+            try
+            {
+                if (cmdSQL.ExecuteNonQuery() > 0)
+                {
+                    res = true;
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+
+            return res;
+        }
+
+        public static bool InsertTopic(int idNews, string tag)
+        {
+            bool res = false;
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO `TOPICS`(`tagName`, `idNews`) VALUES (@dbTagName, @dbIdNews);", con);
+            cmdSQL.Parameters.AddWithValue("@dbTagName", tag);
+            cmdSQL.Parameters.AddWithValue("@dbIdNews", idNews);
+
+            try
+            {
+                if (cmdSQL.ExecuteNonQuery() > 0)
+                {
+                    res = true;
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+
+            return res;
+        }
+
+        //SELECT NEWS.idNews AS ID, (SELECT name FROM PLAYERS WHERE idPlayer = 3) Player, NEWS.title, VIEWS.reactionSelected,( SELECT COUNT(`idComment`) FROM `COMMENTS` JOIN NEWS ON COMMENTS.idNews = NEWS.idNews WHERE idPlayer = 3 AND NEWS.idNews = ID ) NumOfCmt, VIEWS.dateLatestView FROM VIEWS JOIN NEWS ON NEWS.idNews = VIEWS.idNews WHERE idPlayer=3 ORDER BY VIEWS.dateLatestView DESC
+        //SELECT VIEWS.idPlayer AS ID, PLAYERS.name,(SELECT title FROM NEWS WHERE idNews = 3) Title, VIEWS.reactionSelected, (SELECT COUNT(`idComment`) FROM `COMMENTS` JOIN NEWS ON COMMENTS.idNews = NEWS.idNews WHERE idPlayer = ID AND NEWS.idNews = 3) NumOfCmt, VIEWS.dateLatestView FROM VIEWS JOIN PLAYERS ON PLAYERS.idPlayer = VIEWS.idPlayer WHERE idNews = 3 ORDER BY VIEWS.dateLatestView DESC
 
     }
 }
