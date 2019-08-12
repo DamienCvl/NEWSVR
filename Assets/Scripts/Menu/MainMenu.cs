@@ -15,6 +15,7 @@ public class MainMenu : MonoBehaviour
    
     public Button playGameButton;
     public Button profilButton;
+    public Button devMode;
 
     public Text sortedByTxt;
     public Text newsPrompt;
@@ -56,6 +57,7 @@ public class MainMenu : MonoBehaviour
             state.text = "User log :  " + StaticClass.CurrentPlayerName;
             profilButton.interactable = (true);
             playGameButton.interactable = (true);
+            devMode.interactable = (true);
             StaticClass.newsList.Clear();
             Database.GenerateNewsList();
             List<string> tmp = Database.GetTags();
@@ -67,6 +69,7 @@ public class MainMenu : MonoBehaviour
         {
             profilButton.interactable = (false);
             playGameButton.interactable = (false);
+            devMode.interactable = (false);
         }
     }
 

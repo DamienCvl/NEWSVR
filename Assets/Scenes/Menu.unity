@@ -1027,6 +1027,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playGameButton: {fileID: 168502293}
   profilButton: {fileID: 405590619}
+  devMode: {fileID: 1324745642}
   sortedByTxt: {fileID: 94359296}
   newsPrompt: {fileID: 0}
   state: {fileID: 1562948691}

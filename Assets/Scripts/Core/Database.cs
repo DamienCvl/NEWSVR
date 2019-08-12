@@ -1219,6 +1219,27 @@ namespace Assets.Scripts.Core
             return response;
         }
 
+        public static void DeleteNews(uint id)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("DELETE FROM `NEWS` WHERE `idNews` = @dbIdNews;", con);
+            cmdSQL.Parameters.AddWithValue("@dbIdNews", id);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
+
+
 
     }
 }

@@ -17,9 +17,12 @@ public class AdminPage : MonoBehaviour
     //news list
     public GameObject newsTemplate;
     public GameObject newsContent;
+    public GameObject newsDeletePanel;
 
     public List<GameObject> newsListGO;
     public List<GameObject> tagListGO;
+
+    private News ToDelete;
 
     // Start is called before the first frame update
     void Start()
@@ -66,6 +69,7 @@ public class AdminPage : MonoBehaviour
     {
         tagAddPanel.SetActive(false);
         tagDeletePanel.SetActive(false);
+        newsDeletePanel.SetActive(false);
     }
 
     public void SaveAddTag()
@@ -134,7 +138,9 @@ public class AdminPage : MonoBehaviour
             copy.GetComponent<Button>().onClick.AddListener(
                 () =>
                 {
-
+                    newsDeletePanel.SetActive(true);
+                    newsDeletePanel.GetComponentInChildren<Text>().text = n.GetId() + " - " + n.GetTitle();
+                    ToDelete = n;
                 }
            );
         }
@@ -147,7 +153,16 @@ public class AdminPage : MonoBehaviour
         DisplayTagsList();
         tagDeletePanel.SetActive(false);
     }
-    
+
+    public void DeleteNews()
+    {
+        Database.DeleteNews(ToDelete.GetId());
+        StaticClass.newsList.Remove(ToDelete);
+        DisplayNewsList();  //refresh
+        newsDeletePanel.SetActive(false);
+        ToDelete = null;
+    }
+
 
     public bool IsTagAlreadyExist(string s)
     {
