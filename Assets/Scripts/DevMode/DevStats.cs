@@ -10,13 +10,20 @@ public class DevStats : MonoBehaviour
 
     public Dropdown playersDD;
     public Dropdown newsDD;
+    public GameObject contentParent;
 
     private Dictionary<int, string> players;
+    private GameObject rowPrefab;
+
+    private void Awake()
+    {
+        rowPrefab = Resources.Load("Assets/Resources/Prefabs/DevMode/Row.prefab") as GameObject;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        Database.GenerateNewsList();
+        Database.GenerateNewsList(); // TEST à delete
         players = Database.GetPlayers();
         playersDD.AddOptions(players.Values.ToList());
         newsDD.AddOptions(StaticClass.newsList.Select(n => n.GetTitle()).OrderBy(x => x).ToList());
@@ -52,5 +59,10 @@ public class DevStats : MonoBehaviour
                 // Afficher la derniere vue sur la new X du joueurs X
             }
         }
+    }
+
+    public void DisplayData()
+    {
+
     }
 }
