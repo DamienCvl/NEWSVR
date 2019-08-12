@@ -3036,14 +3036,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1044753030942924, guid: f1aa716a3c953f043b1c72a2bc3d686e, type: 3}
       propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1521709839515004, guid: f1aa716a3c953f043b1c72a2bc3d686e, type: 3}
-      propertyPath: m_Name
-      value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 1041571901976428, guid: f1aa716a3c953f043b1c72a2bc3d686e, type: 3}
-      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4176298616470594, guid: f1aa716a3c953f043b1c72a2bc3d686e, type: 3}
@@ -3083,6 +3075,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 618296909}
+    - target: {fileID: 1041571901976428, guid: f1aa716a3c953f043b1c72a2bc3d686e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114700239428841034, guid: f1aa716a3c953f043b1c72a2bc3d686e,
         type: 3}
       propertyPath: m_Colors.m_HighlightedColor.r
@@ -3172,6 +3168,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Colors.m_SelectedColor.b
       value: 0.8018868
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521709839515004, guid: f1aa716a3c953f043b1c72a2bc3d686e, type: 3}
+      propertyPath: m_Name
+      value: Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 224716639236086232, guid: f1aa716a3c953f043b1c72a2bc3d686e,
         type: 3}
@@ -4019,6 +4019,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 51881b79efbc5964e87bfab1585c4f07, type: 2}
+    - target: {fileID: 114833106593338652, guid: 80ecc207548045c448879f7afd6e105b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80ecc207548045c448879f7afd6e105b, type: 3}
 --- !u!1 &1304840308
