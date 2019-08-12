@@ -20,9 +20,11 @@ public class DevModeNewsCreationPannel : MonoBehaviour
     public InputField Title;
     public InputField TextNews;
     public GameObject NewsPlacementManager;
+    public GameObject OptionPanel;
+    public GameObject NewsContentPanel;
 
-	// Use this for initialization
-	void Start () {        
+    // Use this for initialization
+    void Start () {        
         Cancel.onClick.AddListener(CancelAction);
         Next.onClick.AddListener(NextAction);
     }
@@ -32,11 +34,11 @@ public class DevModeNewsCreationPannel : MonoBehaviour
         VerifyInputs();
     }
 
-    private void OnDisable()
+    /*private void OnDisable()
     {
         Title.text = "";
         TextNews.text = "";
-    }
+    }*/
 
     void CancelAction()
     {
@@ -59,14 +61,23 @@ public class DevModeNewsCreationPannel : MonoBehaviour
 
     public void NextAction()
     {
-        DontDestroyOnLoad(Title);
-        DontDestroyOnLoad(TextNews);
-        DontDestroyOnLoad(NewsPlacementManager);
-        SceneManager.LoadScene(7);
+        NewsContentPanel.SetActive(false);
+        OptionPanel.SetActive(true);
     }
 
     public void VerifyInputs()
     {
         Next.interactable = (Title.text.Length >= 1 && TextNews.text.Length >= 1);
+    }
+
+    public void Back()
+    {
+        NewsContentPanel.SetActive(true);
+        OptionPanel.SetActive(false);
+    }
+
+    public void Menu()
+    {
+        SceneManager.LoadScene(6);
     }
 }

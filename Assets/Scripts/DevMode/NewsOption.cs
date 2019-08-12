@@ -25,8 +25,12 @@ public class NewsOption : MonoBehaviour
 
     public Text prompt;
 
+    public InputField Title;
+    public InputField TextNews;
+    public GameObject NewsPlacementManager;
+
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         DisplayTagsList();
     }
@@ -35,12 +39,18 @@ public class NewsOption : MonoBehaviour
     void Update()
     {
         VerifyInput();
+        ddMedia.onValueChanged.AddListener(delegate
+        {
+            url.text = "";
+        });
+
     }
 
     private void VerifyInput()
     {
         // > 4 min. due to the file's type (png, ogg, mpa, ...) and different of none
         addMediaBtn.interactable = (url.text.Length >4 && ddMedia.value >0);
+        url.interactable = (ddMedia.value != 0);
     }
 
     public void DisplayTagsList()
@@ -78,7 +88,7 @@ public class NewsOption : MonoBehaviour
 
                     tagsSelected.text = TagsToString();
 
-                    Debug.Log(topics.Count);
+
                 }
            );
         }
@@ -163,8 +173,8 @@ public class NewsOption : MonoBehaviour
 
     public bool SaveData()
     {
-        Database.CreateANews(GameObject.Find("TitleOfNews").GetComponent<Text>().text, GameObject.Find("TextOfNews").GetComponent<Text>().text, GameObject.Find("NewsPlacementManager").GetComponent<DevModeCreateNews>().newsPos.x, GameObject.Find("NewsPlacementManager").GetComponent<DevModeCreateNews>().newsPos.z);
-        if (Database.LastNewsCreated() > -1)
+        Database.CreateANews(Title.text.ToString(), TextNews.text.ToString(), NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.x, NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.z);
+        if (Database.LastNewsCreated() != -1)
         {
             foreach (KeyValuePair<string, int> entry in mediaList)
             {
@@ -194,17 +204,14 @@ public class NewsOption : MonoBehaviour
     {
         if (SaveData())
         {
-            SceneManager.LoadScene(7);
             prompt.text = " News Successfully created !";
             prompt.color = Color.green;
+
         }
-
-        prompt.text = "Something wrong happened ...";
-        prompt.color = Color.red;
-    }
-
-    public void Back()
-    {
-        SceneManager.LoadScene(6);
-    }
+        else
+        {
+            prompt.text = "Something wrong happened ...";
+            prompt.color = Color.red;
+        }
+    } 
 }

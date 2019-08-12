@@ -77,6 +77,9 @@ namespace Assets.Scripts.Core
             MySqlCommand cmdSQL = new MySqlCommand("SELECT DISTINCT NEWS.idNews, NEWS.title, NEWS.text, NEWS.positionX, NEWS.positionZ, NEWS.nbView, NEWS.nbComment, NEWS.creationDate FROM NEWS ORDER BY NEWS.creationDate DESC;", con);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
 
+            //clear
+            StaticClass.newsList = new List<News>();
+
             List<string> tagsTemp;
             List<Media> medium;
 
@@ -968,7 +971,7 @@ namespace Assets.Scripts.Core
         static void InsertDateTimeView()
         {
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO VIEWS (idNews, idPlayer, `dateLatestView`, ) VALUES (@dbNewsId,@dbPlayerId,@dbDateTime);", con);
+            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO VIEWS (idNews, idPlayer, `dateLatestView`,reactionSelected ) VALUES (@dbNewsId,@dbPlayerId,@dbDateTime,0);", con);
             cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
             cmdSQL.Parameters.AddWithValue("@dbPlayerId", StaticClass.CurrentPlayerId);
             cmdSQL.Parameters.AddWithValue("@dbDateTime", DateTime.Now);
@@ -1102,7 +1105,7 @@ namespace Assets.Scripts.Core
             int res = -1;
 
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT `idNews` FROM NEWS WHERE `idNews` = LAST_INSERT_ID();", con);
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT MAX(idNews) FROM NEWS;", con);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
 
             try
