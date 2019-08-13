@@ -32,15 +32,17 @@ public class MediaContainer : MonoBehaviour
         // Create all buttons associate with medium
         if (news != null && news.newsInfos != null)
         {
+            short nbMedia = 0;
             foreach (Media m in news.newsInfos.GetMedium())
             {
+                nbMedia++;
                 // Get components
                 GameObject button = Instantiate(buttonPrefab, buttonList.transform);
                 RectTransform buttonRect = button.GetComponent<RectTransform>();
                 ClickableUIVR buttonClickable = button.GetComponentInChildren<ClickableUIVR>();
                 
                 // Set button text
-                button.GetComponentInChildren<Text>().text = m.GetMediaTypeToString();
+                button.GetComponentInChildren<Text>().text = nbMedia.ToString() + " - " + m.GetMediaTypeToString();
 
                 // Use to set the size of the VR clickable area
                 StartCoroutine(UpdateVRAreaButton(buttonClickable, buttonRect));
@@ -74,20 +76,19 @@ public class MediaContainer : MonoBehaviour
         {
             case 0: // Image
                 StartCoroutine(mediaPlayer.SetImageFromWeb(m.GetUrl()));
-                mediaPlayer.image.gameObject.SetActive(true);
                 break;
+
             case 1: // Video
-                mediaPlayer.videoPlayer.url = m.GetUrl();
-                mediaPlayer.videoPlayer.gameObject.SetActive(true);
-                mediaPlayer.SetMediaController(0);
+                StartCoroutine(mediaPlayer.SetVideoFromUrl(m.GetUrl()));
                 break;
+
             case 2: // Audio
                 StartCoroutine(mediaPlayer.SetAudioFromWeb(m.GetUrl()));
-                mediaPlayer.audioSource.gameObject.SetActive(true);
-                mediaPlayer.SetMediaController(1);
                 break;
+
             default:
-                Debug.Log("Unknown media type");
+                mediaPlayer.errorText.text = "Unknown media type";
+                mediaPlayer.errorText.gameObject.SetActive(true);
                 break;
         }
     }
