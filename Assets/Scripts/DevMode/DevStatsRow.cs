@@ -18,6 +18,6 @@ public class DevStatsRow : MonoBehaviour
         this.newsTitle.text = newsTitle;
         this.reaction.text = reaction;
         this.nbCmt.text = nbCmt.ToString();
-        this.date.text = date.ToString();
+        this.date.text = date.ToString("MM/dd/yyyy' - 'hh:mm tt");
     }
 }
