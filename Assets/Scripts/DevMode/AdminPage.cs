@@ -194,4 +194,9 @@ public class AdminPage : MonoBehaviour
         StaticClass.GoBackToMenu();
     }
 
+    public void GoToStatistics()
+    {
+        SceneManager.LoadScene(8);
+    }
+
 }
