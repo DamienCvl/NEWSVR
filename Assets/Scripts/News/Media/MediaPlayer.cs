@@ -20,6 +20,8 @@ public class MediaPlayer : MonoBehaviour
     public LinearDrive linearDrive;
     public GameObject controlBar;
 
+    public Text errorText;
+
     private float previousLinearMappingValue;
 
     void OnEnable()
@@ -85,22 +87,35 @@ public class MediaPlayer : MonoBehaviour
         yield return www.SendWebRequest();
         if (www.isNetworkError || www.isHttpError)
         {
-            Debug.Log("Impossible to get the image");
+            errorText.text = www.error + "\n\nUrl : " + url;
+            errorText.gameObject.SetActive(true);
         }
         else
         {
-            Texture2D texture = DownloadHandlerTexture.GetContent(www);
-            image.overrideSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-            // ** Set VR area size to grab the image ** //
-            float ratio = (float)texture.width / texture.height;
-            float ratio16_9 = 16f / 9f;
-            if (ratio > ratio16_9)
-                image.transform.GetChild(0).localScale = new Vector3(10f, 1f, 5.625f / (ratio / ratio16_9));
-            else if (ratio < ratio16_9)
-                image.transform.GetChild(0).localScale = new Vector3(10f / (ratio16_9 / ratio), 1f, 5.625f);
-            else
-                image.transform.GetChild(0).localScale = new Vector3(10f, 1f, 5.625f);
-            // **************************************** //
+            try
+            {
+                Texture2D texture = DownloadHandlerTexture.GetContent(www);
+                image.overrideSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+
+                // ** Set VR area size to grab the image ** //
+                float ratio = (float)texture.width / texture.height;
+                float ratio16_9 = 16f / 9f;
+                if (ratio > ratio16_9)
+                    image.transform.GetChild(0).localScale = new Vector3(10f, 1f, 5.625f / (ratio / ratio16_9));
+                else if (ratio < ratio16_9)
+                    image.transform.GetChild(0).localScale = new Vector3(10f / (ratio16_9 / ratio), 1f, 5.625f);
+                else
+                    image.transform.GetChild(0).localScale = new Vector3(10f, 1f, 5.625f);
+                // **************************************** //
+
+                image.gameObject.SetActive(true);
+            }
+            catch (Exception)
+            {
+                errorText.text = www.error + "\n\nUrl : " + url;
+                errorText.gameObject.SetActive(true);
+                throw;
+            }
         }
     }
 
@@ -110,12 +125,48 @@ public class MediaPlayer : MonoBehaviour
         yield return www.SendWebRequest();
         if (www.isNetworkError || www.isHttpError)
         {
-            Debug.Log("Impossible to get the audio");
+            errorText.text = www.error + "\n\nUrl : " + url;
+            errorText.gameObject.SetActive(true);
         }
         else
         {
-            audioSource.clip = DownloadHandlerAudioClip.GetContent(www);
+            try
+            {
+                audioSource.clip = DownloadHandlerAudioClip.GetContent(www);
+                audioSource.gameObject.SetActive(true);
+                SetMediaController(1);
+            }
+            catch (Exception)
+            {
+                errorText.text = www.error + "\n\nUrl : " + url;
+                errorText.gameObject.SetActive(true);
+                throw;
+            }
         }
+    }
+
+    public IEnumerator SetVideoFromUrl(string url)
+    {
+        yield return null;
+        videoPlayer.url = url;
+        videoPlayer.errorReceived += VideoPlayer_errorReceived;
+        videoPlayer.prepareCompleted += VideoPlayer_prepareCompleted;
+        videoPlayer.gameObject.SetActive(true);
+        videoPlayer.Prepare();
+    }
+
+    private void VideoPlayer_errorReceived(VideoPlayer source, string message)
+    {
+        videoPlayer.gameObject.SetActive(false);
+        errorText.text = message;
+        errorText.gameObject.SetActive(true);
+        videoPlayer.errorReceived -= VideoPlayer_errorReceived;
+    }
+
+    private void VideoPlayer_prepareCompleted(UnityEngine.Video.VideoPlayer vp)
+    {
+        SetMediaController(0);
+        videoPlayer.prepareCompleted -= VideoPlayer_prepareCompleted;
     }
 
     // Fonctions called by the control bar //
@@ -156,7 +207,6 @@ public class MediaPlayer : MonoBehaviour
         {
             videoPlayer = v;
             slider = s;
-            videoPlayer.Prepare();
         }
 
         public void PlayPause()

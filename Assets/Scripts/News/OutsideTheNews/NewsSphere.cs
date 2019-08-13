@@ -200,6 +200,7 @@ namespace Valve.VR.InteractionSystem
             {
                 // Set sphere position at your feet position when enter in the news
                 transform.position = new Vector3(HeadCollider.transform.position.x, transformInit.y, HeadCollider.transform.position.z);
+                transform.position += new Vector3(HeadCollider.transform.forward.x, 0, HeadCollider.transform.forward.z) * 0.1f;
             }
 
             if (hand.otherHand != null) hand.otherHand.enabled = true;
