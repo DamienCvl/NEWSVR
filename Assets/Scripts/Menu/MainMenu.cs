@@ -43,10 +43,7 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown("escape"))
-        {
-            SceneManager.LoadScene(0);
-        }
+    
     }
 
     private void Start()
