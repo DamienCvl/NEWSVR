@@ -75,11 +75,15 @@ public class NewsOption : MonoBehaviour
                     }
                     else
                     {
-                        topics.Add(s);
+                        if (topics.Count < 4)
+                        {
+                            topics.Add(s);
 
-                        ColorBlock cb = copy.GetComponent<Button>().colors;
-                        cb.normalColor = Color.green;
-                        copy.GetComponent<Button>().colors = cb;
+                            ColorBlock cb = copy.GetComponent<Button>().colors;
+                            cb.normalColor = Color.green;
+                            copy.GetComponent<Button>().colors = cb;
+                        }
+                        
                     }
 
                     //TODO ugly way to refresh the content
@@ -106,7 +110,7 @@ public class NewsOption : MonoBehaviour
 
     public void AddMediaAction()
     {
-        if (!mediaList.ContainsKey(url.text))
+        if (!mediaList.ContainsKey(url.text) && mediaList.Count <4)
         {
             mediaList.Add(url.text, ddMedia.value);
             RefreshMediaList();

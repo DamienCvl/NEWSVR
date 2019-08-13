@@ -181,8 +181,7 @@ public void GoToRegister()
     public void NotifSortedByDate()
     {
         ClearNotification();
-        List<News> SortedList = StaticClass.newsList.OrderBy(o => o.GetDate()).ToList();
-        DisplayNews(SortedList);
+        DisplayNews(StaticClass.newsList);
         sortedByTxt.text = "The 20 recent news";
         notifTagsDropdown.value = 0; // Reset tags dropdown to default
         notifDateImage.color = notifSelectedColor;
