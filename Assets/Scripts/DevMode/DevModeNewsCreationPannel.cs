@@ -32,6 +32,12 @@ public class DevModeNewsCreationPannel : MonoBehaviour
     private void Update()
     {
         VerifyInputs();
+
+        if (Title.isFocused && Input.GetKeyDown(KeyCode.Tab))
+        {
+            TextNews.Select();
+            TextNews.ActivateInputField();
+        }
     }
 
     /*private void OnDisable()

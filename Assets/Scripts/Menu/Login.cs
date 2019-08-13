@@ -29,6 +29,24 @@ public class Login : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
+
+        if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) && logPasswordField.isFocused)
+        {
+            if (logInButton.interactable)
+                logInButton.onClick.Invoke();
+        }
+
+        if (logNameField.isFocused && Input.GetKeyDown(KeyCode.Tab))
+        {
+            logPasswordField.Select();
+            logPasswordField.ActivateInputField();
+        }
+
+        if (logPasswordField.isFocused && Input.GetKeyDown(KeyCode.Tab))
+        {
+            logNameField.Select();
+            logNameField.ActivateInputField();
+        }   
     }
 
     public void VerifyInputs()

@@ -38,6 +38,29 @@ public class Registration : MonoBehaviour
             SceneManager.LoadScene(0);
         }
 
+        if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) && confirmPassField.isFocused)
+        {
+            if (submitButton.interactable)
+                submitButton.onClick.Invoke();
+        }
+
+        if (nameField.isFocused && Input.GetKeyDown(KeyCode.Tab))
+        {
+            passwordField.Select();
+            passwordField.ActivateInputField();
+        }
+
+        if (passwordField.isFocused && Input.GetKeyDown(KeyCode.Tab))
+        {
+            confirmPassField.Select();
+            confirmPassField.ActivateInputField();
+        }
+
+        if (confirmPassField.isFocused && Input.GetKeyDown(KeyCode.Tab))
+        {
+            nameField.Select();
+            nameField.ActivateInputField();
+        }
     }
 
 
