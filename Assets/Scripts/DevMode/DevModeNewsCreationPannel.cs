@@ -11,79 +11,82 @@ using Assets.Scripts.Core;
 using UnityEngine.SceneManagement;
 
 // Handle the creation of a news after you choose the position by clicking on the town in devmode.
-
-public class DevModeNewsCreationPannel : MonoBehaviour
+namespace Assets.Scripts.DevMode
 {
-
-    public Button Cancel;
-    public Button Next;
-    public InputField Title;
-    public InputField TextNews;
-    public GameObject NewsPlacementManager;
-    public GameObject OptionPanel;
-    public GameObject NewsContentPanel;
-
-    // Use this for initialization
-    void Start () {        
-        Cancel.onClick.AddListener(CancelAction);
-        Next.onClick.AddListener(NextAction);
-    }
-
-    private void Update()
+    public class DevModeNewsCreationPannel : MonoBehaviour
     {
-        VerifyInputs();
 
-        if (Title.isFocused && Input.GetKeyDown(KeyCode.Tab))
+        public Button Cancel;
+        public Button Next;
+        public InputField Title;
+        public InputField TextNews;
+        public GameObject NewsPlacementManager;
+        public GameObject OptionPanel;
+        public GameObject NewsContentPanel;
+
+        // Use this for initialization
+        void Start()
         {
-            TextNews.Select();
-            TextNews.ActivateInputField();
+            Cancel.onClick.AddListener(CancelAction);
+            Next.onClick.AddListener(NextAction);
         }
-    }
 
-    /*private void OnDisable()
-    {
-        Title.text = "";
-        TextNews.text = "";
-    }*/
+        private void Update()
+        {
+            VerifyInputs();
 
-    void CancelAction()
-    {
-        NewsPlacementManager.GetComponent<DevModeCreateNews>().newsBeingCreated = false;
-        this.gameObject.SetActive(false);
-    }
+            if (Title.isFocused && Input.GetKeyDown(KeyCode.Tab))
+            {
+                TextNews.Select();
+                TextNews.ActivateInputField();
+            }
+        }
 
-    /*
-    void OkAction()
-    {
-        // Create the news
-        Debug.Log(NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.x);
-        Database.CreateANews(Title.text.ToString(), TextNews.text.ToString(), NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.x, NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.z);
+        /*private void OnDisable()
+        {
+            Title.text = "";
+            TextNews.text = "";
+        }*/
 
-        // Say that we are not creating a news at the moment so that we can click on the map
-        NewsPlacementManager.GetComponent<DevModeCreateNews>().newsBeingCreated = false;
-        this.gameObject.SetActive(false);
-    }
-    */
+        void CancelAction()
+        {
+            NewsPlacementManager.GetComponent<DevModeCreateNews>().newsBeingCreated = false;
+            this.gameObject.SetActive(false);
+        }
 
-    public void NextAction()
-    {
-        NewsContentPanel.SetActive(false);
-        OptionPanel.SetActive(true);
-    }
+        /*
+        void OkAction()
+        {
+            // Create the news
+            Debug.Log(NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.x);
+            Database.CreateANews(Title.text.ToString(), TextNews.text.ToString(), NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.x, NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.z);
 
-    public void VerifyInputs()
-    {
-        Next.interactable = (Title.text.Length >= 1 && TextNews.text.Length >= 1);
-    }
+            // Say that we are not creating a news at the moment so that we can click on the map
+            NewsPlacementManager.GetComponent<DevModeCreateNews>().newsBeingCreated = false;
+            this.gameObject.SetActive(false);
+        }
+        */
 
-    public void Back()
-    {
-        NewsContentPanel.SetActive(true);
-        OptionPanel.SetActive(false);
-    }
+        public void NextAction()
+        {
+            NewsContentPanel.SetActive(false);
+            OptionPanel.SetActive(true);
+        }
 
-    public void Menu()
-    {
-        SceneManager.LoadScene(6);
+        public void VerifyInputs()
+        {
+            Next.interactable = (Title.text.Length >= 1 && TextNews.text.Length >= 1);
+        }
+
+        public void Back()
+        {
+            NewsContentPanel.SetActive(true);
+            OptionPanel.SetActive(false);
+        }
+
+        public void Menu()
+        {
+            SceneManager.LoadScene(6);
+        }
     }
 }

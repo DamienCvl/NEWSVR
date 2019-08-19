@@ -9,64 +9,67 @@ using System.IO;
 using MySql.Data.MySqlClient;
 using Assets.Scripts.Core;
 
-// Handle the delete of comment in the database when you click the red cross and the verification panel.
-
-public class DevModeVerifComments : MonoBehaviour
+namespace Assets.Scripts.DevMode
 {
+    // Handle the delete of comment in the database when you click the red cross and the verification panel.
 
-    private int idComments;
-    private GameObject viewToDestroy;
-
-    public Button YesButton;
-    public Button NoButton;
-    public GameObject ViewVerif;
-    public Text text;
-
-
-    // Use this for initialization
-    void Start()
+    public class DevModeVerifComments : MonoBehaviour
     {
-        Database.ConnectDB();
-        YesButton.onClick.AddListener(YesAction);
-        NoButton.onClick.AddListener(NoAction);
-    }
 
-    public void SetIdComments(int id, GameObject toDestroy)
-    {
-        idComments = id;
-        viewToDestroy = toDestroy;
-        text.text = "This action will destroy the comment.\n\nAre you sure ? ";
-        ViewVerif.SetActive(true);
-    }
+        private int idComments;
+        private GameObject viewToDestroy;
 
-    private void YesAction()
-    {
-        DeleteComments();
-        Destroy(viewToDestroy);
-        ViewVerif.SetActive(false);
-    }
+        public Button YesButton;
+        public Button NoButton;
+        public GameObject ViewVerif;
+        public Text text;
 
-    private void NoAction()
-    {
-        ViewVerif.SetActive(false);
-    }
 
-    private void DeleteComments()
-    {
-        
-        MySqlCommand cmdVerifCom = new MySqlCommand("DELETE FROM COMMENTS WHERE ID = @dbIdComment;", Database.con);
-        cmdVerifCom.Parameters.AddWithValue("@dbIdComment", idComments);
-
-        try
+        // Use this for initialization
+        void Start()
         {
-            cmdVerifCom.ExecuteReader();
-        }
-        catch (IOException ex)
-        {
-            Debug.Log(ex.ToString());
+            Database.ConnectDB();
+            YesButton.onClick.AddListener(YesAction);
+            NoButton.onClick.AddListener(NoAction);
         }
 
-        cmdVerifCom.Dispose();
-        Database.con.Dispose();
+        public void SetIdComments(int id, GameObject toDestroy)
+        {
+            idComments = id;
+            viewToDestroy = toDestroy;
+            text.text = "This action will destroy the comment.\n\nAre you sure ? ";
+            ViewVerif.SetActive(true);
+        }
+
+        private void YesAction()
+        {
+            DeleteComments();
+            Destroy(viewToDestroy);
+            ViewVerif.SetActive(false);
+        }
+
+        private void NoAction()
+        {
+            ViewVerif.SetActive(false);
+        }
+
+        private void DeleteComments()
+        {
+
+            MySqlCommand cmdVerifCom = new MySqlCommand("DELETE FROM COMMENTS WHERE ID = @dbIdComment;", Database.con);
+            cmdVerifCom.Parameters.AddWithValue("@dbIdComment", idComments);
+
+            try
+            {
+                cmdVerifCom.ExecuteReader();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+
+            cmdVerifCom.Dispose();
+            Database.con.Dispose();
+        }
     }
 }

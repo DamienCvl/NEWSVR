@@ -13,6 +13,9 @@ namespace Assets.Scripts.Core
 {
 
 
+    /// <summary>
+    /// Some info about Database class.
+    /// </summary>
     static class Database 
     {
        

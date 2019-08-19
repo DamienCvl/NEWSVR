@@ -1,15 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
-using System.Collections;
-using UnityEngine.UI;
-using Valve.VR;
+using Valve.VR.InteractionSystem;
 
 /*
  * Allow the object to be grab
  */
 
-namespace Valve.VR.InteractionSystem
+namespace Assets.Scripts.Core
 {
 
     [RequireComponent(typeof(Interactable))]

@@ -1,37 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-
-public class ColorSelector : EditorWindow
+namespace Assets.Scripts.Menu
 {
-    Color matColor = Color.white;
-
-    [MenuItem("Examples/Mass Color Change")]
-    static void Init()
+    public class ColorSelector : EditorWindow
     {
-        EditorWindow window = GetWindow(typeof(ColorSelector));
-        window.Show();
-    }
+        Color matColor = Color.white;
 
-    void OnGUI()
-    {
-        matColor = EditorGUILayout.ColorField("New Color", matColor);
+        [MenuItem("Examples/Mass Color Change")]
+        static void Init()
+        {
+            EditorWindow window = GetWindow(typeof(ColorSelector));
+            window.Show();
+        }
 
-        if (GUILayout.Button("Change!"))
-            ChangeColors();
-    }
+        void OnGUI()
+        {
+            matColor = EditorGUILayout.ColorField("New Color", matColor);
 
-    private void ChangeColors()
-    {
-        if (Selection.activeGameObject)
-            foreach (GameObject t in Selection.gameObjects)
-            {
-                Renderer rend = t.GetComponent<Renderer>();
+            if (GUILayout.Button("Change!"))
+                ChangeColors();
+        }
 
-                if (rend != null)
-                    rend.sharedMaterial.color = matColor;
-            }
+        private void ChangeColors()
+        {
+            if (Selection.activeGameObject)
+                foreach (GameObject t in Selection.gameObjects)
+                {
+                    Renderer rend = t.GetComponent<Renderer>();
+
+                    if (rend != null)
+                        rend.sharedMaterial.color = matColor;
+                }
+        }
     }
 }

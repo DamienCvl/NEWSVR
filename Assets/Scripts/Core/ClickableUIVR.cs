@@ -1,39 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using Valve.VR.InteractionSystem;
 using Valve.VR;
 
-
-[RequireComponent(typeof(Interactable))]
-[RequireComponent(typeof(Collider))]
-public class ClickableUIVR : MonoBehaviour
+namespace Assets.Scripts.Core
 {
-    public SteamVR_Action_Boolean Boolean_Action = SteamVR_Input.GetBooleanAction("InteractUI");
-    public UnityEvent OnClickEvent;
-
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// Attach it to a gameobject to make it clickable by VR inputs.
+    /// </summary>
+    [RequireComponent(typeof(Interactable))]
+    [RequireComponent(typeof(Collider))]
+    public class ClickableUIVR : MonoBehaviour
     {
+        /// <summary>
+        /// The VR action from SteamVR inputs to perform to call OnClickEvent
+        /// </summary>
+        public SteamVR_Action_Boolean Boolean_Action = SteamVR_Input.GetBooleanAction("InteractUI");
+        public UnityEvent OnClickEvent;
 
-        if (OnClickEvent == null)
+        // Start is called before the first frame update
+        void Start()
         {
-            OnClickEvent = new UnityEvent();
+
+            if (OnClickEvent == null)
+            {
+                OnClickEvent = new UnityEvent();
+            }
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    protected void HandHoverUpdate(Hand hand)
-    {
-        if (Boolean_Action.GetStateDown(hand.handType))
+        // Update is called once per frame
+        void Update()
         {
-            OnClickEvent.Invoke();
+
+        }
+
+        protected void HandHoverUpdate(Hand hand)
+        {
+            if (Boolean_Action.GetStateDown(hand.handType))
+            {
+                OnClickEvent.Invoke();
+            }
         }
     }
 }

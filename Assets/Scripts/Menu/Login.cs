@@ -1,75 +1,74 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using MySql.Data.MySqlClient;
-using System.IO;
-using System;
 using Assets.Scripts.Core;
 
-public class Login : MonoBehaviour
+namespace Assets.Scripts.Menu
 {
-    public InputField logNameField;
-    public InputField logPasswordField;
-
-    public Button logInButton;
-
-    public Text logStateTxt;
-
-    // Start is called before the first frame update
-    void Start()
+    public class Login : MonoBehaviour
     {
-        logInButton.onClick.AddListener(LogInButtonAction);
-    }
+        public InputField logNameField;
+        public InputField logPasswordField;
 
-    private void Update()
-    {
-        VerifyInputs();
-        if (Input.GetKeyDown("escape"))
+        public Button logInButton;
+
+        public Text logStateTxt;
+
+        // Start is called before the first frame update
+        void Start()
         {
-            SceneManager.LoadScene(0);
+            logInButton.onClick.AddListener(LogInButtonAction);
         }
 
-        if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) && logPasswordField.isFocused)
+        private void Update()
         {
-            if (logInButton.interactable)
-                logInButton.onClick.Invoke();
+            VerifyInputs();
+            if (Input.GetKeyDown("escape"))
+            {
+                SceneManager.LoadScene(0);
+            }
+
+            if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) && logPasswordField.isFocused)
+            {
+                if (logInButton.interactable)
+                    logInButton.onClick.Invoke();
+            }
+
+            if (logNameField.isFocused && Input.GetKeyDown(KeyCode.Tab))
+            {
+                logPasswordField.Select();
+                logPasswordField.ActivateInputField();
+            }
+
+            if (logPasswordField.isFocused && Input.GetKeyDown(KeyCode.Tab))
+            {
+                logNameField.Select();
+                logNameField.ActivateInputField();
+            }
         }
 
-        if (logNameField.isFocused && Input.GetKeyDown(KeyCode.Tab))
+        public void VerifyInputs()
         {
-            logPasswordField.Select();
-            logPasswordField.ActivateInputField();
+            logInButton.interactable = (logNameField.text.Length >= 1 && logPasswordField.text.Length >= 8);
         }
 
-        if (logPasswordField.isFocused && Input.GetKeyDown(KeyCode.Tab))
+        private void LogInButtonAction()
         {
-            logNameField.Select();
-            logNameField.ActivateInputField();
-        }   
-    }
-
-    public void VerifyInputs()
-    {
-        logInButton.interactable = (logNameField.text.Length >= 1 && logPasswordField.text.Length >= 8);
-    }
-
-    private void LogInButtonAction()
-    {
-        if (Database.IsThisUserAnAuthenticPlayer(logNameField.text, logPasswordField.text))
-        {
-            StaticClass.CurrentPlayerName = logNameField.text;
-            SceneManager.LoadScene(0);
+            if (Database.IsThisUserAnAuthenticPlayer(logNameField.text, logPasswordField.text))
+            {
+                StaticClass.CurrentPlayerName = logNameField.text;
+                SceneManager.LoadScene(0);
+            }
+            else
+            {
+                logStateTxt.text = "Wrong username or password.";
+            }
         }
-        else
+
+
+        public void GoBackToMenu()
         {
-            logStateTxt.text = "Wrong username or password.";
+            StaticClass.GoBackToMenu();
         }
-    }
-
-
-    public void GoBackToMenu()
-    {
-        StaticClass.GoBackToMenu();
     }
 }

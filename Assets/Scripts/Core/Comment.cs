@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Assets.Scripts.TownSimulation.NewsGO.CommentGO;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts.Core
 {
+    /// <summary>
+    /// Contains comment infos and methods related to comment gameobject.
+    /// </summary>
     public class Comment
     {
         public uint IdComment { get; private set; }
