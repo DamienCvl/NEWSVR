@@ -350,6 +350,104 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
+        public static void CreateANews(string title, string text, float posX, float posZ)
+        {
+            ConnectDB();
+            MySqlCommand cmdCreateNews = new MySqlCommand("INSERT INTO NEWS(title, text, author, creationDate, nbView, nbComment, nbHappy, nbSad, nbAngry, nbSurprised, positionX, positionZ, laserTarget) VALUES(@dbNewsCreaTitle,@dbNewsCreaText,@dbNewsCreaAuthor, @dbNewsCreaDate,0,0,0,0,0,0,@dbNewsCreaPosiX, @dbNewsCreaPosiZ,'');", Database.con);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaTitle", title);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaText", text);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaAuthor", StaticClass.CurrentPlayerName);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaDate", DateTime.Now);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaPosiX", posX);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaPosiZ", posZ);
+
+            try
+            {
+                cmdCreateNews.ExecuteReader();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+
+            cmdCreateNews.Dispose();
+            DisconnectDB();
+        }
+
+        public static int LastNewsCreated()
+        {
+            int res = -1;
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT MAX(idNews) FROM NEWS;", con);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                if (reader.Read())
+                {
+                    res = reader.GetInt32(0);
+                }
+
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+            return res;
+        }
+
+        public static Dictionary<uint, string> GetPlayers()
+        {
+            Dictionary<uint, string> response = new Dictionary<uint, string>();
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT idPlayer, name FROM `PLAYERS` ORDER BY name", con);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        response.Add(reader.GetUInt32(0), reader.GetString(1));
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+            return response;
+        }
+
+        public static void DeleteNews(uint id)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("DELETE FROM `NEWS` WHERE `idNews` = @dbIdNews;", con);
+            cmdSQL.Parameters.AddWithValue("@dbIdNews", id);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
 
         /************************************************************************************************/
         /* 2 - PLAYERS  *********************************************************************************/
@@ -814,7 +912,7 @@ namespace Assets.Scripts.Core
 
 
         /************************************************************************************************/
-        /* 4 - TAGS  ************************************************************************************/
+        /* 5 - NOTIFICATIONS  ************************************************************************************/
         /************************************************************************************************/
 
         public static void GetTagColors()
@@ -915,44 +1013,10 @@ namespace Assets.Scripts.Core
             return res;
         }
 
-       
 
-
-
-
-      
-
-
-        /******************/
-        /******************/
-        /**** 6 - NEWS ****/
-        /******************/
-        /******************/
-
-        public static void CreateANews(string title, string text, float posX, float posZ)
-        {
-            ConnectDB();
-            MySqlCommand cmdCreateNews = new MySqlCommand("INSERT INTO NEWS(title, text, author, creationDate, nbView, nbComment, nbHappy, nbSad, nbAngry, nbSurprised, positionX, positionZ, laserTarget) VALUES(@dbNewsCreaTitle,@dbNewsCreaText,@dbNewsCreaAuthor, @dbNewsCreaDate,0,0,0,0,0,0,@dbNewsCreaPosiX, @dbNewsCreaPosiZ,'');", Database.con);
-            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaTitle", title);
-            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaText", text);
-            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaAuthor", StaticClass.CurrentPlayerName);
-            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaDate", DateTime.Now);
-            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaPosiX", posX);
-            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaPosiZ", posZ);
-
-            try
-            {
-                cmdCreateNews.ExecuteReader();
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex.ToString());
-            }
-
-            cmdCreateNews.Dispose();
-            DisconnectDB();
-        }
-
+        /************************************************************************************************/
+        /* 6 - VIEWS  ***********************************************************************************/
+        /************************************************************************************************/
        
         //just to make sure they are always called together
         public static void CountView()
@@ -960,16 +1024,6 @@ namespace Assets.Scripts.Core
             Add1ViewToNews();
             Add1ViewToPlayer();
         }
-
-      
-       
-        
-
-        /***********************/
-        /***********************/
-        /******  Reaction ******/
-        /***********************/
-        /***********************/
 
 
         public static byte ReadReactionSelected()
@@ -1022,15 +1076,6 @@ namespace Assets.Scripts.Core
             cmdSQL.Dispose();
             DisconnectDB();
         }
-
-
-
-
-        /********************/
-        /********************/
-        /******  VIEW  ******/
-        /********************/
-        /********************/
 
         static void InsertDateTimeView()
         {
@@ -1115,37 +1160,10 @@ namespace Assets.Scripts.Core
 
 
 
+        /************************************************************************************************/
+        /* 7 - MEDIA  ***********************************************************************************/
+        /************************************************************************************************/
 
-        /******** ADMIN **********/
-
-       
-
-        public static int LastNewsCreated()
-        {
-            int res = -1;
-
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT MAX(idNews) FROM NEWS;", con);
-            MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-            try
-            {
-                if (reader.Read())
-                {
-                    res = reader.GetInt32(0);
-                }
-            
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            reader.Dispose();
-            cmdSQL.Dispose();
-            DisconnectDB();
-            return res;
-        }
 
         public static bool InsertMedia(int idNews,string url,int type)
         {
@@ -1174,6 +1192,10 @@ namespace Assets.Scripts.Core
 
             return res;
         }
+
+        /************************************************************************************************/
+        /* 6 - TOPICS  **********************************************************************************/
+        /************************************************************************************************/
 
         public static bool InsertTopic(int idNews, string tag)
         {
@@ -1211,53 +1233,6 @@ namespace Assets.Scripts.Core
         /********************/
         /********************/
 
-        public static Dictionary<uint, string> GetPlayers()
-        {
-            Dictionary<uint, string> response = new Dictionary<uint, string>();
-
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT idPlayer, name FROM `PLAYERS` ORDER BY name", con);
-            MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-            try
-            {
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        response.Add(reader.GetUInt32(0), reader.GetString(1));
-                    }
-                }
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            reader.Dispose();
-            cmdSQL.Dispose();
-            DisconnectDB();
-            return response;
-        }
-
-        public static void DeleteNews(uint id)
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("DELETE FROM `NEWS` WHERE `idNews` = @dbIdNews;", con);
-            cmdSQL.Parameters.AddWithValue("@dbIdNews", id);
-
-            try
-            {
-                cmdSQL.ExecuteNonQuery();
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            cmdSQL.Dispose();
-            DisconnectDB();
-        }
 
 
         public static List<DevStatsData> GetDevStatsData(uint idNews, uint idPlayer, bool filterNews, bool filterPlayer)
