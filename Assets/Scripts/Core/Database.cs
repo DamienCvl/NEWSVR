@@ -53,25 +53,29 @@ namespace Assets.Scripts.Core
             }
         }
 
-      
 
 
-        /*************************************************************************************************************************************************************************/
-        /*************************************************************************************************************************************************************************/
-        /*************************************************************************************************************************************************************************/
-        /******************************************************************                                       ****************************************************************/
-        /******************************************************************  ALL THE REQUEST WE NEED LISTED HERE  ****************************************************************/
-        /******************************************************************                                       ****************************************************************/
-        /*************************************************************************************************************************************************************************/
-        /*************************************************************************************************************************************************************************/
-        /*************************************************************************************************************************************************************************/
-        /*  1-MainMenu.cs   2-Registration.cs   3-Login.cs   4-Profil.cs  5-Comments  6-News*/
 
-        /*******************/
-        /*******************/
-        /* 1 - MainMenu.cs */
-        /*******************/
-        /*******************/
+               /*************************************************************************************************
+                *************************                                             ***************************
+                *************************   ALL THE REQUEST WE NEED LISTED BY TABLE   ***************************
+                *************************                                             ***************************
+                *************************************************************************************************
+                *************************************************************************************************
+                *************                           ***************                        ******************
+                **************     1 - NEWS              ***************     2 - PLAYER         *****************
+                ***************     3 - COMMENTS          ***************     4 - TAGS           ****************
+                ****************     5 - NOTIFICATION      ***************     6 - VIEWS          ***************
+                *****************     7 - MEDIA             ***************     8 - TOPICS         **************
+                ******************                           ***************                        *************
+                *************************************************************************************************/
+
+
+
+
+        /************************************************************************************************/
+        /* 1 - NEWS  ************************************************************************************/
+        /************************************************************************************************/
 
         //Take all the news from the db
         public static void GenerateNewsList()
@@ -158,6 +162,198 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
+        //Call when a comment is created
+        public static void Add1CommentToNews()
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbComment = nbComment + 1 WHERE  idNews = @dbNewsId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
+        public static string ReadComntNum(uint idNews)
+        {
+            string response;
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT nbComment FROM NEWS WHERE idNews = @dbNewsId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                if (reader.Read())
+                {
+                    int res = reader.GetInt32(0);
+                    response = "" + res;
+                }
+                else
+                {
+                    response = "/";
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+                response = "/";
+            }
+
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+            return response;
+        }
+
+        //Call when a comment is delete
+        public static void Remove1CommentToNews()
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbComment = nbComment - 1 WHERE  idNews = @dbNewsId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
+        //Call when a player pick a news
+        static void Add1ViewToNews()
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbView = nbView + 1 WHERE idNews = @dbNewsId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
+        public static string NumOfReatcionToNews(string rea, uint idNews)
+        {
+            string response = "/";
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT nb" + rea + " FROM NEWS WHERE idNews = @dbNewsId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                if (reader.Read())
+                {
+                    response = Convert.ToString(reader.GetUInt32(0));
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+            return response;
+        }
+
+        internal static string ReadViewNum(uint id)
+        {
+            string response = "/";
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT nbView FROM NEWS WHERE idNews = @dbNewsId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", id);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                if (reader.Read())
+                {
+                    int res = reader.GetInt32(0);
+                    response = "" + res;
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+            return response;
+        }
+
+        //remove 1 to a reaction (old choice) count of a news if the player change his reaction
+        public static void RemoveOneReasctionCount(string reactionType)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nb" + reactionType + " = nb" + reactionType + " - 1 WHERE idNews = @dbNewsId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
+
+        public static void AddReactionToDatabaseNews(string reactionType, uint idNews)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nb" + reactionType + " = nb" + reactionType + " + 1 WHERE idNews = @dbNewsId", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
+
+        /************************************************************************************************/
+        /* 2 - PLAYERS  *********************************************************************************/
+        /************************************************************************************************/
 
         public static int ReadNbrCommentDisplayed()
         {
@@ -224,11 +420,6 @@ namespace Assets.Scripts.Core
             return response;
         }
 
-        /*********************/
-        /*********************/
-        /* 2-Registration.cs */
-        /*********************/
-        /*********************/
 
         public static bool VerifNameAvailable(string name)
         {
@@ -287,12 +478,6 @@ namespace Assets.Scripts.Core
             return response;
         }
 
-
-        /******************/
-        /******************/
-        /** 3 - Login.cs **/
-        /******************/
-        /******************/
         public static bool IsThisUserAnAuthenticPlayer(string name, string password)
         {
             ConnectDB();
@@ -319,6 +504,318 @@ namespace Assets.Scripts.Core
             DisconnectDB();
             return response;
         }
+
+        public static string SqlCmd(string selectName)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT " + selectName + " FROM PLAYERS WHERE name = '" + StaticClass.CurrentPlayerName + "'", con);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+            string response;
+            try
+            {
+                reader.Read();
+                response = "" + reader.GetValue(0);
+            }
+            catch (IOException ex)
+            {
+                response = "error";
+                Debug.Log(ex);
+            }
+            cmdSQL.Dispose();
+            reader.Dispose();
+            DisconnectDB();
+            return response;
+        }
+
+
+        public static bool PrefSucessfullySaved(int cmtNumbers, int cmtPosition)
+        {
+            bool response = false;
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET cmtNbShown = '" + cmtNumbers + "', cmtPositionPref = '" + cmtPosition + "' WHERE name = '" + StaticClass.CurrentPlayerName + "'; ", con);
+
+            try
+            {
+                //if there is a line that have been updated, then the choice is saved
+                if (cmdSQL.ExecuteNonQuery() > 0)
+                {
+                    response = true;
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+            return response;
+        }
+
+
+        //Call when a comment is created
+        public static void Add1CommentToPlayer()
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfComment = nbOfComment + 1 WHERE idPlayer = @dbUserId", con);
+            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
+
+        //Call when a comment is delete
+        public static void Remove1CommentToPlayer()
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfComment = nbOfComment - 1 WHERE idPlayer = @dbUserId", con);
+            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
+        //Call when a player pick a news
+        static void Add1ViewToPlayer()
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfView = nbOfView + 1 WHERE idPlayer = @dbUserId", con);
+            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
+        /************************************************************************************************/
+        /* 3 - COMMENTS  ********************************************************************************/
+        /************************************************************************************************/
+
+        // Add comment to database
+        public static void AddComment(uint idNews, string text)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO COMMENTS (idNews, idPlayer, text, date) VALUES(@dbNewsId,@dbUserId,@dbComtText,@dbDate); ", con);
+            cmdSQL.Parameters.AddWithValue("@dbComtText", text);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
+            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
+            cmdSQL.Parameters.AddWithValue("@dbDate", DateTime.Now);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                reader.Read();
+                Add1CommentToPlayer();  //increment the number of cmt by a player
+                Add1CommentToNews();    //increment the number of cmt on a news
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
+
+
+
+        static public void DeleteComment(uint id)
+        {
+            ConnectDB();
+            MySqlCommand cmdDeleteAction = new MySqlCommand("DELETE FROM COMMENTS WHERE idComment = @dbIdComment;", Database.con);
+            cmdDeleteAction.Parameters.AddWithValue("@dbIdComment", id);
+
+            try
+            {
+                cmdDeleteAction.ExecuteReader();
+                Remove1CommentToPlayer();           //decrement the number of cmt by a player
+                Remove1CommentToNews();             //decrement the number of cmt on a news
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+
+            cmdDeleteAction.Dispose();
+            DisconnectDB();
+        }
+
+
+
+        static public List<Comment> QueryComments(uint idNews)
+        {
+            List<Comment> cmntList = new List<Comment>();
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT idComment,date,text,PLAYERS.name FROM `COMMENTS` INNER JOIN PLAYERS ON COMMENTS.idPlayer = PLAYERS.idPlayer WHERE IdNews = " + idNews + " ORDER BY date DESC;", con);
+            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+
+            try
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        cmntList.Add(new Comment(reader.GetUInt32(0), reader.GetDateTime(1), reader.GetString(2), reader.GetString(3)));
+                    }
+                }
+
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex.ToString());
+
+            }
+
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+            return cmntList;
+        }
+
+
+        static public Comment GetLastComment()
+        {
+            Comment cmt = new Comment();
+
+            ConnectDB();
+            MySqlCommand cmdLastComment = new MySqlCommand("SELECT idComment,date,text FROM COMMENTS WHERE idPlayer = @dbIdPlayer AND idNews = @dbIdNews ORDER BY idComment DESC LIMIT 1;", Database.con);
+            cmdLastComment.Parameters.AddWithValue("@dbIdPlayer", StaticClass.CurrentPlayerId);
+            cmdLastComment.Parameters.AddWithValue("@dbIdNews", StaticClass.CurrentNewsId);
+            MySqlDataReader reader = cmdLastComment.ExecuteReader();
+
+            try
+            {
+                if (reader.Read())
+                {
+                    cmt = new Comment(reader.GetUInt32(0), reader.GetDateTime(1), reader.GetString(2), StaticClass.CurrentPlayerName);
+                }
+
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+
+            reader.Dispose();
+            cmdLastComment.Dispose();
+            DisconnectDB();
+            return cmt;
+        }
+
+        /************************************************************************************************/
+        /* 4 - TAGS  ************************************************************************************/
+        /************************************************************************************************/
+
+        public static List<string> GetTags()
+        {
+            List<string> tagsList = new List<string>();
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT `tagLabel` FROM `TAGS`;", con);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        tagsList.Add(reader.GetString(0));
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+            return tagsList;
+        }
+
+        public static bool InsertTag(string tag)
+        {
+            bool res = false;
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO `TAGS`(`tagLabel`) VALUES (@dbTagName);", con);
+            cmdSQL.Parameters.AddWithValue("@dbTagName", tag);
+
+            try
+            {
+                if (cmdSQL.ExecuteNonQuery() > 0)
+                {
+                    res = true;
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+
+            return res;
+        }
+
+
+        public static void RemoveTag(string tag)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("DELETE FROM `TAGS` WHERE `tagLabel` = @dbTagName;", con);
+            cmdSQL.Parameters.AddWithValue("@dbTagName", tag);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
+
+        /************************************************************************************************/
+        /* 4 - TAGS  ************************************************************************************/
+        /************************************************************************************************/
 
         public static void GetTagColors()
         {
@@ -361,35 +858,6 @@ namespace Assets.Scripts.Core
             reader.Dispose();
             cmdSQL.Dispose();
             DisconnectDB();
-        }
-
-
-        /******************/
-        /******************/
-        /* 4 - Profil.cs **/
-        /******************/
-        /******************/
-
-        public static string SqlCmd(string selectName)
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT " + selectName + " FROM PLAYERS WHERE name = '" + StaticClass.CurrentPlayerName + "'", con);
-            MySqlDataReader reader = cmdSQL.ExecuteReader();
-            string response;
-            try
-            {
-                reader.Read();
-                response = "" + reader.GetValue(0);
-            }
-            catch (IOException ex)
-            {
-                response = "error";
-                Debug.Log(ex);
-            }
-            cmdSQL.Dispose();
-            reader.Dispose();
-            DisconnectDB();
-            return response;
         }
 
 
@@ -447,291 +915,12 @@ namespace Assets.Scripts.Core
             return res;
         }
 
-        public static List<string> GetTags()
-        {
-            List<string> tagsList = new List<string>();
-
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT `tagLabel` FROM `TAGS`;", con);
-            MySqlDataReader reader = cmdSQL.ExecuteReader();
-            
-            try
-            {
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        tagsList.Add(reader.GetString(0));
-                    }                   
-                }                
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex.ToString());
-            }
-
-            reader.Dispose();
-            cmdSQL.Dispose();            
-            DisconnectDB();
-            return tagsList;
-        }
+       
 
 
 
-        public static bool PrefSucessfullySaved(int cmtNumbers, int cmtPosition)
-        {
-            bool response = false;
 
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET cmtNbShown = '" + cmtNumbers + "', cmtPositionPref = '" + cmtPosition + "' WHERE name = '" + StaticClass.CurrentPlayerName + "'; ", con);
-            
-            try
-            {
-                //if there is a line that have been updated, then the choice is saved
-                if (cmdSQL.ExecuteNonQuery() > 0)
-                {
-                    response = true;
-                }
-            }
-            catch (IOException ex)
-            {              
-                Debug.Log(ex);
-            }
-
-            cmdSQL.Dispose();
-            DisconnectDB();
-            return response;
-        }
-
-
-        /******************/
-        /******************/
-        /* 5 - Comments **/
-        /******************/
-        /******************/
-        internal static string ReadComntNum(uint idNews)
-        {
-            string response;
-
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT nbComment FROM NEWS WHERE idNews = @dbNewsId", con);
-            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
-            MySqlDataReader reader = cmdSQL.ExecuteReader();
-            
-            try
-            {
-                if (reader.Read())
-                {
-                    int res = reader.GetInt32(0);
-                    response = "" + res;
-                }
-                else
-                {
-                    response = "/";
-                }
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-                response = "/";
-            }
-
-            reader.Dispose();
-            cmdSQL.Dispose();
-            DisconnectDB();
-            return response;
-        }
-
-        // Add comment to database
-        public static void AddComment(uint idNews, string text)
-        {            
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO COMMENTS (idNews, idPlayer, text, date) VALUES(@dbNewsId,@dbUserId,@dbComtText,@dbDate); ", con);
-            cmdSQL.Parameters.AddWithValue("@dbComtText", text);
-            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
-            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
-            cmdSQL.Parameters.AddWithValue("@dbDate", DateTime.Now);
-            MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-            try
-            {
-                reader.Read();               
-                Add1CommentToPlayer();  //increment the number of cmt by a player
-                Add1CommentToNews();    //increment the number of cmt on a news
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-            reader.Dispose();
-            cmdSQL.Dispose();
-            DisconnectDB();
-        }
-
-        //Call when a comment is created
-        public static void Add1CommentToPlayer()
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfComment = nbOfComment + 1 WHERE idPlayer = @dbUserId", con);
-            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
-
-            try
-            {
-                cmdSQL.ExecuteNonQuery();
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            cmdSQL.Dispose();
-            DisconnectDB();
-        }
-
-        //Call when a comment is created
-        public static void Add1CommentToNews()
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbComment = nbComment + 1 WHERE  idNews = @dbNewsId", con);
-            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
-
-            try
-            {
-                cmdSQL.ExecuteNonQuery();
-            }
-            catch (IOException ex)
-            {                
-                Debug.Log(ex);
-            }
-
-            cmdSQL.Dispose();
-            DisconnectDB();
-        }
-
-
-        static public void DeleteComment(uint id)
-        {
-            ConnectDB();
-            MySqlCommand cmdDeleteAction = new MySqlCommand("DELETE FROM COMMENTS WHERE idComment = @dbIdComment;", Database.con);
-            cmdDeleteAction.Parameters.AddWithValue("@dbIdComment", id);
-
-            try
-            {
-                cmdDeleteAction.ExecuteReader();
-                Remove1CommentToPlayer();           //decrement the number of cmt by a player
-                Remove1CommentToNews();             //decrement the number of cmt on a news
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex.ToString());
-            }
-
-            cmdDeleteAction.Dispose();
-            DisconnectDB();
-        }
-
-        //Call when a comment is delete
-        public static void Remove1CommentToPlayer()
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfComment = nbOfComment - 1 WHERE idPlayer = @dbUserId", con);
-            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
-
-            try
-            {
-                cmdSQL.ExecuteNonQuery();
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-            cmdSQL.Dispose();
-            DisconnectDB();
-        }
-
-        //Call when a comment is delete
-        public static void Remove1CommentToNews()
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbComment = nbComment - 1 WHERE  idNews = @dbNewsId", con);
-            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
-
-            try
-            {
-                cmdSQL.ExecuteNonQuery();
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            cmdSQL.Dispose();
-            DisconnectDB();
-        }
-
-
-        static public List<Comment> QueryComments(uint idNews)
-        {
-            List<Comment> cmntList = new List<Comment>();
-
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT idComment,date,text,PLAYERS.name FROM `COMMENTS` INNER JOIN PLAYERS ON COMMENTS.idPlayer = PLAYERS.idPlayer WHERE IdNews = " + idNews + " ORDER BY date DESC;", con);
-            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
-            MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-
-            try
-            {
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        cmntList.Add(new Comment(reader.GetUInt32(0), reader.GetDateTime(1), reader.GetString(2), reader.GetString(3)));
-                    }
-                }
-
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex.ToString());
-                
-            }
-
-            reader.Dispose();
-            cmdSQL.Dispose();
-            DisconnectDB();
-            return cmntList;
-        }
-
-
-        static public Comment GetLastComment()
-        {
-            Comment cmt = new Comment();
-
-            ConnectDB();
-            MySqlCommand cmdLastComment = new MySqlCommand("SELECT idComment,date,text FROM COMMENTS WHERE idPlayer = @dbIdPlayer AND idNews = @dbIdNews ORDER BY idComment DESC LIMIT 1;", Database.con);
-            cmdLastComment.Parameters.AddWithValue("@dbIdPlayer", StaticClass.CurrentPlayerId);
-            cmdLastComment.Parameters.AddWithValue("@dbIdNews", StaticClass.CurrentNewsId);
-            MySqlDataReader reader = cmdLastComment.ExecuteReader();
-
-            try
-            {
-                if (reader.Read())
-                {               
-                    cmt = new Comment(reader.GetUInt32(0), reader.GetDateTime(1), reader.GetString(2), StaticClass.CurrentPlayerName);                                       
-                }
-
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex.ToString());
-            }
-
-            reader.Dispose();
-            cmdLastComment.Dispose();
-            DisconnectDB();
-            return cmt;
-        }
+      
 
 
         /******************/
@@ -772,100 +961,9 @@ namespace Assets.Scripts.Core
             Add1ViewToPlayer();
         }
 
-        //Call when a player pick a news
-        static void Add1ViewToNews()
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbView = nbView + 1 WHERE idNews = @dbNewsId", con);
-            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
-
-            try
-            {
-                cmdSQL.ExecuteNonQuery();
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            cmdSQL.Dispose();
-            DisconnectDB();
-        }
-
-        //Call when a player pick a news
-        static void Add1ViewToPlayer()
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfView = nbOfView + 1 WHERE idPlayer = @dbUserId", con);
-            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
-
-            try
-            {
-                cmdSQL.ExecuteNonQuery();
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            cmdSQL.Dispose();
-            DisconnectDB();
-        }
-
-        public static string NumOfReatcionToNews(string rea, uint idNews)
-        {
-            string response = "/";
-
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT nb"+rea+" FROM NEWS WHERE idNews = @dbNewsId", con);
-            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
-            MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-            try
-            {
-                if (reader.Read())
-                {
-                    response = Convert.ToString(reader.GetUInt32(0));
-                }
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            reader.Dispose();
-            cmdSQL.Dispose();
-            DisconnectDB();
-            return response;
-        }
-
-        internal static string ReadViewNum(uint id)
-        {
-            string response = "/";
-
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT nbView FROM NEWS WHERE idNews = @dbNewsId", con);
-            cmdSQL.Parameters.AddWithValue("@dbNewsId", id);
-            MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-            try
-            {
-                if (reader.Read())
-                {
-                    int res = reader.GetInt32(0);
-                    response = "" + res;
-                }
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            reader.Dispose();
-            cmdSQL.Dispose();
-            DisconnectDB();
-            return response;
-        }
+      
+       
+        
 
         /***********************/
         /***********************/
@@ -902,26 +1000,7 @@ namespace Assets.Scripts.Core
             return res;
         }
 
-        //remove 1 to a reaction (old choice) count of a news if the player change his reaction
-        public static void RemoveOneReasctionCount(string reactionType)
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nb" + reactionType + " = nb" + reactionType + " - 1 WHERE idNews = @dbNewsId", con);
-            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
-
-            try
-            {
-                cmdSQL.ExecuteNonQuery();
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            cmdSQL.Dispose();
-            DisconnectDB();
-        }
-
+    
 
         public static void SaveReactionSelected(byte b)
         {
@@ -945,24 +1024,6 @@ namespace Assets.Scripts.Core
         }
 
 
-        public static void AddReactionToDatabaseNews(string reactionType, uint idNews)
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nb"+reactionType+ " = nb" + reactionType + " + 1 WHERE idNews = @dbNewsId", con);
-            cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
-       
-            try
-            {
-                cmdSQL.ExecuteNonQuery(); 
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            cmdSQL.Dispose();
-            DisconnectDB();
-        }
 
 
         /********************/
@@ -1057,51 +1118,7 @@ namespace Assets.Scripts.Core
 
         /******** ADMIN **********/
 
-        public static bool InsertTag(string tag)
-        {
-            bool res = false;
-
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO `TAGS`(`tagLabel`) VALUES (@dbTagName);", con);
-            cmdSQL.Parameters.AddWithValue("@dbTagName", tag);
-            
-            try
-            {
-                if (cmdSQL.ExecuteNonQuery() > 0)
-                {
-                    res = true;
-                }
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            cmdSQL.Dispose();
-            DisconnectDB();
-
-            return res;
-        }
-
-
-        public static void RemoveTag(string tag)
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("DELETE FROM `TAGS` WHERE `tagLabel` = @dbTagName;", con);
-            cmdSQL.Parameters.AddWithValue("@dbTagName", tag);
-
-            try
-            {
-                cmdSQL.ExecuteNonQuery();
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            cmdSQL.Dispose();
-            DisconnectDB();
-        }
+       
 
         public static int LastNewsCreated()
         {
