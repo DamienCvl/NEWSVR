@@ -13,7 +13,7 @@ namespace Assets.Scripts.TownSimulation.NewsGO
 	[RequireComponent( typeof( Interactable ) )]
 	public class NewsSphere : Grabbable
 	{
-        public float greenSphereDistance = 0.2f;
+        public float greenSphereDistance = 0.3f;
         private GameObject HeadCollider;
         private GameObject player;
 
@@ -32,6 +32,7 @@ namespace Assets.Scripts.TownSimulation.NewsGO
         private bool canGoToTheHead;
 
         private Vector3 transformInit;
+        private Vector3 enterTransformInit;
 
         public bool goOutWhenWalkAway;
 
@@ -134,6 +135,10 @@ namespace Assets.Scripts.TownSimulation.NewsGO
             // Put the sphere in green when in the news and smaller
             mat.color = Color.green;
             transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+
+            // Set default green sphere position in front of your feet position when enter in the news
+            enterTransformInit = new Vector3(HeadCollider.transform.position.x, transformInit.y, HeadCollider.transform.position.z);
+            enterTransformInit += new Vector3(HeadCollider.transform.forward.x, 0, HeadCollider.transform.forward.z) * greenSphereDistance;
         }
 
         // Everything happens when you take take the ball to your head when the news is open
@@ -193,9 +198,8 @@ namespace Assets.Scripts.TownSimulation.NewsGO
             }
             else
             {
-                // Set sphere position at your feet position when enter in the news
-                transform.position = new Vector3(HeadCollider.transform.position.x, transformInit.y, HeadCollider.transform.position.z);
-                transform.position += new Vector3(HeadCollider.transform.forward.x, 0, HeadCollider.transform.forward.z) * greenSphereDistance;
+                // Set green sphere position default position when you release the sphere when you are in the news
+                transform.position = enterTransformInit;
             }
 
             if (hand.otherHand != null) hand.otherHand.enabled = true;

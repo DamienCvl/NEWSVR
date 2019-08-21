@@ -4464,7 +4464,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attachmentFlags: 12
   restoreOriginalParent: 1
-  greenSphereDistance: 0.2
+  greenSphereDistance: 0.3
   news: {fileID: 4864526121448403360}
   InTheNews: {fileID: 1596768318435840}
   NewsEnvironnement: {fileID: 1352016730315262}
