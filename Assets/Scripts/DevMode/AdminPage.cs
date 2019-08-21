@@ -91,6 +91,7 @@ namespace Assets.Scripts.DevMode
                         tagAddPanel.GetComponentInChildren<Text>().text = newTag + " added successfully";
                         tagAddPanel.GetComponentInChildren<InputField>().text = "";    ///clear the input field
                         DisplayTagsList();  ///refresh tag list
+                        Database.AddDefaultNotificationByTag(newTag);
                     }
                     else
                     {

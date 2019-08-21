@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.DevMode;
-using Assets.Scripts.TownSimulation.NewsGO.MediaGO;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -54,22 +53,23 @@ namespace Assets.Scripts.Core
             }
         }
 
+        
 
 
 
-               /*******************************************************************************************************
-                *************************                                                    **************************
-                *************************   ALL THE REQUEST WE NEED LISTED BY TABLE (line)   **************************
-                *************************                                                    **************************
-                *******************************************************************************************************
-                *******************************************************************************************************
-                *************                             ***************                            ******************
-                **************     1 - NEWS (77)           ***************     2 - PLAYER (426)       *****************
-                ***************     3 - COMMENTS (718)      ***************     4 - TAGS (837)         ****************
-                ****************     5 - NOTIFICATION (917)  ***************     6 - VIEWS (1020)       ***************
-                *****************     7 - MEDIA (1166)        ***************     8 - TOPICS (1199)      **************
-                ******************                             ***************                            *************
-                *******************************************************************************************************/
+        /*******************************************************************************************************
+         *************************                                                    **************************
+         *************************   ALL THE REQUEST WE NEED LISTED BY TABLE (line)   **************************
+         *************************                                                    **************************
+         *******************************************************************************************************
+         *******************************************************************************************************
+         *************                             ***************                            ******************
+         **************     1 - NEWS (77)           ***************     2 - PLAYER (426)       *****************
+         ***************     3 - COMMENTS (718)      ***************     4 - TAGS (837)         ****************
+         ****************     5 - NOTIFICATION (917)  ***************     6 - VIEWS (1020)       ***************
+         *****************     7 - MEDIA (1166)        ***************     8 - TOPICS (1199)      **************
+         ******************                             ***************                            *************
+         *******************************************************************************************************/
 
 
 
@@ -90,7 +90,7 @@ namespace Assets.Scripts.Core
             StaticClass.newsList = new List<News>();
 
             List<string> tagsTemp;
-            List<Media> media;
+            List<Media> medium;
 
             try
             {
@@ -99,8 +99,8 @@ namespace Assets.Scripts.Core
                     while (reader.Read())
                     {
                         tagsTemp = new List<string>();
-                        media = new List<Media>();
-                        StaticClass.newsList.Add(new News(reader.GetUInt32(0), reader.GetString(1), reader.GetString(2), reader.GetFloat(3), reader.GetFloat(4), reader.GetUInt32(5), reader.GetUInt32(6), reader.GetDateTime(7), tagsTemp, media));
+                        medium = new List<Media>();
+                        StaticClass.newsList.Add(new News(reader.GetUInt32(0), reader.GetString(1), reader.GetString(2), reader.GetFloat(3), reader.GetFloat(4), reader.GetUInt32(5), reader.GetUInt32(6), reader.GetDateTime(7), tagsTemp, medium));
                     }
                 }
             }
@@ -150,7 +150,7 @@ namespace Assets.Scripts.Core
                     {
                         while (readerTags.Read())
                         {
-                            n.GetMedia().Add(new Media(readerTags.GetUInt32(0), readerTags.GetString(2), readerTags.GetByte(3)));
+                            n.GetMedium().Add(new Media(readerTags.GetUInt32(0), readerTags.GetString(2), readerTags.GetByte(3)));
                         }
                     }
                     Debug.Log(n.GetTags().Count);
@@ -971,6 +971,8 @@ namespace Assets.Scripts.Core
             return tagsList;
         }
 
+
+
         /// <summary>
         /// Insert a tag in the db. Call when a tag is created.
         /// </summary>
@@ -1075,6 +1077,29 @@ namespace Assets.Scripts.Core
             cmdSQL.Dispose();
             DisconnectDB();
         }
+
+        internal static void AddDefaultNotificationByTag(string tag)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO NOTIFICATIONS (tagName, idPlayer, color) VALUES(@dbTextTag,(SELECT idPlayer FROM PLAYERS WHERE name = @dbUserId), @dbHexColor);", con);
+            cmdSQL.Parameters.AddWithValue("@dbTextTag", tag);
+            cmdSQL.Parameters.AddWithValue("@dbHexColor", "#FFFFAF");
+            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                reader.Read();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
+
 
         /// <summary>
         /// Create default tag/color pair for a player

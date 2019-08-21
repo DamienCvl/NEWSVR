@@ -60,7 +60,9 @@ namespace Assets.Scripts.Menu
             }
         }
 
-
+        /// <summary>
+        /// Set the submit button interactable if the name field is not empty and pa
+        /// </summary>
         public void VerifyInputs()
         {
             submitButton.interactable = (nameField.text.Length >= 1 && passwordField.text.Length >= 8 && confirmPassField.text.Length >= 8);
