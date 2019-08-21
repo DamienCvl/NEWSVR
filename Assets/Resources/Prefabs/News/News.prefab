@@ -4464,6 +4464,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attachmentFlags: 12
   restoreOriginalParent: 1
+  greenSphereDistance: 0.2
   news: {fileID: 4864526121448403360}
   InTheNews: {fileID: 1596768318435840}
   NewsEnvironnement: {fileID: 1352016730315262}
@@ -6288,11 +6289,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4820476387889911094, guid: 1b1c06778348b854ea627e47c4b884fa,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3764673957975671328, guid: 1b1c06778348b854ea627e47c4b884fa,
         type: 3}
       propertyPath: m_Material
@@ -6393,11 +6389,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7216466055928448732, guid: 1b1c06778348b854ea627e47c4b884fa,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5933326731823586484, guid: 1b1c06778348b854ea627e47c4b884fa,
         type: 3}
       propertyPath: m_Layer
@@ -6413,11 +6404,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1910400299972152148, guid: 1b1c06778348b854ea627e47c4b884fa,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1698495292821542953, guid: 1b1c06778348b854ea627e47c4b884fa,
         type: 3}
       propertyPath: m_Layer
@@ -6429,6 +6415,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5728433991625346725, guid: 1b1c06778348b854ea627e47c4b884fa,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4820476387889911094, guid: 1b1c06778348b854ea627e47c4b884fa,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7216466055928448732, guid: 1b1c06778348b854ea627e47c4b884fa,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1910400299972152148, guid: 1b1c06778348b854ea627e47c4b884fa,
         type: 3}
       propertyPath: m_Layer
       value: 0
