@@ -30,11 +30,11 @@ namespace Assets.Scripts.TownSimulation.NewsGO.MediaGO
                 }
             }
 
-            // Create all buttons associate with medium
+            // Create all buttons associate with media
             if (news != null && news.newsInfos != null)
             {
                 short nbMedia = 0;
-                foreach (Media m in news.newsInfos.GetMedium())
+                foreach (Media m in news.newsInfos.GetMedia())
                 {
                     nbMedia++;
                     // Get components
@@ -52,9 +52,9 @@ namespace Assets.Scripts.TownSimulation.NewsGO.MediaGO
                     buttonClickable.OnClickEvent.AddListener(() => { ChangeMedia(m); });
                     button.GetComponentInChildren<Button>().onClick.AddListener(() => { ChangeMedia(m); });
                 }
-                if (news.newsInfos.GetMedium().Count > 0)
+                if (news.newsInfos.GetMedia().Count > 0)
                 {
-                    ChangeMedia(news.newsInfos.GetMedium()[0]);
+                    ChangeMedia(news.newsInfos.GetMedia()[0]);
                 }
             }
         }

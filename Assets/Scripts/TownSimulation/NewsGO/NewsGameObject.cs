@@ -38,7 +38,7 @@ namespace Assets.Scripts.TownSimulation.NewsGO
             transform.position = newsInfos.GetPos();
             Tags = newsInfos.GetTags();
             ActivateBeacon();
-            if (newsInfos.GetMedium().Count > 0)
+            if (newsInfos.GetMedia().Count > 0)
                 mediaContainer.SetActive(true);
         }
 
