@@ -57,19 +57,19 @@ namespace Assets.Scripts.Core
 
 
 
-               /*************************************************************************************************
-                *************************                                             ***************************
-                *************************   ALL THE REQUEST WE NEED LISTED BY TABLE   ***************************
-                *************************                                             ***************************
-                *************************************************************************************************
-                *************************************************************************************************
-                *************                           ***************                        ******************
-                **************     1 - NEWS              ***************     2 - PLAYER         *****************
-                ***************     3 - COMMENTS          ***************     4 - TAGS           ****************
-                ****************     5 - NOTIFICATION      ***************     6 - VIEWS          ***************
-                *****************     7 - MEDIA             ***************     8 - TOPICS         **************
-                ******************                           ***************                        *************
-                *************************************************************************************************/
+               /*******************************************************************************************************
+                *************************                                                    **************************
+                *************************   ALL THE REQUEST WE NEED LISTED BY TABLE (line)   **************************
+                *************************                                                    **************************
+                *******************************************************************************************************
+                *******************************************************************************************************
+                *************                             ***************                            ******************
+                **************     1 - NEWS (77)           ***************     2 - PLAYER (426)       *****************
+                ***************     3 - COMMENTS (718)      ***************     4 - TAGS (837)         ****************
+                ****************     5 - NOTIFICATION (917)  ***************     6 - VIEWS (1020)       ***************
+                *****************     7 - MEDIA (1166)        ***************     8 - TOPICS (1199)      **************
+                ******************                             ***************                            *************
+                *******************************************************************************************************/
 
 
 
@@ -77,8 +77,9 @@ namespace Assets.Scripts.Core
         /************************************************************************************************/
         /* 1 - NEWS  ************************************************************************************/
         /************************************************************************************************/
-
-        //Take all the news from the db
+        /// <summary>
+        /// Create all the c# objects News. Add them to the list "newsList" in StaticClass.cs.
+        /// </summary>
         public static void GenerateNewsList()
         {
             ConnectDB();
@@ -110,6 +111,7 @@ namespace Assets.Scripts.Core
             reader.Dispose();
             cmdSQL.Dispose();
 
+            //get tags from the db
             try
             {
                 foreach (News n in StaticClass.newsList)
@@ -135,7 +137,7 @@ namespace Assets.Scripts.Core
                 Debug.Log(ex.ToString());
             }
 
-            //get media from the db
+            //get medium from the db
             try
             {
                 foreach (News n in StaticClass.newsList)
@@ -163,7 +165,9 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
-        //Call when a comment is created
+        /// <summary>
+        /// Increment the number of comment for a news. Call when a comment is created.
+        /// </summary>
         public static void Add1CommentToNews()
         {
             ConnectDB();
@@ -183,6 +187,11 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
+        /// <summary>
+        /// Get the numb of comment for a news.
+        /// </summary>
+        /// <param name="idNews">id of the targeted news</param>
+        /// <returns>Numb. of comment for this news</returns>
         public static string ReadComntNum(uint idNews)
         {
             string response;
@@ -216,7 +225,9 @@ namespace Assets.Scripts.Core
             return response;
         }
 
-        //Call when a comment is delete
+        /// <summary>
+        /// Decrement the number of comment for a news. Call when a comment is deleted.
+        /// </summary>
         public static void Remove1CommentToNews()
         {
             ConnectDB();
@@ -236,7 +247,9 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
-        //Call when a player pick a news
+        /// <summary>
+        /// Increment the number of view for a news. Call when a comment is entered.
+        /// </summary>
         static void Add1ViewToNews()
         {
             ConnectDB();
@@ -256,6 +269,12 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
+        /// <summary>
+        /// Get the numb. of reaction for a news
+        /// </summary>
+        /// <param name="rea">Type of reatcion (Sad, Happy, ...)</param>
+        /// <param name="idNews">id of the targeted news</param>
+        /// <returns>Numb. of reaction for this news</returns>
         public static string NumOfReatcionToNews(string rea, uint idNews)
         {
             string response = "/";
@@ -283,6 +302,11 @@ namespace Assets.Scripts.Core
             return response;
         }
 
+        /// <summary>
+        /// Get the numb. of view for a news
+        /// </summary>
+        /// <param name="id">id of the targeted news</param>
+        /// <returns>Numb. of view for this news</returns>
         internal static string ReadViewNum(uint id)
         {
             string response = "/";
@@ -311,7 +335,10 @@ namespace Assets.Scripts.Core
             return response;
         }
 
-        //remove 1 to a reaction (old choice) count of a news if the player change his reaction
+        /// <summary>
+        /// Decrement the numb. of a reaction for a news. Call when the player change his reaction.
+        /// </summary>
+        /// <param name="reactionType">Old player reaction's choice</param>
         public static void RemoveOneReasctionCount(string reactionType)
         {
             ConnectDB();
@@ -331,7 +358,11 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
-
+        /// <summary>
+        /// Increment the numb. of a reaction (player choice)
+        /// </summary>
+        /// <param name="reactionType">player reaction's choice</param>
+        /// <param name="idNews">id of the targeted news</param>
         public static void AddReactionToDatabaseNews(string reactionType, uint idNews)
         {
             ConnectDB();
@@ -351,11 +382,133 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
+        /// <summary>
+        /// Call when a news is created.
+        /// </summary>
+        /// <param name="title">Title of the news</param>
+        /// <param name="text">Text of the news</param>
+        /// <param name="posX">x cartesian coordonate</param>
+        /// <param name="posZ">z cartesian coordonate</param>
+        public static void CreateANews(string title, string text, float posX, float posZ)
+        {
+            ConnectDB();
+            MySqlCommand cmdCreateNews = new MySqlCommand("INSERT INTO NEWS(title, text, author, creationDate, nbView, nbComment, nbHappy, nbSad, nbAngry, nbSurprised, positionX, positionZ, laserTarget) VALUES(@dbNewsCreaTitle,@dbNewsCreaText,@dbNewsCreaAuthor, @dbNewsCreaDate,0,0,0,0,0,0,@dbNewsCreaPosiX, @dbNewsCreaPosiZ,'');", Database.con);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaTitle", title);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaText", text);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaAuthor", StaticClass.CurrentPlayerName);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaDate", DateTime.Now);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaPosiX", posX);
+            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaPosiZ", posZ);
+
+            try
+            {
+                cmdCreateNews.ExecuteReader();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex.ToString());
+            }
+
+            cmdCreateNews.Dispose();
+            DisconnectDB();
+        }
+
+        /// <summary>
+        /// Get the id of the Last News Created.
+        /// </summary>
+        /// <returns>id of the last news</returns>
+        public static int LastNewsCreated()
+        {
+            int res = -1;
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT MAX(idNews) FROM NEWS;", con);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                if (reader.Read())
+                {
+                    res = reader.GetInt32(0);
+                }
+
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+            return res;
+        }
+
+        
+        /// <summary>
+        /// Delete a news from its id.
+        /// </summary>
+        /// <param name="id">id of the targeted news</param>
+        public static void DeleteNews(uint id)
+        {
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("DELETE FROM `NEWS` WHERE `idNews` = @dbIdNews;", con);
+            cmdSQL.Parameters.AddWithValue("@dbIdNews", id);
+
+            try
+            {
+                cmdSQL.ExecuteNonQuery();
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            cmdSQL.Dispose();
+            DisconnectDB();
+        }
 
         /************************************************************************************************/
         /* 2 - PLAYERS  *********************************************************************************/
         /************************************************************************************************/
 
+        /// <summary>
+        /// Generate a dictionnary id/name of each player of db
+        /// </summary>
+        /// <returns>dictionnary id/name of each player of db</returns>
+        public static Dictionary<uint, string> GetPlayers()
+        {
+            Dictionary<uint, string> response = new Dictionary<uint, string>();
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT idPlayer, name FROM `PLAYERS` ORDER BY name", con);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        response.Add(reader.GetUInt32(0), reader.GetString(1));
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                Debug.Log(ex);
+            }
+
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+            return response;
+        }
+
+        /// <summary>
+        /// Get the numb. of comment of the connected player
+        /// </summary>
+        /// <returns>Numb. of comment of the connected player</returns>
         public static int ReadNbrCommentDisplayed()
         {
             ConnectDB();
@@ -388,6 +541,10 @@ namespace Assets.Scripts.Core
             return response;
         }
 
+        /// <summary>
+        /// Get the perferred comment's position of a player
+        /// </summary>
+        /// <returns> 0 = left, 1 = Above, 2 = Right, 3 = Behind </returns>
         public static int ReadCommentPosition()
         {
             ConnectDB();
@@ -421,7 +578,11 @@ namespace Assets.Scripts.Core
             return response;
         }
 
-
+        /// <summary>
+        /// Before a player register himself, check if his name is not already taken
+        /// </summary>
+        /// <param name="name">content of the player name input field</param>
+        /// <returns>true if the name is available</returns>
         public static bool VerifNameAvailable(string name)
         {
             ConnectDB();
@@ -453,8 +614,12 @@ namespace Assets.Scripts.Core
         }
 
 
-
-        //Create a new player in DB - call when registration
+        /// <summary>
+        /// Create a new player in DB - call when registration
+        /// </summary>
+        /// <param name="name">name of the player</param>
+        /// <param name="password">password of the player</param>
+        /// <returns>true if the player is correctly created</returns>
         public static bool InsertNewPlayer(string name,string password)
         {
             ConnectDB();
@@ -479,6 +644,13 @@ namespace Assets.Scripts.Core
             return response;
         }
 
+
+        /// <summary>
+        /// Check if the pair name/password is related to an authentic player
+        /// </summary>
+        /// <param name="name">name of the player</param>
+        /// <param name="password">password of the player</param>
+        /// <returns>true if the player exist</returns>
         public static bool IsThisUserAnAuthenticPlayer(string name, string password)
         {
             ConnectDB();
@@ -506,6 +678,11 @@ namespace Assets.Scripts.Core
             return response;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="selectName"></param>
+        /// <returns></returns>
         public static string SqlCmd(string selectName)
         {
             ConnectDB();
@@ -528,7 +705,12 @@ namespace Assets.Scripts.Core
             return response;
         }
 
-
+        /// <summary>
+        /// Save the player preferences
+        /// </summary>
+        /// <param name="cmtNumbers"></param>
+        /// <param name="cmtPosition">player choice for comment position</param>
+        /// <returns>True if the update goes well</returns>
         public static bool PrefSucessfullySaved(int cmtNumbers, int cmtPosition)
         {
             bool response = false;
@@ -554,8 +736,9 @@ namespace Assets.Scripts.Core
             return response;
         }
 
-
-        //Call when a comment is created
+        /// <summary>
+        /// Increment the player numb. of comment. Call when a comment is created
+        /// </summary>
         public static void Add1CommentToPlayer()
         {
             ConnectDB();
@@ -575,8 +758,9 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
-
-        //Call when a comment is delete
+        /// <summary>
+        /// Decrement the player numb. of comment. Call when a comment is delete
+        /// </summary>
         public static void Remove1CommentToPlayer()
         {
             ConnectDB();
@@ -595,7 +779,9 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
-        //Call when a player pick a news
+        /// <summary>
+        /// Increment the player numb. of view. Call when a player pick a news
+        /// </summary>
         static void Add1ViewToPlayer()
         {
             ConnectDB();
@@ -619,7 +805,11 @@ namespace Assets.Scripts.Core
         /* 3 - COMMENTS  ********************************************************************************/
         /************************************************************************************************/
 
-        // Add comment to database
+        /// <summary>
+        /// Add comment to database.
+        /// </summary>
+        /// <param name="idNews">id of the commented news</param>
+        /// <param name="text">text of the comment</param>
         public static void AddComment(uint idNews, string text)
         {
             ConnectDB();
@@ -627,7 +817,7 @@ namespace Assets.Scripts.Core
             cmdSQL.Parameters.AddWithValue("@dbComtText", text);
             cmdSQL.Parameters.AddWithValue("@dbNewsId", idNews);
             cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
-            cmdSQL.Parameters.AddWithValue("@dbDate", DateTime.Now);
+            cmdSQL.Parameters.AddWithValue("@dbDate", DateTime.Now); //set the date of creation to now
             MySqlDataReader reader = cmdSQL.ExecuteReader();
 
             try
@@ -647,7 +837,10 @@ namespace Assets.Scripts.Core
 
 
 
-
+        /// <summary>
+        /// Delete a comment from its id
+        /// </summary>
+        /// <param name="id">id of the comment to delete</param>
         static public void DeleteComment(uint id)
         {
             ConnectDB();
@@ -670,7 +863,11 @@ namespace Assets.Scripts.Core
         }
 
 
-
+        /// <summary>
+        /// Get all the comment of a news
+        /// </summary>
+        /// <param name="idNews">id of the news</param>
+        /// <returns>List of comment (c# objects)</returns>
         static public List<Comment> QueryComments(uint idNews)
         {
             List<Comment> cmntList = new List<Comment>();
@@ -704,7 +901,10 @@ namespace Assets.Scripts.Core
             return cmntList;
         }
 
-
+        /// <summary>
+        /// Get the last created comment of the current news
+        /// </summary>
+        /// <returns>last comment (c# object)</returns>
         static public Comment GetLastComment()
         {
             Comment cmt = new Comment();
@@ -738,6 +938,10 @@ namespace Assets.Scripts.Core
         /* 4 - TAGS  ************************************************************************************/
         /************************************************************************************************/
 
+        /// <summary>
+        /// Get all the tags
+        /// </summary>
+        /// <returns>List of tags (String)</returns>
         public static List<string> GetTags()
         {
             List<string> tagsList = new List<string>();
@@ -767,6 +971,11 @@ namespace Assets.Scripts.Core
             return tagsList;
         }
 
+        /// <summary>
+        /// Insert a tag in the db. Call when a tag is created.
+        /// </summary>
+        /// <param name="tag">name of the tag</param>
+        /// <returns>true if the tag is correctly created</returns>
         public static bool InsertTag(string tag)
         {
             bool res = false;
@@ -793,7 +1002,10 @@ namespace Assets.Scripts.Core
             return res;
         }
 
-
+        /// <summary>
+        /// Delete tag from its name.
+        /// </summary>
+        /// <param name="tag">name of the tag to delete</param>
         public static void RemoveTag(string tag)
         {
             ConnectDB();
@@ -815,9 +1027,12 @@ namespace Assets.Scripts.Core
 
 
         /************************************************************************************************/
-        /* 4 - TAGS  ************************************************************************************/
+        /* 5 - NOTIFICATIONS  ***************************************************************************/
         /************************************************************************************************/
 
+        /// <summary>
+        /// Get each pair tag/color set by the player. Insert them in tagPrefColorList of StaticClass.cs
+        /// </summary>
         public static void GetTagColors()
         {
             ConnectDB();
@@ -861,7 +1076,12 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
-
+        /// <summary>
+        /// Create default tag/color pair for a player
+        /// </summary>
+        /// <param name="tag">tag name</param>
+        /// <param name="player">name of the player</param>
+        /// <returns>true if everything goes well</returns>
         public static bool InsertTagColorChoice(string tag, string player)
         {
             // Add comment to database
@@ -889,6 +1109,12 @@ namespace Assets.Scripts.Core
             return res;
         }
 
+        /// <summary>
+        /// Save a pair tag/color set by the player.
+        /// </summary>
+        /// <param name="tag">tag name</param>
+        /// <param name="hexColor">color in hexa</param>
+        /// <returns></returns>
         public static bool ChangeTagColorChoice(string tag, string hexColor)
         {
             bool res = false;
@@ -916,44 +1142,10 @@ namespace Assets.Scripts.Core
             return res;
         }
 
-       
 
-
-
-
-      
-
-
-        /******************/
-        /******************/
-        /**** 6 - NEWS ****/
-        /******************/
-        /******************/
-
-        public static void CreateANews(string title, string text, float posX, float posZ)
-        {
-            ConnectDB();
-            MySqlCommand cmdCreateNews = new MySqlCommand("INSERT INTO NEWS(title, text, author, creationDate, nbView, nbComment, nbHappy, nbSad, nbAngry, nbSurprised, positionX, positionZ, laserTarget) VALUES(@dbNewsCreaTitle,@dbNewsCreaText,@dbNewsCreaAuthor, @dbNewsCreaDate,0,0,0,0,0,0,@dbNewsCreaPosiX, @dbNewsCreaPosiZ,'');", Database.con);
-            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaTitle", title);
-            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaText", text);
-            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaAuthor", StaticClass.CurrentPlayerName);
-            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaDate", DateTime.Now);
-            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaPosiX", posX);
-            cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaPosiZ", posZ);
-
-            try
-            {
-                cmdCreateNews.ExecuteReader();
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex.ToString());
-            }
-
-            cmdCreateNews.Dispose();
-            DisconnectDB();
-        }
-
+        /************************************************************************************************/
+        /* 6 - VIEWS  ***********************************************************************************/
+        /************************************************************************************************/
        
         //just to make sure they are always called together
         public static void CountView()
@@ -962,17 +1154,10 @@ namespace Assets.Scripts.Core
             Add1ViewToPlayer();
         }
 
-      
-       
-        
-
-        /***********************/
-        /***********************/
-        /******  Reaction ******/
-        /***********************/
-        /***********************/
-
-
+        /// <summary>
+        /// Get the selected reaction for current news, set by the current player.
+        /// </summary>
+        /// <returns> 0 = none, 1 = Happy, 2 = Sad, 3 = Angry, 4 = Surprised <returns>
         public static byte ReadReactionSelected()
         {
             byte res = 0;
@@ -1001,8 +1186,11 @@ namespace Assets.Scripts.Core
             return res;
         }
 
-    
 
+        /// <summary>
+        /// Save the selected reaction
+        /// </summary>
+        /// <param name="b">reatcion 0 = none, 1 = Happy, 2 = Sad, 3 = Angry, 4 = Surprised </param>
         public static void SaveReactionSelected(byte b)
         {
             ConnectDB();
@@ -1024,15 +1212,9 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
-
-
-
-        /********************/
-        /********************/
-        /******  VIEW  ******/
-        /********************/
-        /********************/
-
+        /// <summary>
+        /// First time the player enter a news, set the date of view to now
+        /// </summary>
         static void InsertDateTimeView()
         {
             ConnectDB();
@@ -1054,6 +1236,9 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
+        /// <summary>
+        /// When the player enter a news, set the date of view to now
+        /// </summary>
         static void UpdateDateTimeView()
         {
             ConnectDB();
@@ -1075,7 +1260,9 @@ namespace Assets.Scripts.Core
             DisconnectDB();
         }
 
-        //Count the view if the last time the player saw this news is less than 10 min
+        /// <summary>
+        /// Count the view if the last time the player saw this news is less than 10 min.
+        /// </summary>
         public static void ViewCountApproval()
         {
             ConnectDB();
@@ -1116,38 +1303,17 @@ namespace Assets.Scripts.Core
 
 
 
+        /************************************************************************************************/
+        /* 7 - MEDIA  ***********************************************************************************/
+        /************************************************************************************************/
 
-        /******** ADMIN **********/
-
-       
-
-        public static int LastNewsCreated()
-        {
-            int res = -1;
-
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT MAX(idNews) FROM NEWS;", con);
-            MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-            try
-            {
-                if (reader.Read())
-                {
-                    res = reader.GetInt32(0);
-                }
-            
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            reader.Dispose();
-            cmdSQL.Dispose();
-            DisconnectDB();
-            return res;
-        }
-
+        /// <summary>
+        /// Insert a media for a news
+        /// </summary>
+        /// <param name="idNews">id of the news</param>
+        /// <param name="url">url of the media</param>
+        /// <param name="type">type of the media : image (0) , a video (1) or a sound (2)</param>
+        /// <returns></returns>
         public static bool InsertMedia(int idNews,string url,int type)
         {
             bool res = false;
@@ -1176,6 +1342,16 @@ namespace Assets.Scripts.Core
             return res;
         }
 
+        /************************************************************************************************/
+        /* 6 - TOPICS  **********************************************************************************/
+        /************************************************************************************************/
+
+        /// <summary>
+        /// Link a news to a tag
+        /// </summary>
+        /// <param name="idNews">id of the news</param>
+        /// <param name="tag">name of the tag</param>
+        /// <returns>true if everythings goes well</returns>
         public static bool InsertTopic(int idNews, string tag)
         {
             bool res = false;
@@ -1212,55 +1388,15 @@ namespace Assets.Scripts.Core
         /********************/
         /********************/
 
-        public static Dictionary<uint, string> GetPlayers()
-        {
-            Dictionary<uint, string> response = new Dictionary<uint, string>();
 
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT idPlayer, name FROM `PLAYERS` ORDER BY name", con);
-            MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-            try
-            {
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        response.Add(reader.GetUInt32(0), reader.GetString(1));
-                    }
-                }
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            reader.Dispose();
-            cmdSQL.Dispose();
-            DisconnectDB();
-            return response;
-        }
-
-        public static void DeleteNews(uint id)
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("DELETE FROM `NEWS` WHERE `idNews` = @dbIdNews;", con);
-            cmdSQL.Parameters.AddWithValue("@dbIdNews", id);
-
-            try
-            {
-                cmdSQL.ExecuteNonQuery();
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            cmdSQL.Dispose();
-            DisconnectDB();
-        }
-
-
+        /// <summary>
+        /// Get the logs for admin page
+        /// </summary>
+        /// <param name="idNews">news id selected</param>
+        /// <param name="idPlayer">player id selected</param>
+        /// <param name="filterNews">activate news filter</param>
+        /// <param name="filterPlayer">activate player filter</param>
+        /// <returns>List of logs</returns>
         public static List<DevStatsData> GetDevStatsData(uint idNews, uint idPlayer, bool filterNews, bool filterPlayer)
         {
             List<DevStatsData> response = new List<DevStatsData>();
