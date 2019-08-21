@@ -13,7 +13,7 @@ namespace Assets.Scripts.TownSimulation.NewsGO
 	[RequireComponent( typeof( Interactable ) )]
 	public class NewsSphere : Grabbable
 	{
-
+        public float greenSphereDistance = 0.2f;
         private GameObject HeadCollider;
         private GameObject player;
 
@@ -195,7 +195,7 @@ namespace Assets.Scripts.TownSimulation.NewsGO
             {
                 // Set sphere position at your feet position when enter in the news
                 transform.position = new Vector3(HeadCollider.transform.position.x, transformInit.y, HeadCollider.transform.position.z);
-                transform.position += new Vector3(HeadCollider.transform.forward.x, 0, HeadCollider.transform.forward.z) * 0.1f;
+                transform.position += new Vector3(HeadCollider.transform.forward.x, 0, HeadCollider.transform.forward.z) * greenSphereDistance;
             }
 
             if (hand.otherHand != null) hand.otherHand.enabled = true;
