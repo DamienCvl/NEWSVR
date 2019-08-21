@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.DevMode;
+using Assets.Scripts.TownSimulation.NewsGO.MediaGO;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -90,7 +91,7 @@ namespace Assets.Scripts.Core
             StaticClass.newsList = new List<News>();
 
             List<string> tagsTemp;
-            List<Media> medium;
+            List<Media> media;
 
             try
             {
@@ -99,8 +100,8 @@ namespace Assets.Scripts.Core
                     while (reader.Read())
                     {
                         tagsTemp = new List<string>();
-                        medium = new List<Media>();
-                        StaticClass.newsList.Add(new News(reader.GetUInt32(0), reader.GetString(1), reader.GetString(2), reader.GetFloat(3), reader.GetFloat(4), reader.GetUInt32(5), reader.GetUInt32(6), reader.GetDateTime(7), tagsTemp, medium));
+                        media = new List<Media>();
+                        StaticClass.newsList.Add(new News(reader.GetUInt32(0), reader.GetString(1), reader.GetString(2), reader.GetFloat(3), reader.GetFloat(4), reader.GetUInt32(5), reader.GetUInt32(6), reader.GetDateTime(7), tagsTemp, media));
                     }
                 }
             }
@@ -137,7 +138,7 @@ namespace Assets.Scripts.Core
                 Debug.Log(ex.ToString());
             }
 
-            //get medium from the db
+            //get media from the db
             try
             {
                 foreach (News n in StaticClass.newsList)
@@ -150,7 +151,7 @@ namespace Assets.Scripts.Core
                     {
                         while (readerTags.Read())
                         {
-                            n.GetMedium().Add(new Media(readerTags.GetUInt32(0), readerTags.GetString(2), readerTags.GetByte(3)));
+                            n.GetMedia().Add(new Media(readerTags.GetUInt32(0), readerTags.GetString(2), readerTags.GetByte(3)));
                         }
                     }
                     Debug.Log(n.GetTags().Count);
