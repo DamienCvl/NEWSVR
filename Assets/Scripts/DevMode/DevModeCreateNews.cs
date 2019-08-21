@@ -42,14 +42,14 @@ namespace Assets.Scripts.DevMode
             }
 
             // Move the camera to see the different views of the database
-            if (Input.GetMouseButtonDown(1))
+            /*if (Input.GetMouseButtonDown(1))
             {
                 cam.transform.position += new Vector3(700.0f, 0.0f, 0.0f);
                 if (cam.transform.position.x > 2100.0f)
                 {
                     cam.transform.position = new Vector3(0.0f, 300.0f, 0.0f);
                 }
-            }
+            }*/
 
             // Enter when click on the left button of the mouse
             if (Input.GetMouseButtonDown(0) && !newsBeingCreated)
