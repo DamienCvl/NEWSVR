@@ -1082,10 +1082,9 @@ namespace Assets.Scripts.Core
         internal static void AddDefaultNotificationByTag(string tag)
         {
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO NOTIFICATIONS (tagName, idPlayer, color) VALUES(@dbTextTag,(SELECT idPlayer FROM PLAYERS WHERE name = @dbUserId), @dbHexColor);", con);
+            MySqlCommand cmdSQL = new MySqlCommand("INSERT INTO `NOTIFICATIONS`(`tagName`, `idPlayer`, `color`) SELECT @dbTextTag AS tagName, idPlayer, @dbHexColor AS color FROM PLAYERS;", con);
             cmdSQL.Parameters.AddWithValue("@dbTextTag", tag);
             cmdSQL.Parameters.AddWithValue("@dbHexColor", "#FFFFAF");
-            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
 
             try
