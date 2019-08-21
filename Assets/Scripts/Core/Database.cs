@@ -624,7 +624,7 @@ namespace Assets.Scripts.Core
         public static bool InsertNewPlayer(string name,string password)
         {
             ConnectDB();
-            MySqlCommand cmdReg = new MySqlCommand("INSERT INTO PLAYERS VALUES (default,@dbUserName,@dbUserMDP,0,0,0,0,default);", con);
+            MySqlCommand cmdReg = new MySqlCommand("INSERT INTO PLAYERS VALUES (default,@dbUserName,@dbUserMDP,0,0,0,2,default);", con);
             cmdReg.Parameters.AddWithValue("@dbUserName", name);
             cmdReg.Parameters.AddWithValue("@dbUserMDP", password);
             bool response;
