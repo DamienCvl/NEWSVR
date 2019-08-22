@@ -15,21 +15,33 @@ namespace Assets.Scripts.DevMode
         public Dropdown playersDD;
         public Dropdown newsDD;
         public GameObject contentParent;
+        public Text title;
+        public Text description;
+
+        public Button statsButton;
+        public Button commentsButton;
+
+        public GameObject headerStats;
+        public GameObject headerComments;
 
         private Dictionary<int, uint> players = new Dictionary<int, uint>(); // Index in playersDD, player ID
         private Dictionary<int, uint> news = new Dictionary<int, uint>(); // Index in newsDD, news ID
 
-        private GameObject rowPrefab;
-        private List<DevStatsData> dataToDisplay;
+        private GameObject viewRowPrefab;
+        private List<DevStatsData> viewToDisplay;
+        private GameObject commentsRowPrefab;
+        private Dictionary<string, Comment> commentsToDisplay;
 
         private void Awake()
         {
-            rowPrefab = (GameObject)Resources.Load("Prefabs/DevMode/Row", typeof(GameObject));
+            viewRowPrefab = (GameObject)Resources.Load("Prefabs/DevMode/Row", typeof(GameObject));
+            commentsRowPrefab = (GameObject)Resources.Load("Prefabs/DevMode/CommentRow", typeof(GameObject));
         }
 
         // Start is called before the first frame update
         void Start()
         {
+            Database.GenerateNewsList();
             // ********** DATA GENERATION *********** //
             foreach (KeyValuePair<uint, string> player in Database.GetPlayers())
             {
@@ -49,33 +61,97 @@ namespace Assets.Scripts.DevMode
             DisplayStats();
         }
 
-        public void DisplayStats()
+        public void RefreshResult()
         {
+            if (headerStats.activeSelf)
+                DisplayStats();
+            else if (headerComments)
+                DisplayComments();
+        }
+
+        public void StatsButton()
+        {
+            title.text = "Statistics - Last Views";
+            description.text = "Last view, reaction and number of comments from players on news - Sorted by last viewed date";
+            statsButton.GetComponent<Image>().color = new Color(161 / (float)255, 255 / (float)255, 143 / (float)255);
+            commentsButton.GetComponent<Image>().color = new Color(142 / (float)255, 186 / (float)255, 134 / (float)255);
+            headerStats.SetActive(true);
+            headerComments.SetActive(false);
+            DisplayStats();
+        }
+
+        public void CommentsButton()
+        {
+            title.text = "Comments";
+            description.text = "Comments from players on news - Sorted by date of creation";
+            statsButton.GetComponent<Image>().color = new Color(142 / (float)255, 186 / (float)255, 134 / (float)255);
+            commentsButton.GetComponent<Image>().color = new Color(161 / (float)255, 255 / (float)255, 143 / (float)255);
+            headerStats.SetActive(false);
+            headerComments.SetActive(true);
+            DisplayComments();
+        }
+
+        private void DisplayStats()
+        {
+            
             foreach (Transform child in contentParent.transform)
             {
-                if (child.GetSiblingIndex() != 0)
+                if (child.GetSiblingIndex() > 1)
                     Destroy(child.gameObject);
             }
 
             if (playersDD.value == 0)
             {
                 if (newsDD.value == 0)
-                    dataToDisplay = Database.GetDevStatsData(0, 0, false, false); // Select all players and all news in SQL cmd
+                    viewToDisplay = Database.GetDevStatsView(0, 0, false, false); // Select all players and all news in SQL cmd
                 else
-                    dataToDisplay = Database.GetDevStatsData(news[newsDD.value], 0, true, false); // Select all players in SQL cmd
+                    viewToDisplay = Database.GetDevStatsView(news[newsDD.value], 0, true, false); // Select all players in SQL cmd
             }
             else
             {
                 if (newsDD.value == 0)
-                    dataToDisplay = Database.GetDevStatsData(0, players[playersDD.value], false, true); // Select all news in SQL cmd
+                    viewToDisplay = Database.GetDevStatsView(0, players[playersDD.value], false, true); // Select all news in SQL cmd
                 else
-                    dataToDisplay = Database.GetDevStatsData(news[newsDD.value], players[playersDD.value], true, true); // Specific player and news
+                    viewToDisplay = Database.GetDevStatsView(news[newsDD.value], players[playersDD.value], true, true); // Specific player and news
             }
 
-            foreach (DevStatsData data in dataToDisplay)
+            foreach (DevStatsData data in viewToDisplay)
             {
-                GameObject row = Instantiate(rowPrefab, contentParent.transform);
+                GameObject row = Instantiate(viewRowPrefab, contentParent.transform);
                 row.GetComponent<DevStatsRow>().Fill(data.playerName, data.newsTitle, data.reaction, data.nbCmt, data.date);
+            }
+        }
+
+        private void DisplayComments()
+        {
+            
+            foreach (Transform child in contentParent.transform)
+            {
+                if (child.GetSiblingIndex() > 1)
+                    Destroy(child.gameObject);
+            }
+
+            if (playersDD.value == 0)
+            {
+                if (newsDD.value == 0)
+                    commentsToDisplay = Database.GetDevStatsComment(0, 0, false, false); // Select all players and all news in SQL cmd
+                else
+                    commentsToDisplay = Database.GetDevStatsComment(news[newsDD.value], 0, true, false); // Select all players in SQL cmd
+            }
+            else
+            {
+                if (newsDD.value == 0)
+                    commentsToDisplay = Database.GetDevStatsComment(0, players[playersDD.value], false, true); // Select all news in SQL cmd
+                else
+                    commentsToDisplay = Database.GetDevStatsComment(news[newsDD.value], players[playersDD.value], true, true); // Specific player and news
+            }
+
+            foreach (KeyValuePair<string, Comment> e in commentsToDisplay)
+            {
+                Comment comment = e.Value;
+                string newsTitle = e.Key;
+                GameObject row = Instantiate(commentsRowPrefab, contentParent.transform);
+                row.GetComponent<DevStatsCommentRow>().Fill(comment.IdComment, comment.Author, newsTitle, comment.Content, comment.Date);
             }
         }
 

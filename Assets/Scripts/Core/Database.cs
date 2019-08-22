@@ -1324,14 +1324,14 @@ namespace Assets.Scripts.Core
 
 
         /// <summary>
-        /// Get the logs for admin page
+        /// Get the last views for admin page
         /// </summary>
         /// <param name="idNews">news id selected</param>
         /// <param name="idPlayer">player id selected</param>
         /// <param name="filterNews">activate news filter</param>
         /// <param name="filterPlayer">activate player filter</param>
         /// <returns>List of logs</returns>
-        public static List<DevStatsData> GetDevStatsData(uint idNews, uint idPlayer, bool filterNews, bool filterPlayer)
+        public static List<DevStatsData> GetDevStatsView(uint idNews, uint idPlayer, bool filterNews, bool filterPlayer)
         {
             List<DevStatsData> response = new List<DevStatsData>();
             string specialCondition = "";
@@ -1374,6 +1374,55 @@ namespace Assets.Scripts.Core
             return response;
         }
 
+        /// <summary>
+        /// Get the comments for admin page
+        /// </summary>
+        /// <param name="idNews">news id selected</param>
+        /// <param name="idPlayer">player id selected</param>
+        /// <param name="filterNews">activate news filter</param>
+        /// <param name="filterPlayer">activate player filter</param>
+        /// <returns>List of logs</returns>
+        public static Dictionary<string, Comment> GetDevStatsComment(uint idNews, uint idPlayer, bool filterNews, bool filterPlayer)
+        {
+            Dictionary<string, Comment> response = new Dictionary<string, Comment>();
+            string specialCondition = "";
 
+            if (filterNews)
+            {
+                if (filterPlayer)
+                    specialCondition = "WHERE NEWS.idNews = " + idNews.ToString() + " AND PLAYERS.idPlayer = " + idPlayer.ToString();
+                else
+                    specialCondition = "WHERE NEWS.idNews = " + idNews.ToString();
+            }
+            else
+            {
+                if (filterPlayer)
+                    specialCondition = "WHERE PLAYERS.idPlayer = " + idPlayer.ToString();
+            }
+
+            ConnectDB();
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews AS IDN, COMMENTS.idPlayer AS IDP, COMMENTS.idComment AS IDC, (SELECT name FROM PLAYERS WHERE idPlayer = IDP) Player, (SELECT title FROM NEWS WHERE idNews = IDN) Title, (SELECT text FROM COMMENTS) Content, (SELECT date FROM COMMENTS) CreationDate FROM COMMENTS JOIN NEWS ON NEWS.idNews = COMMENTS.idNews JOIN PLAYERS ON PLAYERS.idPlayer = COMMENTS.idPlayer " + specialCondition+" ORDER BY COMMENTS.date DESC", con);
+            MySqlDataReader reader = cmdSQL.ExecuteReader();
+
+            try
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        response.Add(reader.GetString(4), new Comment(reader.GetUInt32(2), reader.GetDateTime(6), reader.GetString(5), reader.GetString(3)));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.ToString());
+            }
+
+            reader.Dispose();
+            cmdSQL.Dispose();
+            DisconnectDB();
+            return response;
+        }
     }
 }
