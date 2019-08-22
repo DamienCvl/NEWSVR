@@ -167,28 +167,6 @@ namespace Assets.Scripts.Core
         }
 
         /// <summary>
-        /// Increment the number of comment for a news. Call when a comment is created.
-        /// </summary>
-        public static void Add1CommentToNews()
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbComment = nbComment + 1 WHERE  idNews = @dbNewsId", con);
-            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
-
-            try
-            {
-                cmdSQL.ExecuteNonQuery();
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            cmdSQL.Dispose();
-            DisconnectDB();
-        }
-
-        /// <summary>
         /// Get the numb of comment for a news.
         /// </summary>
         /// <param name="idNews">id of the targeted news</param>
@@ -224,28 +202,6 @@ namespace Assets.Scripts.Core
             cmdSQL.Dispose();
             DisconnectDB();
             return response;
-        }
-
-        /// <summary>
-        /// Decrement the number of comment for a news. Call when a comment is deleted.
-        /// </summary>
-        public static void Remove1CommentToNews()
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE NEWS SET nbComment = nbComment - 1 WHERE  idNews = @dbNewsId", con);
-            cmdSQL.Parameters.AddWithValue("@dbNewsId", StaticClass.CurrentNewsId);
-
-            try
-            {
-                cmdSQL.ExecuteNonQuery();
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            cmdSQL.Dispose();
-            DisconnectDB();
         }
 
         /// <summary>
@@ -738,49 +694,6 @@ namespace Assets.Scripts.Core
         }
 
         /// <summary>
-        /// Increment the player numb. of comment. Call when a comment is created
-        /// </summary>
-        public static void Add1CommentToPlayer()
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfComment = nbOfComment + 1 WHERE idPlayer = @dbUserId", con);
-            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
-
-            try
-            {
-                cmdSQL.ExecuteNonQuery();
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-
-            cmdSQL.Dispose();
-            DisconnectDB();
-        }
-
-        /// <summary>
-        /// Decrement the player numb. of comment. Call when a comment is delete
-        /// </summary>
-        public static void Remove1CommentToPlayer()
-        {
-            ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("UPDATE PLAYERS SET nbOfComment = nbOfComment - 1 WHERE idPlayer = @dbUserId", con);
-            cmdSQL.Parameters.AddWithValue("@dbUserId", StaticClass.CurrentPlayerId);
-
-            try
-            {
-                cmdSQL.ExecuteNonQuery();
-            }
-            catch (IOException ex)
-            {
-                Debug.Log(ex);
-            }
-            cmdSQL.Dispose();
-            DisconnectDB();
-        }
-
-        /// <summary>
         /// Increment the player numb. of view. Call when a player pick a news
         /// </summary>
         static void Add1ViewToPlayer()
@@ -824,8 +737,6 @@ namespace Assets.Scripts.Core
             try
             {
                 reader.Read();
-                Add1CommentToPlayer();  //increment the number of cmt by a player
-                Add1CommentToNews();    //increment the number of cmt on a news
             }
             catch (IOException ex)
             {
@@ -851,8 +762,6 @@ namespace Assets.Scripts.Core
             try
             {
                 cmdDeleteAction.ExecuteReader();
-                Remove1CommentToPlayer();           //decrement the number of cmt by a player
-                Remove1CommentToNews();             //decrement the number of cmt on a news
             }
             catch (IOException ex)
             {
@@ -868,7 +777,7 @@ namespace Assets.Scripts.Core
         /// Get all the comment of a news
         /// </summary>
         /// <param name="idNews">id of the news</param>
-        /// <returns>List of comment (c# objects)</returns>
+        /// <returns>List of <see cref="Comment"/> (c# objects)</returns>
         static public List<Comment> QueryComments(uint idNews)
         {
             List<Comment> cmntList = new List<Comment>();
