@@ -5,6 +5,10 @@ using Assets.Scripts.Core;
 
 namespace Assets.Scripts.Menu
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>Attach to : Scenes/Login/View</remarks>
     public class Login : MonoBehaviour
     {
         public InputField logNameField;

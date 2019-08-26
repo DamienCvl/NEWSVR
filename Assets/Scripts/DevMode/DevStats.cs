@@ -41,8 +41,8 @@ namespace Assets.Scripts.DevMode
         // Start is called before the first frame update
         void Start()
         {
-            Database.GenerateNewsList();
             // ********** DATA GENERATION *********** //
+            Database.GenerateNewsList();
             foreach (KeyValuePair<uint, string> player in Database.GetPlayers())
             {
                 playersDD.options.Add(new Dropdown.OptionData(player.Value));

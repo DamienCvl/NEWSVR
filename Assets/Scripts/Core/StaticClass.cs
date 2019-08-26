@@ -41,7 +41,7 @@ namespace Assets.Scripts.Core
         public static Color tagDefaultColor = new Color(1, 1, 175f / 255f);
 
 
-        //return the uclidian distance between a new's location and the spawn
+        //return the euclidian distance between a new's location and the spawn
         public static uint DistanceFromSpawn(float x, float y) => Convert.ToUInt32(Math.Sqrt(((x - SPAWN_X) * (x - SPAWN_X) + (y - SPAWN_Z) * (y - SPAWN_Z))));
 
         public static void GoBackToMenu()
