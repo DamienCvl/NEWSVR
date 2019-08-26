@@ -8,6 +8,9 @@ using UnityEngine.XR;
 
 namespace Assets.Scripts.DevMode
 {
+    /// <summary>
+    /// Menu of the devmode. Here you can create news and tags.
+    /// </summary>
     public class AdminPage : MonoBehaviour
     {
         //tags list
