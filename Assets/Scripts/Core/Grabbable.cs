@@ -4,7 +4,7 @@ using Valve.VR.InteractionSystem;
 namespace Assets.Scripts.Core
 {
     /// <summary>
-    /// Allow the object to be grab with VR hands, by default with the GrabPinch or GrapGrip SteamVR actions.
+    /// Allows the gameobject attach to it to be grab with VR hands, by default with the GrabPinch or GrapGrip SteamVR actions.
     /// </summary>
     [RequireComponent(typeof(Interactable))]
     public class Grabbable : MonoBehaviour

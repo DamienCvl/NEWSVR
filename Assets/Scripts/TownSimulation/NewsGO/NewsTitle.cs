@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-/*
- * This handle the title of the news and the fact that it turns toward you.
- */
-
 namespace Assets.Scripts.TownSimulation.NewsGO
 {
+    /// <summary>
+    /// This handles the title of the news and the fact that it turns toward you.
+    /// </summary>
+    /// <remarks>Attached to : Resources/Prefabs/News/News/NewsSphere/NewsTitle</remarks>
     public class NewsTitle : MonoBehaviour
     {
         private GameObject WhereTolookAt;

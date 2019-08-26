@@ -2,16 +2,16 @@
 using UnityEngine.Windows.Speech;
 using Assets.Scripts.Core;
 using Valve.VR.InteractionSystem;
+using Assets.Scripts.TownSimulation.NewsGO.CommentGO;
 
-/*
- * This handles the microphone.
- * The DictationRecognizer system is here and you use it to create comment with the prefab of comment.
- * The DictationRecognizer system will start when you take the microphone in your hand.
- */
-
-namespace Assets.Scripts.TownSimulation.NewsGO.CommentGO
+namespace Assets.Scripts.TownSimulation.NewsGO
 {
-    //-------------------------------------------------------------------------
+    /// <summary>
+    /// Handles microphone behavior. Adds a new <see cref="CommentGameObject"/> gameobject when you have grabbed the microphone and finish speaking.
+    /// Fills the comment with DictationRecognizer system (Windows Speech Recognition).
+    /// </summary>
+    /// <remarks>Attach to : Resources/Prefabs/News/News/InTheNews/Canvas_Story/Micro</remarks>
+    /// <seealso cref="Grabbable" />
     [RequireComponent(typeof(Interactable))]
     public class MicroComments : Grabbable
     {

@@ -3,13 +3,14 @@ using System;
 using Assets.Scripts.Core;
 using Assets.Scripts.TownSimulation.NewsGO;
 
-/*
- * This handles the view of the number of comment of the news item attached to it.
- * Used by NewsSphere.
- */
-
 namespace Assets.Scripts.TownSimulation
 {
+    /// <summary>
+    /// This handles the number of comment of the news item attached to it.
+    /// </summary>
+    /// <remarks>Attached to : 
+    /// Resources/Prefabs/News/News/NewsSphere/NewsTitle/CommentNumber
+    /// Resources/Prefabs/NewsPreview/Panel/HGrid/Comment/CommentNumber</remarks>
     public class ViewNbrComment : MonoBehaviour
     {
 

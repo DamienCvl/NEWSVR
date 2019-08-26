@@ -6,9 +6,7 @@ namespace Assets.Scripts.TownSimulation
     /// <summary>
     /// Handle the Understand button at the beginning.
     /// </summary>
-    /// <remarks>
-    /// Attached to : Resources/Prefabs/IndicationBeginning/.../UnderstandButton
-    /// </remarks>
+    /// <remarks>Attached to : Resources/Prefabs/IndicationBeginning/.../UnderstandButton</remarks>
     [RequireComponent(typeof(Interactable))]
     public class UnderstandButton : MonoBehaviour
     {

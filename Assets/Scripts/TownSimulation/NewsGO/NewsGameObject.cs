@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.TownSimulation.NewsGO
 {
+    /// <summary>
+    /// Represents a <see cref="News"/> instance in a gameobject.
+    /// Displays news information on the sphere in the town and in the news (title, content, number of views, number of comments).
+    /// Also manage beacon displaying.
+    /// </summary>
+    /// <remarks>Attached to : Resources/Prefabs/News/News</remarks>
     public class NewsGameObject : MonoBehaviour
     {
 

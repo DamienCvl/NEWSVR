@@ -8,6 +8,10 @@ using Valve.VR.InteractionSystem;
 
 namespace Assets.Scripts.TownSimulation.NewsGO.MediaGO
 {
+    /// <summary>
+    /// Displays the media according to the type (audio, video or image).
+    /// </summary>
+    /// <remarks>Attached to : Resources/Prefabs/News/Media/MediaPlayer</remarks>
     public class MediaPlayer : MonoBehaviour
     {
         // Fill with MediaContainer

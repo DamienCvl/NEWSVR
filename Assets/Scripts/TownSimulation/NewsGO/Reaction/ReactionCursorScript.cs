@@ -4,15 +4,13 @@ using Assets.Scripts.Core;
 using Valve.VR.InteractionSystem;
 using Valve.VR;
 
-/*
- * Handles the reaction box.
- * This handles the white ball and it's placement on the box.
- * Depending of it's position when you leave the news, it will add one to reaction wanted.
- */
-
 namespace Assets.Scripts.TownSimulation.NewsGO.Reaction
 {
-    //-------------------------------------------------------------------------
+    /// <summary>
+    /// This handles the white ball in the reaction box and it's placement on the box.
+    /// Depending of it's position when you leave the news, it will add one to reaction wanted.
+    /// </summary>
+    /// <remarks>Attached to : Resources/Prefabs/News/News/InTheNews/Canvas_Story/ReactionCross/Cursor</remarks>
     [RequireComponent(typeof(Interactable))]
     public class ReactionCursorScript : MonoBehaviour
     {

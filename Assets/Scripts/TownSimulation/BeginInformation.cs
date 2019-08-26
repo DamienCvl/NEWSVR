@@ -8,6 +8,8 @@ namespace Assets.Scripts.TownSimulation
     /// Handle the placement of the panel with the indication at the beginning.
     /// You can take it and move it around too.
     /// </summary>
+    /// <remarks>Attached to : Resources/Prefabs/IndicationBeginning</remarks>
+    /// <seealso cref="Assets.Scripts.Core.Grabbable" />
     public class BeginInformation : Grabbable
     {
 

@@ -4,15 +4,14 @@ using Assets.Scripts.Core;
 using Valve.VR.InteractionSystem;
 using Assets.Scripts.TownSimulation.NewsGO.CommentGO;
 
-/*
- * This handle the article when you open a news item.
- * The microphone and the reaction are attached to this, so you change it's position, it moves everything.
- * You can find the srcoll function here too.
- */
-
 namespace Assets.Scripts.TownSimulation.NewsGO
 {
-    //-------------------------------------------------------------------------
+    /// <summary>
+    /// Handles positioning of all the object inside the news, load the comments and handles scroll on news panel.
+    /// The media container, reaction box and the microphone are children of the object attached to this script, that's why, this handles positioning of all the object in the news.
+    /// </summary>
+    /// <remarks>Attach to : Resources/Prefabs/News/News/InTheNews/Canvas_Story</remarks>
+    /// <seealso cref="Grabbable"/>
     [RequireComponent(typeof(Interactable))]
     public class NewsPanel : Grabbable
     {
