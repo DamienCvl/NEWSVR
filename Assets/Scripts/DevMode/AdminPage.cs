@@ -74,6 +74,9 @@ namespace Assets.Scripts.DevMode
             newsDeletePanel.SetActive(false);
         }
 
+        /// <summary>
+        /// Call when you want to submit a new tag
+        /// </summary>
         public void SaveAddTag()
         {
             string newTag = tagAddPanel.GetComponentInChildren<InputField>().text;
@@ -106,6 +109,11 @@ namespace Assets.Scripts.DevMode
         }
 
 
+        /// <summary>
+        /// Generate the tag list. 
+        /// For each tags in the db, create a button and add it in the scrollview.
+        /// If a tag is pressed, activate the delete panel.
+        /// </summary>
         public void DisplayTagsList()
         {
             ClearList(tagListGO);
@@ -127,6 +135,12 @@ namespace Assets.Scripts.DevMode
             }
         }
 
+
+        /// <summary>
+        /// Generate the news list. 
+        /// For each news in the db, create a button and add it in the scrollview.
+        /// If a news is pressed, activate the delete panel.
+        /// </summary>
         public void DisplayNewsList()
         {
             ClearList(newsListGO);
@@ -149,7 +163,10 @@ namespace Assets.Scripts.DevMode
             }
         }
 
-
+        /// <summary>
+        /// Call when you want to delete a tag
+        /// </summary>
+        /// <param name="t"></param>
         public void DeleteTag(Text t)
         {
             Database.RemoveTag(t.text);
@@ -157,6 +174,9 @@ namespace Assets.Scripts.DevMode
             tagDeletePanel.SetActive(false);
         }
 
+        /// <summary>
+        /// Call when you want to delete a news
+        /// </summary>
         public void DeleteNews()
         {
             Database.DeleteNews(ToDelete.GetId());
@@ -166,7 +186,11 @@ namespace Assets.Scripts.DevMode
             ToDelete = null;
         }
 
-
+        /// <summary>
+        /// Call when you want to add a tag.
+        /// </summary>
+        /// <param name="s">tag name</param>
+        /// <returns>True if tag already exist</returns>
         public bool IsTagAlreadyExist(string s)
         {
             foreach (GameObject go in tagListGO)
