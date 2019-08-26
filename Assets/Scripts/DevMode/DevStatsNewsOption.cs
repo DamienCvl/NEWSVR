@@ -8,6 +8,11 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.DevMode
 {
+    /// <summary>
+    /// TagMedia scene manager.
+    /// Links tags and medias to a news.
+    /// </summary>
+    /// <remarks>Attached to : Scenes/TagMedia/View</remarks>
     public class DevStatsNewsOption : MonoBehaviour
     {
         public GameObject tagTemplate;
