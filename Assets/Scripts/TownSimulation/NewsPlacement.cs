@@ -5,7 +5,7 @@ using Assets.Scripts.Core;
 namespace Assets.Scripts.TownSimulation
 {
     /// <summary>
-    /// Handle the creation of all the news when you open the scene TownSimulation.
+    /// Handle the creation of all the news when you enter the simulation.
     /// It also deals with the escape action to return to the menu.
     /// </summary>
     /// <remarks>Attached to : Scenes/TownSimulation/EveryNews</remarks>

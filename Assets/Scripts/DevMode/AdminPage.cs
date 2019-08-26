@@ -9,7 +9,7 @@ using UnityEngine.XR;
 namespace Assets.Scripts.DevMode
 {
     /// <summary>
-    /// Menu of the devmode. Here you can create news and tags.
+    /// Main page of the devmode. Here you can create news and tags.
     /// </summary>
     public class AdminPage : MonoBehaviour
     {
