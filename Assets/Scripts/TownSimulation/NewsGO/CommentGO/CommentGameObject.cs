@@ -42,9 +42,9 @@ namespace Assets.Scripts.TownSimulation.NewsGO.CommentGO
         private Hand handToRelease;
 
 
-        ///<summary>
-        ///Set the position where the comments will be placed.
-        ///</summary>
+        /// <summary>
+        /// Set the position where the comments will be placed.
+        /// </summary>
         public static void SetCommentsPosition(Positions position)
         {
             switch ((int)position)
@@ -68,18 +68,18 @@ namespace Assets.Scripts.TownSimulation.NewsGO.CommentGO
             }
         }
 
-        ///<summary>
-        ///Returns the starting position vector of comments relative to the player.
-        ///</summary>
+        /// <summary>
+        /// Returns the starting position vector of comments relative to the player.
+        /// </summary>
         public static Vector3 GetCommentsPosition()
         {
             return commentsPosition;
         }
 
         // Static method call in NewsPanel to set the first position of comments
-        ///<summary>
-        ///Set the position where the first comment will be placed relative to player first position entering the news
-        ///</summary>
+        /// <summary>
+        /// Set the position where the first comment will be placed relative to player first position entering the news
+        /// </summary>
         public static void SetFirstCommentPosition(Transform playerFirstTransform)
         {
             // Set the transform properties where the first comment will be placed
