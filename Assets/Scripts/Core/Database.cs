@@ -15,7 +15,7 @@ namespace Assets.Scripts.Core
 
 
     /// <summary>
-    /// 
+    /// A static class containing all the methods related to database.
     /// </summary>
     static class Database 
     {

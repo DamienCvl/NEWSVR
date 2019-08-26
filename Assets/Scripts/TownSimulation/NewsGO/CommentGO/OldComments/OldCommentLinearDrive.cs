@@ -12,7 +12,7 @@ using Valve.VR.InteractionSystem;
 namespace Assets.Scripts.TownSimulation.NewsGO.CommentGO.OldComments
 {
     /// <summary>
-    /// Handle the automatic opening and closing of the old comment paper scroll.
+    /// Handles the automatic opening and closing of the old comment paper scroll.
     /// </summary>
     /// <remarks>Attached to : Resources/Prefabs/News/OldCommentPaperScroll/OpenScroll</remarks>
     [RequireComponent(typeof(Interactable))]
@@ -25,7 +25,7 @@ namespace Assets.Scripts.TownSimulation.NewsGO.CommentGO.OldComments
         public bool repositionGameObject = true;
         public bool maintainMomemntum = true;
         /// <summary>
-        /// This parameter handle the speed of opening and closing.
+        /// This parameter handles the speed of opening and closing.
         /// </summary>
         public float momemtumDampenRate = 5.0f;
 

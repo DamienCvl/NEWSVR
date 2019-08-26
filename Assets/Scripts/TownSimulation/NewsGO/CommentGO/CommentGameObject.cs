@@ -5,12 +5,10 @@ using Assets.Scripts.Core;
 
 namespace Assets.Scripts.TownSimulation.NewsGO.CommentGO
 {
-    /*
-     * This handles the placement of the comment at it's creation.
-     * Uses MicroComments to fill the text of the comment.
-     */
     /// <summary>
-    /// Represent a <see cref=">Comment"/> gameobject 
+    /// Represents <see cref="Comment"/> as a gameobject. Use to display existing comment and new created comment. Manage in-game comment deletion by players.
+    /// Static properties and methods handle comments positions according to the player's comment settings (see <see cref="StaticClass"/>).
+    /// Use <see cref="MicroComments"/> to fill the text of the comments.
     /// </summary>
     /// <remarks>Attached to : Resources/Prefabs/News/Comment</remarks>
     [RequireComponent(typeof(Interactable))]

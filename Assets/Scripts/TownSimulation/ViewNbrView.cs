@@ -3,13 +3,14 @@ using System;
 using Assets.Scripts.Core;
 using Assets.Scripts.TownSimulation.NewsGO;
 
-/*
- * This handles the number of view of the news item attached to it.
- * Used by NewsSphere.
- */
-
 namespace Assets.Scripts.TownSimulation
 {
+    /// <summary>
+    /// This handles the display of the number of views of the new
+    /// </summary>
+    /// <remarks>Attached to :
+    /// Resources/Prefabs/News/News/NewsSphere/NewsTitle/ViewsNumber
+    /// Resources/Prefabs/NewsPreview/Panel/HGrid/View/ViewsNumber</remarks>
     public class ViewNbrView : MonoBehaviour
     {
         public NewsGameObject news;

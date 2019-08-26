@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.TownSimulation.NewsGO.MediaGO
 {
+    /// <summary>
+    /// Handles medias choice and the media player.
+    /// Creates one button for each medias attached to the news.
+    /// </summary>
+    /// <remarks>Attached to : Resources/Prefabs/News/Media/MediaContainer</remarks>
     public class MediaContainer : MonoBehaviour
     {
         public NewsGameObject news;

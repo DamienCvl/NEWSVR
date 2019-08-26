@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4632465817135322}
   - component: {fileID: 114619719566311432}
-  - component: {fileID: 114008094236924850}
   - component: {fileID: 23217548552541172}
+  - component: {fileID: 6338576526597634681}
   m_Layer: 0
   m_Name: Micro
   m_TagString: Untagged
@@ -87,21 +87,6 @@ MonoBehaviour:
   handFollowTransform: 1
   highlightOnHover: 1
   hideHighlight: []
---- !u!114 &114008094236924850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1015636653543478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 988bdec39a8fd4e40930e79c42a91ff5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attachmentFlags: 12
-  restoreOriginalParent: 1
-  commentParent: {fileID: 4971567643513768}
 --- !u!23 &23217548552541172
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -139,6 +124,21 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &6338576526597634681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015636653543478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee77c96c08e4e4648b60a5816c820a8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attachmentFlags: 12
+  restoreOriginalParent: 1
+  commentParent: {fileID: 4971567643513768}
 --- !u!1 &1138792017408682
 GameObject:
   m_ObjectHideFlags: 0
@@ -3659,7 +3659,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minimalDistantFromPlayer: 13
   previewAreaRadius: 7
-  panelPreviewPostion: {x: -0.3, y: 0, z: 0.7}
   distReticleToNews: 0
   distPlayerToNews: 0
 --- !u!114 &4864526121448403360
@@ -6018,6 +6017,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tags
       objectReference: {fileID: 0}
+    - target: {fileID: 8515211158662856843, guid: 2b0c8d23b58e6bd47903f34342f3faf4,
+        type: 3}
+      propertyPath: newsGameObject
+      value: 
+      objectReference: {fileID: 4864526121448403360}
     - target: {fileID: 9138748332584168126, guid: 2b0c8d23b58e6bd47903f34342f3faf4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6143,11 +6147,6 @@ PrefabInstance:
       propertyPath: m_ChildControlHeight
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8515211158662856843, guid: 2b0c8d23b58e6bd47903f34342f3faf4,
-        type: 3}
-      propertyPath: newsGameObject
-      value: 
-      objectReference: {fileID: 4864526121448403360}
     - target: {fileID: 6680937504083124789, guid: 2b0c8d23b58e6bd47903f34342f3faf4,
         type: 3}
       propertyPath: m_Enabled

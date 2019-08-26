@@ -2,14 +2,14 @@
 using Assets.Scripts.Core;
 using Valve.VR.InteractionSystem;
 
-/*
- * This handles the reject button.
- * You can use it just after you spoke in the microphone, since you don't click the validate button (and so not add the comment to the database) you only have to delete the comment in the scene.
- */
-
 namespace Assets.Scripts.TownSimulation.NewsGO.CommentGO
 {
-    //-------------------------------------------------------------------------
+    /// <summary>
+    /// Handles reject button behavior.
+    /// Deletes <see cref="CommentGameObject"/> gameobject if is pressed and don't add the comment on the database.
+    /// </summary>
+    /// <remarks>Attach to : Resources/Prefabs/Comment/Buttons/RejectButton/VRTrigger</remarks>
+    /// <seealso cref="Assets.Scripts.Core.ClickableUIVR" />
     [RequireComponent(typeof(Interactable))]
     public class NewsCommentReject : ClickableUIVR
     {

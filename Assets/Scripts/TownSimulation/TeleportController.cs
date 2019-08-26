@@ -5,7 +5,7 @@ namespace Assets.Scripts.TownSimulation
     /// <summary>
     /// Activate or desactivate teleport when you are enter or exit a news.
     /// </summary>
-    /// <seealso cref="UnityEngine.MonoBehaviour" />
+    /// <remarks>Attached to : Scenes/TownSimulation/TeleportController</remarks>
     public class TeleportController : MonoBehaviour
     {
         public GameObject Teleport; // Reference to teleport gameobject.

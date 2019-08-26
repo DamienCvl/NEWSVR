@@ -2,14 +2,14 @@ using UnityEngine;
 using Assets.Scripts.Core;
 using Valve.VR.InteractionSystem;
 
-/*
- * This handles the validate button that appeares when you speak in the microphone.
- * The comment will only be add to the database if the player click on this button. 
- */
-
 namespace Assets.Scripts.TownSimulation.NewsGO.CommentGO
 {
-    //-------------------------------------------------------------------------
+    /// <summary>
+    /// Handles validate button behavior.
+    /// Adds the comment on the database and keep the <see cref="CommentGameObject"/> gameobject.
+    /// </summary>
+    /// <remarks>Attach to : Resources/Prefabs/Comment/Buttons/ValidateButton/VRTrigger</remarks>
+    /// <seealso cref="Assets.Scripts.Core.ClickableUIVR" />
     [RequireComponent(typeof(Interactable))]
     public class NewsCommentValidate : ClickableUIVR
     {

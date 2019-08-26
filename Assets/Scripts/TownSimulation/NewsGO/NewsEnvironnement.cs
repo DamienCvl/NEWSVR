@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-/*
- * This script handle the foggy environnement when you open a news item.
- * It's a big white transparent sphere attach to your head, you can change the size with the float sizeOfNewsEnvironnement.
- * We use FlipNormals to see the sphere from the inside.
- * 
-*/
 namespace Assets.Scripts.TownSimulation.NewsGO
 {
+    /// <summary>
+    /// This script handles the foggy environment when you open a news item.
+    /// It's a big white transparent sphere attached to your head, you can change the size with <see cref="sizeOfNewsEnvironnement"/>.
+    /// We use FlipNormals to see the sphere from the inside.
+    /// </summary>
+    /// <remarks>Attached to : Resources/Prefabs/News/News/NewsEnvironnement</remarks>
     public class NewsEnvironnement : MonoBehaviour
     {
 

@@ -5,8 +5,10 @@ using UnityEngine;
 
 namespace Assets.Scripts.TownSimulation.NewsGO.CommentGO
 {
-    // This create a triangle for the "comics" bubble form.
-
+    /// <summary>
+    /// This creates a triangle for the "comics" bubble form.    
+    /// </summary>
+    /// <remarks>Attach to : Resources/Prefabs/Comment/Triangle/</remarks>
     [RequireComponent(typeof(MeshFilter))]
     public class Triangle : MonoBehaviour
     {

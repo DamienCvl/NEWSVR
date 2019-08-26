@@ -4,15 +4,15 @@ using UnityEngine.UI;
 using Assets.Scripts.Core;
 using Valve.VR.InteractionSystem;
 
-/*
- * This handles the speaker, it uses the interop.speechlib dll.
- * The position and replacement is the same as the microphone.
- * It starts to read the artcile when in hand and stops when releases.
- */
-
 namespace Assets.Scripts.TownSimulation.NewsGO
 {
-    //-------------------------------------------------------------------------
+    /// <summary>
+    /// This handles the speaker, it uses the interop.speechlib dll.
+    /// The position and replacement is the same as the microphone.
+    /// It starts to read the article when in hand and stops when releases.
+    /// </summary>
+    /// <remarks>Attached to : Resources/Prefabs/News/News/InTheNews/Canvas_Story/Speaker</remarks>
+    /// <seealso cref="Assets.Scripts.Core.Grabbable" />
     [RequireComponent(typeof(Interactable))]
     public class NewsSpeaker : Grabbable
     {

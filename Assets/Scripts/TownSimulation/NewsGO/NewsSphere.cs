@@ -2,15 +2,16 @@
 using Assets.Scripts.Core;
 using Valve.VR.InteractionSystem;
 
-/*
- * This scipt handels the way from inside to outside the news and all the things that includes.
- * Lot of things but there are a lot of comments in the script.
- */
 
 namespace Assets.Scripts.TownSimulation.NewsGO
 {
-	//-------------------------------------------------------------------------
-	[RequireComponent( typeof( Interactable ) )]
+    /// <summary>
+    /// Handles all the process from inside to outside the news.
+    /// Deals also with the way you enter in a news (sphere on your head).
+    /// </summary>
+    /// <remarks>Attached to : Resources/Prefabs/News/News/NewsSphere</remarks>
+    /// <seealso cref="Assets.Scripts.Core.Grabbable" />
+    [RequireComponent( typeof( Interactable ) )]
 	public class NewsSphere : Grabbable
 	{
         public float greenSphereDistance = 0.3f;

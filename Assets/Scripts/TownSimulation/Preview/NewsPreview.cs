@@ -1,10 +1,13 @@
-﻿using Assets.Scripts.TownSimulation;
-using Assets.Scripts.TownSimulation.NewsGO;
+﻿using Assets.Scripts.TownSimulation.NewsGO;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.TownSimulation.Preview
 {
+    /// <summary>
+    /// Handles the news preview, the content of the preview and his positioning depending on the player position.
+    /// </summary>
+    /// <remarks>Attached to : Resources/Prefabs/NewsPreview</remarks>
     public class NewsPreview : MonoBehaviour
     {
         private NewsGameObject news = null;

@@ -5,12 +5,16 @@ using Assets.Scripts.TownSimulation.NewsGO;
 
 namespace Assets.Scripts.TownSimulation.Preview
 {
+    /// <summary>
+    /// Handles the way the preview is activated. Attached to each in-game news.
+    /// The preview is activated if the teleportation pointer is closed enough to the news (pointer in a circle around the news, radius = <see cref="previewAreaRadius"/>) and if the player is not to closed from the news (distance = <see cref="minimalDistantFromPlayer"/>).
+    /// </summary>
+    /// <remarks>Attached to : Resources/Prefabs/News/News</remarks>
     [RequireComponent(typeof(NewsGameObject))]
     public class PreviewAreaTrigger : MonoBehaviour
     {
         public float minimalDistantFromPlayer = 13.0f;
         public float previewAreaRadius = 7.0f;
-        public Vector3 panelPreviewPostion = new Vector3(-0.3f, 0f, 0.5f);
 
         private GameObject destinationReticle;
         private GameObject newsPreviewGameObject;

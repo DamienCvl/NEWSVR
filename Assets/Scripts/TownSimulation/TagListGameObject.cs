@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.TownSimulation
 {
+    /// <summary>
+    /// A horizontal (layout group) tag list. Fill in with the associate tag of the news (reference : <see cref="newsGameObject"/>).
+    /// </summary>
+    /// <remarks>Attached to : Resources/Prefabs/Tags</remarks>
     public class TagListGameObject : MonoBehaviour
     {
         public NewsGameObject newsGameObject = null;

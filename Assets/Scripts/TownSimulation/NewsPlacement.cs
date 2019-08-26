@@ -8,6 +8,7 @@ namespace Assets.Scripts.TownSimulation
     /// Handle the creation of all the news when you open the scene TownSimulation.
     /// It also deals with the escape action to return to the menu.
     /// </summary>
+    /// <remarks>Attached to : Scenes/TownSimulation/EveryNews</remarks>
     public class NewsPlacement : MonoBehaviour
     {
         /// <summary>
