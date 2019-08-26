@@ -9,7 +9,11 @@ using Assets.Scripts.TownSimulation.NewsGO.CommentGO;
 
 namespace Assets.Scripts.Menu
 {
-    public class Profil : MonoBehaviour
+    /// <summary>
+    /// Script of the profile interface
+    /// </summary>
+    /// <remarks>Attach to : Scenes/Login/View</remarks>
+    public class Profile : MonoBehaviour
     {
         public Text nameField;
         public Text viewsField;
@@ -44,13 +48,6 @@ namespace Assets.Scripts.Menu
         }
 
 
-        /*
-         ColorBlock cb = copy.GetComponent<Button>().colors;
-                cb.normalColor = color;
-                cb.selectedColor = color;
-                copy.GetComponent<Button>().colors = cb;
-             */
-
         // Update is called once per frame
         void Update()
         {
@@ -63,14 +60,18 @@ namespace Assets.Scripts.Menu
         }
 
 
-
-        /** DROPDOWN INITIALISATION **/
+        /// <summary>
+        /// Init. the position dropdown.
+        /// </summary>
         void PopulatePositionList()
         {
             List<string> positions = Enum.GetNames(typeof(CommentGameObject.Positions)).ToList();
             cmtPositionDD.AddOptions(positions);
         }
 
+        /// <summary>
+        /// Init. the number dropdown.
+        /// </summary>
         void PopulateDisplayNumberList()
         {
             List<string> display = new List<string>() { "1", "2", "3", "4", "5" };
@@ -78,13 +79,19 @@ namespace Assets.Scripts.Menu
         }
 
 
-        /***** ASK THE DB AND DISPLAY DATA *****/
+        /// <summary>
+        /// Get the comment number preference save in db and set the value of the number dropdown.
+        /// </summary>
         void AskCommentNumberData()
         {
             PopulateDisplayNumberList();
             cmtNumbersDD.value = cmtNumbersDD.options.FindIndex((x) => { return x.text == Database.SqlCmd("cmtNbShown"); });
         }
 
+
+        /// <summary>
+        /// Get the comment position preference save in db and set the value of the position dropdown.
+        /// </summary>
         void AskCommentPositionData()
         {
             PopulatePositionList();
@@ -92,6 +99,9 @@ namespace Assets.Scripts.Menu
             cmtPositionDD.value = res;
         }
 
+        /// <summary>
+        /// Get and display the statistic bind to the player.
+        /// </summary>
         void AskStatData()
         {
             nameField.text += StaticClass.CurrentPlayerName;
@@ -99,11 +109,14 @@ namespace Assets.Scripts.Menu
             commentField.text += Database.SqlCmd("nbOfComment");
         }
 
-
+        /// <summary>
+        /// Generate the tag list. 
+        /// For each tags in the db, create a button and add it in the scrollview.
+        /// If the player already save color preferences, get it and set the button color. Otherwise, set the default color.
+        /// If a tag is pressed, activate the color selector. Press again the button to set the button color.
+        /// </summary>
         public void DisplayTagsList()
         {
-
-
             foreach (string s in Database.GetTags())
             {
                 var copy = Instantiate(tagTemplate);
@@ -146,7 +159,11 @@ namespace Assets.Scripts.Menu
 
 
 
-
+        /// <summary>
+        /// Call when the save button is pressed.
+        /// For each button in the scroll view, get its color and its text (tag name). Update those tag/color pair on the db.
+        /// Get both dropdown selection and update the player preferences on the db.
+        /// </summary>
         public void SaveButtonAction()
         {
             savePrompt.text = "";  //clear the prompt
@@ -178,6 +195,11 @@ namespace Assets.Scripts.Menu
             }
         }
 
+
+        /// <summary>
+        /// Call when the back button is pressed.
+        /// Load the main menu scene.
+        /// </summary>
         public void GoBackToMenu()
         {
             StaticClass.GoBackToMenu();

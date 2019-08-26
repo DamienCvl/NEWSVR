@@ -5,7 +5,10 @@ using Assets.Scripts.Core;
 
 namespace Assets.Scripts.Menu
 {
-
+    /// <summary>
+    /// Script of the registration interface
+    /// </summary>
+    /// <remarks>Attach to : Scenes/Registration/View</remarks>
     public class Registration : MonoBehaviour
     {
 
@@ -61,7 +64,7 @@ namespace Assets.Scripts.Menu
         }
 
         /// <summary>
-        /// Set the submit button interactable if the name field is not empty and pa
+        /// Set the submit button interactable if the name field is not empty and password fields are at least 8 long
         /// </summary>
         public void VerifyInputs()
         {
@@ -69,7 +72,12 @@ namespace Assets.Scripts.Menu
         }
 
 
-
+        /// <summary>
+        /// Call when the registration button is pressed.
+        /// Check is the passwords fields are equals.
+        /// Check if this name is available
+        /// Then insert the name/password pair in the db and set default color for each tags.
+        /// </summary>
         private void SubmitButtonAction()
         {
             if (passwordField.text == confirmPassField.text)
@@ -108,6 +116,10 @@ namespace Assets.Scripts.Menu
         }
 
 
+        /// <summary>
+        /// Call when the back button is pressed.
+        /// Load the main menu scene.
+        /// </summary>
         public void GoBackToMenu()
         {
             StaticClass.GoBackToMenu();

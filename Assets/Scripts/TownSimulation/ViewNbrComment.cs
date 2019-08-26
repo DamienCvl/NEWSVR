@@ -6,7 +6,7 @@ using Assets.Scripts.TownSimulation.NewsGO;
 namespace Assets.Scripts.TownSimulation
 {
     /// <summary>
-    /// This handles the number of comment of the news item attached to it.
+    /// This handles the display of the comment number of the new
     /// </summary>
     /// <remarks>Attached to : 
     /// Resources/Prefabs/News/News/NewsSphere/NewsTitle/CommentNumber
