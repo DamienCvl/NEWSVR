@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.DevMode
 {
+    /// <summary>
+    /// Handle displaying "comment stats" of one row.
+    /// </summary>
+    /// <remarks>Attached to : Resources/Prefab/DevMode/CommentRow</remarks>
     public class DevStatsCommentRow : MonoBehaviour
     {
         public Text playerName;

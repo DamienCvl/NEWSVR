@@ -7,7 +7,7 @@ namespace Assets.Scripts.Core
 {
     /// <summary>
     /// Class containing information about a comment and methods related to comment gameobject.
-    /// Contains a static list of the current ingame loaded comments. Only comments from the open news are loaded.
+    /// Contains a static list of the current in-game loaded comments. Only comments from the open news are loaded.
     /// </summary>
     public class Comment
     {

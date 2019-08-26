@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.DevMode
 {
+    /// <summary>
+    /// Handle displaying "last view stats" of one row.
+    /// </summary>
+    /// <remarks>Attached to : Resources/Prefab/DevMode/Row</remarks>
     public class DevStatsRow : MonoBehaviour
     {
         public Text playerName;

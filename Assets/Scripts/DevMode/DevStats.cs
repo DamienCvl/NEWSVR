@@ -9,6 +9,10 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.DevMode
 {
+    /// <summary>
+    /// Handle the DevStats scene : buttons behavior, generate and display statistic from database
+    /// </summary>
+    /// <remarks>Attached to : Scenes/DevStats/View</remarks>
     public class DevStats : MonoBehaviour
     {
 

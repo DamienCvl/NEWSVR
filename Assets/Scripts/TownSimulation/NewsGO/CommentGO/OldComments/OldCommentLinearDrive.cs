@@ -11,6 +11,10 @@ using Valve.VR.InteractionSystem;
 
 namespace Assets.Scripts.TownSimulation.NewsGO.CommentGO.OldComments
 {
+    /// <summary>
+    /// Handle the automatic opening and closing of the old comment paper scroll.
+    /// </summary>
+    /// <remarks>Attached to : Resources/Prefabs/News/OldCommentPaperScroll/OpenScroll</remarks>
     [RequireComponent(typeof(Interactable))]
     public class OldCommentLinearDrive : MonoBehaviour
     {
@@ -20,6 +24,9 @@ namespace Assets.Scripts.TownSimulation.NewsGO.CommentGO.OldComments
         //public LinearMapping linearMapping;
         public bool repositionGameObject = true;
         public bool maintainMomemntum = true;
+        /// <summary>
+        /// This parameter handle the speed of opening and closing.
+        /// </summary>
         public float momemtumDampenRate = 5.0f;
 
         protected Hand.AttachmentFlags attachmentFlags = Hand.AttachmentFlags.DetachFromOtherHand;

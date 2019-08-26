@@ -6,7 +6,8 @@ using Valve.VR;
 namespace Assets.Scripts.Core
 {
     /// <summary>
-    /// Attach it to a gameobject to make it clickable by VR inputs.
+    /// Attach it to a gameobject to make it clickable.
+    /// The <see cref="OnClickEvent"/> is called when <see cref="Boolean_Action"/> SteamVR action is performed hover the gameobject.
     /// </summary>
     [RequireComponent(typeof(Interactable))]
     [RequireComponent(typeof(Collider))]
@@ -16,6 +17,9 @@ namespace Assets.Scripts.Core
         /// The VR action from SteamVR inputs to perform to call OnClickEvent
         /// </summary>
         public SteamVR_Action_Boolean Boolean_Action = SteamVR_Input.GetBooleanAction("InteractUI");
+        /// <summary>
+        /// The event call
+        /// </summary>
         public UnityEvent OnClickEvent;
 
         // Start is called before the first frame update

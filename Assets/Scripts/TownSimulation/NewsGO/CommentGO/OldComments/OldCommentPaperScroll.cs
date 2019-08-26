@@ -6,6 +6,10 @@ using Valve.VR.InteractionSystem;
 
 namespace Assets.Scripts.TownSimulation.NewsGO.CommentGO.OldComments
 {
+    /// <summary>
+    /// Handle all the old comment scroll paper behaviors from displaying comments to the switch arrows.
+    /// </summary>
+    /// <remarks>Attached to : Resources/Prefabs/News/OldCommentPaperScroll</remarks>
     public class OldCommentPaperScroll : MonoBehaviour
     {
 

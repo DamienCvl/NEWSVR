@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// Can be called from everywhere easily. Used only to get the current player name in TownSimulation that have been choose in the menu.
 namespace Assets.Scripts.Core
 {
     /// <summary>
-    /// A static class where all information about logged player is stored.
+    /// A static class containing player information and settings.
+    /// Also contains spawn coordinates and a list of all loaded <see cref="News"/>.
     /// </summary>
     public static class StaticClass
     {
@@ -32,6 +32,7 @@ namespace Assets.Scripts.Core
         // News loaded
         public static List<News> newsList = new List<News>();
 
+        // Spawn coordinates.
         public const float SPAWN_X = -95.7f;
         public const float SPAWN_Z = 87.3f;
 
@@ -43,6 +44,7 @@ namespace Assets.Scripts.Core
 
         //return the euclidian distance between a new's location and the spawn
         public static uint DistanceFromSpawn(float x, float y) => Convert.ToUInt32(Math.Sqrt(((x - SPAWN_X) * (x - SPAWN_X) + (y - SPAWN_Z) * (y - SPAWN_Z))));
+
 
         public static void GoBackToMenu()
         {

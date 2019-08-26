@@ -9,7 +9,10 @@ namespace Assets.Scripts.TownSimulation.NewsGO.CommentGO
      * This handles the placement of the comment at it's creation.
      * Uses MicroComments to fill the text of the comment.
      */
-
+    /// <summary>
+    /// Represent a <see cref=">Comment"/> gameobject 
+    /// </summary>
+    /// <remarks>Attached to : Resources/Prefabs/News/Comment</remarks>
     [RequireComponent(typeof(Interactable))]
     public class CommentGameObject : Grabbable
     {

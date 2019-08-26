@@ -2,6 +2,9 @@
 
 namespace Assets.Scripts.DevMode
 {
+    /// <summary>
+    /// Contains one "last view stats" information.
+    /// </summary>
     public class DevStatsData
     {
         public readonly string playerName;
