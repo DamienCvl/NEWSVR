@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Core
 {
-
+    
 
     /// <summary>
     /// This file contain all the SQL queries needed to run the game and the connection logs to the database.
@@ -23,13 +23,14 @@ namespace Assets.Scripts.Core
     /// </summary>
     static class Database 
     {
-       
+
         /***********************************************************************************************************************************************************/
         /******************************************************************                         ****************************************************************/
         /******************************************************************  CONNECTION PARAMETERS  ****************************************************************/
         /******************************************************************                         ****************************************************************/
         /***********************************************************************************************************************************************************/
 
+        const int VIEW_DELAY_MIN = 10;  //10 min
         public static MySqlConnection con;
 
         public static void ConnectDB()
@@ -1217,7 +1218,7 @@ namespace Assets.Scripts.Core
                     DateTime dt = reader.GetDateTime(0);
 
                     //true if the save datetime is at least passed by 10 minutes
-                    if (DateTime.Compare(dt.AddMinutes(10), DateTime.Now) <= 0)
+                    if (DateTime.Compare(dt.AddMinutes(VIEW_DELAY_MIN), DateTime.Now) <= 0)
                     {
                         UpdateDateTimeView();
                         CountView();
