@@ -6,12 +6,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
-/*
- * Handle the mouse buttons clicks in devmode.
- * If you click on the town it will call DevModeNewsCreationPannel script to create a new news.
- */
 namespace Assets.Scripts.DevMode
 {
+    /// <summary>
+    /// Handle the mouse buttons clicks in devmode.
+    /// If you click on the town it will call DevModeNewsCreationPannel script to create a new news.
+    /// </summary>
+    /// <remarks>Attached to : Scenes/DevMode/NewsPlacementManager</remarks>
     public class DevModeCreateNews : MonoBehaviour
     {
 

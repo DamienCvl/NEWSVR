@@ -1,18 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Mono.Data.Sqlite;
-using System.Data;
-using System;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using MySql.Data.MySqlClient;
-using System.IO;
-using Assets.Scripts.Core;
 using UnityEngine.SceneManagement;
 
-// Handle the creation of a news after you choose the position by clicking on the town in devmode.
 namespace Assets.Scripts.DevMode
 {
+    /// <summary>
+    /// Handle the creation of a news after you choose the position by clicking on the town in devmode.
+    /// </summary>
+    /// <remarks>Attached to : Scenes/DevMode/NewsPlacementManager/NewsCreationPanel</remarks>
     public class DevModeNewsCreationPannel : MonoBehaviour
     {
 
