@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 4.7.9
+- https://www.phpmyadmin.net
+-
+- Host: mysql-levelup.alwaysdata.net
+- Generation Time: Aug 27, 2019 at 10:40 AM
+- Server version: 10.2.22-MariaDB
+- PHP Version: 7.2.9
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="levelup_newsvr" collation="utf8mb4_general_ci" charset="utf8mb4">
+            <pma:table name="COMMENTS">
+                CREATE TABLE `COMMENTS` (
+                  `idComment` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                  `idNews` int(10) unsigned NOT NULL,
+                  `idPlayer` int(10) unsigned NOT NULL,
+                  `text` text NOT NULL,
+                  `date` datetime NOT NULL,
+                  PRIMARY KEY (`idComment`),
+                  KEY `idNews` (`idNews`),
+                  KEY `idPlayer` (`idPlayer`),
+                  CONSTRAINT `COMMENTS_ibfk_1` FOREIGN KEY (`idNews`) REFERENCES `NEWS` (`idNews`) ON DELETE CASCADE,
+                  CONSTRAINT `COMMENTS_ibfk_2` FOREIGN KEY (`idPlayer`) REFERENCES `PLAYERS` (`idPlayer`) ON DELETE CASCADE
+                ) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+            <pma:trigger name="after_delete_comment">
+                CREATE TRIGGER `after_delete_comment` AFTER DELETE ON `COMMENTS`
+                 FOR EACH ROW BEGIN
+                UPDATE PLAYERS SET nbOfComment = nbOfComment - 1 WHERE idPlayer = old.idPlayer;
+                UPDATE NEWS SET nbComment = nbComment - 1 WHERE idNews = old.idNews;
+                END
+            </pma:trigger>
+            <pma:trigger name="after_insert_comment">
+                CREATE TRIGGER `after_insert_comment` AFTER INSERT ON `COMMENTS`
+                 FOR EACH ROW BEGIN
+                UPDATE PLAYERS SET nbOfComment = nbOfComment + 1 WHERE idPlayer = new.idPlayer;
+                UPDATE NEWS SET nbComment = nbComment + 1 WHERE idNews = new.idNews;
+                END
+            </pma:trigger>
+            <pma:table name="FAVORITES">
+                CREATE TABLE `FAVORITES` (
+                  `idPlayer` int(10) unsigned NOT NULL,
+                  `idNews` int(10) unsigned NOT NULL,
+                  KEY `idPlayer` (`idPlayer`,`idNews`),
+                  KEY `idNews` (`idNews`),
+                  CONSTRAINT `FAVORITES_ibfk_1` FOREIGN KEY (`idNews`) REFERENCES `NEWS` (`idNews`),
+                  CONSTRAINT `FAVORITES_ibfk_2` FOREIGN KEY (`idPlayer`) REFERENCES `PLAYERS` (`idPlayer`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+            <pma:table name="MEDIA">
+                CREATE TABLE `MEDIA` (
+                  `idMedia` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                  `idNews` int(10) unsigned NOT NULL,
+                  `link` text NOT NULL,
+                  `type` tinyint(3) unsigned NOT NULL,
+                  PRIMARY KEY (`idMedia`),
+                  KEY `idNews` (`idNews`),
+                  CONSTRAINT `MEDIA_ibfk_1` FOREIGN KEY (`idNews`) REFERENCES `NEWS` (`idNews`) ON DELETE CASCADE
+                ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+            <pma:table name="NEWS">
+                CREATE TABLE `NEWS` (
+                  `idNews` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                  `title` varchar(80) NOT NULL,
+                  `text` text NOT NULL,
+                  `author` varchar(50) NOT NULL,
+                  `creationDate` datetime NOT NULL,
+                  `nbView` int(10) unsigned NOT NULL,
+                  `nbComment` int(10) unsigned NOT NULL,
+                  `nbHappy` int(10) unsigned NOT NULL,
+                  `nbSad` int(10) unsigned NOT NULL,
+                  `nbAngry` int(10) unsigned NOT NULL,
+                  `nbSurprised` int(10) unsigned NOT NULL,
+                  `positionX` float NOT NULL,
+                  `positionZ` float NOT NULL,
+                  `laserTarget` varchar(11) NOT NULL,
+                  PRIMARY KEY (`idNews`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+            <pma:table name="NOTIFICATIONS">
+                CREATE TABLE `NOTIFICATIONS` (
+                  `idNotif` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                  `tagName` varchar(30) NOT NULL,
+                  `idPlayer` int(10) unsigned NOT NULL,
+                  `color` varchar(15) NOT NULL,
+                  PRIMARY KEY (`idNotif`),
+                  KEY `idTag` (`tagName`),
+                  KEY `idPlayer` (`idPlayer`),
+                  CONSTRAINT `NOTIFICATIONS_ibfk_1` FOREIGN KEY (`idPlayer`) REFERENCES `PLAYERS` (`idPlayer`) ON DELETE CASCADE,
+                  CONSTRAINT `NOTIFICATIONS_ibfk_2` FOREIGN KEY (`tagName`) REFERENCES `TAGS` (`tagLabel`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB AUTO_INCREMENT=249 DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+            <pma:table name="PLAYERS">
+                CREATE TABLE `PLAYERS` (
+                  `idPlayer` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                  `name` varchar(20) NOT NULL,
+                  `password` varchar(20) NOT NULL,
+                  `nbOfView` mediumint(8) unsigned NOT NULL,
+                  `nbOfComment` mediumint(8) unsigned NOT NULL,
+                  `cmtPositionPref` tinyint(3) unsigned NOT NULL,
+                  `cmtNbShown` tinyint(3) unsigned NOT NULL,
+                  `lastPlayDate` datetime NOT NULL DEFAULT current_timestamp(),
+                  PRIMARY KEY (`idPlayer`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+            <pma:table name="TAGS">
+                CREATE TABLE `TAGS` (
+                  `tagLabel` varchar(30) NOT NULL,
+                  UNIQUE KEY `tagLabel` (`tagLabel`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+            <pma:table name="TOPICS">
+                CREATE TABLE `TOPICS` (
+                  `idTopic` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                  `tagName` varchar(30) NOT NULL,
+                  `idNews` int(10) unsigned NOT NULL,
+                  PRIMARY KEY (`idTopic`),
+                  KEY `idTag` (`tagName`,`idNews`),
+                  KEY `idNews` (`idNews`),
+                  CONSTRAINT `TOPICS_ibfk_2` FOREIGN KEY (`idNews`) REFERENCES `NEWS` (`idNews`) ON DELETE CASCADE,
+                  CONSTRAINT `TOPICS_ibfk_3` FOREIGN KEY (`tagName`) REFERENCES `TAGS` (`tagLabel`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+            <pma:table name="VIEWS">
+                CREATE TABLE `VIEWS` (
+                  `idPlayer` int(10) unsigned NOT NULL,
+                  `idNews` int(10) unsigned NOT NULL,
+                  `dateLatestView` datetime NOT NULL,
+                  `reactionSelected` tinyint(3) unsigned NOT NULL,
+                  UNIQUE KEY `idPlayer_2` (`idPlayer`,`idNews`),
+                  KEY `VIEW_ibfk_1` (`idNews`),
+                  CONSTRAINT `VIEWS_ibfk_1` FOREIGN KEY (`idNews`) REFERENCES `NEWS` (`idNews`) ON DELETE CASCADE,
+                  CONSTRAINT `VIEWS_ibfk_2` FOREIGN KEY (`idPlayer`) REFERENCES `PLAYERS` (`idPlayer`) ON DELETE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+        </pma:database>
+    </pma:structure_schemas>
+
+    <!--
+    - Database: 'levelup_newsvr'
+    -->
+    <database name="levelup_newsvr">
+        <!-- Table COMMENTS -->
+        <!-- Table FAVORITES -->
+        <!-- Table MEDIA -->
+        <!-- Table NEWS -->
+        <!-- Table NOTIFICATIONS -->
+        <!-- Table PLAYERS -->
+        <!-- Table TAGS -->
+        <!-- Table TOPICS -->
+        <!-- Table VIEWS -->
+    </database>
+</pma_xml_export>
