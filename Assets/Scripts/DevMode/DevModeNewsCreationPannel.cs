@@ -1,77 +1,87 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Mono.Data.Sqlite;
-using System.Data;
-using System;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using MySql.Data.MySqlClient;
-using System.IO;
+using UnityEngine.SceneManagement;
 
-// Handle the creation of a news after you choose the position by clicking on the town in devmode.
-
-public class DevModeNewsCreationPannel : Connection {
-
-    public Button Cancel;
-    public Button OK;
-    public InputField Title;
-    public InputField TextNews;
-    public GameObject NewsPlacementManager;
-
-	// Use this for initialization
-	void Start () {
-        ConnectDB();
-        Cancel.onClick.AddListener(CancelAction);
-        OK.onClick.AddListener(OkAction);
-    }
-
-    private void OnDisable()
-    {
-        Title.text = "";
-        TextNews.text = "";
-    }
-
-    void CancelAction()
-    {
-        NewsPlacementManager.GetComponent<DevModeCreateNews>().newsBeingCreated = false;
-        this.gameObject.SetActive(false);
-    }
-
-    void OkAction()
-    {
-        // Create the news
-        Debug.Log(NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.x);
-        CreateANews(Title.text.ToString(), TextNews.text.ToString(), NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.x, NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.z);
-
-        // Say that we are not creating a news at the moment so that we can click on the map
-        NewsPlacementManager.GetComponent<DevModeCreateNews>().newsBeingCreated = false;
-        this.gameObject.SetActive(false);
-    }
-
-    void CreateANews(string title, string text, float posX, float posZ)
+namespace Assets.Scripts.DevMode
+{
+    /// <summary>
+    /// Handle the creation of a news after you choose the position by clicking on the town in devmode.
+    /// </summary>
+    /// <remarks>Attached to : Scenes/DevMode/NewsPlacementManager/NewsCreationPanel</remarks>
+    public class DevModeNewsCreationPannel : MonoBehaviour
     {
 
-        MySqlCommand cmdCreateNews = new MySqlCommand("INSERT INTO NEWS(title, text, author, creationDate, positionX, positionZ) VALUES(@dbNewsCreaTitle,@dbNewsCreaText,@dbNewsCreaPosiX, @dbNewsCreaPosiZ);", con);
-        cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaTitle", title);
-        cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaText", text);
-        cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaAuthor", StaticClass.CurrentPlayerName);
-        cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaDate", DateTime.Now);
-        cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaPosiX", posX);
-        cmdCreateNews.Parameters.AddWithValue("@dbNewsCreaPosiZ", posZ);
+        public Button Cancel;
+        public Button Next;
+        public InputField Title;
+        public InputField TextNews;
+        public GameObject NewsPlacementManager;
+        public GameObject OptionPanel;
+        public GameObject NewsContentPanel;
 
-        try
+        // Use this for initialization
+        void Start()
         {
-            cmdCreateNews.ExecuteReader();
-        }
-        catch (IOException ex)
-        {
-            Debug.Log(ex.ToString());
+            Cancel.onClick.AddListener(CancelAction);
+            Next.onClick.AddListener(NextAction);
         }
 
-        cmdCreateNews.Dispose();
-        cmdCreateNews = null;
-        con.Close();
-      
-       
+        private void Update()
+        {
+            VerifyInputs();
+
+            if (Title.isFocused && Input.GetKeyDown(KeyCode.Tab))
+            {
+                TextNews.Select();
+                TextNews.ActivateInputField();
+            }
+        }
+
+        /*private void OnDisable()
+        {
+            Title.text = "";
+            TextNews.text = "";
+        }*/
+
+        void CancelAction()
+        {
+            NewsPlacementManager.GetComponent<DevModeCreateNews>().newsBeingCreated = false;
+            this.gameObject.SetActive(false);
+        }
+
+        /*
+        void OkAction()
+        {
+            // Create the news
+            Debug.Log(NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.x);
+            Database.CreateANews(Title.text.ToString(), TextNews.text.ToString(), NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.x, NewsPlacementManager.GetComponent<DevModeCreateNews>().newsPos.z);
+
+            // Say that we are not creating a news at the moment so that we can click on the map
+            NewsPlacementManager.GetComponent<DevModeCreateNews>().newsBeingCreated = false;
+            this.gameObject.SetActive(false);
+        }
+        */
+
+        public void NextAction()
+        {
+            NewsContentPanel.SetActive(false);
+            OptionPanel.SetActive(true);
+        }
+
+        public void VerifyInputs()
+        {
+            Next.interactable = (Title.text.Length >= 1 && TextNews.text.Length >= 1);
+        }
+
+        public void Back()
+        {
+            NewsContentPanel.SetActive(true);
+            OptionPanel.SetActive(false);
+        }
+
+        public void Menu()
+        {
+            SceneManager.LoadScene(6);
+        }
     }
 }

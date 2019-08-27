@@ -1,51 +1,51 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
-using System.Collections;
-using UnityEngine.UI;
-using Valve.VR;
+using Valve.VR.InteractionSystem;
 
-/*
- * Allow the object to be grab
- */
-
-namespace Valve.VR.InteractionSystem
+namespace Assets.Scripts.Core
 {
-
+    /// <summary>
+    /// Allows the gameobject attach to it to be grab with VR hands, by default with the GrabPinch or GrapGrip SteamVR actions.
+    /// </summary>
     [RequireComponent(typeof(Interactable))]
     public class Grabbable : MonoBehaviour
     {
-
+        /// <summary>
+        /// The flags used to attach this object to the hand.
+        /// </summary>
         [EnumFlags]
         [Tooltip("The flags used to attach this object to the hand.")]
         public Hand.AttachmentFlags attachmentFlags = Hand.AttachmentFlags.ParentToHand | Hand.AttachmentFlags.DetachFromOtherHand;
 
+        /// <summary>
+        /// When detaching the object, should it return to its original parent?
+        /// </summary>
         [Tooltip("When detaching the object, should it return to its original parent?")]
         public bool restoreOriginalParent = false;
 
-        protected bool attached = false;
-
+        /// <summary>
+        /// SteamVR Interactable script. Allow the gameobject to receive messages from the hands. See SteamVR documentation.
+        /// </summary>
         protected Interactable interactable;
 
-        //-------------------------------------------------
+        
         void Awake()
         {
             interactable = this.GetComponent<Interactable>();
         }
 
-        //-------------------------------------------------
+        
         protected void OnHandHoverBegin(Hand hand)
         {
         }
 
 
-        //-------------------------------------------------
+        
         protected void OnHandHoverEnd(Hand hand)
         {
         }
 
 
-        //-------------------------------------------------
+        
         protected void HandHoverUpdate(Hand hand)
         {
             GrabTypes startingGrabType = hand.GetGrabStarting();
@@ -71,30 +71,30 @@ namespace Valve.VR.InteractionSystem
 
         }
 
-        //-------------------------------------------------
+        
         protected void OnAttachedToHand(Hand hand)
         {
         }
 
 
-        //-------------------------------------------------
+        
         protected void OnDetachedFromHand(Hand hand)
         {
         }
 
 
-        //-------------------------------------------------
+        
         protected void HandAttachedUpdate(Hand hand)
         {
         }
 
-        //-------------------------------------------------
+        
         protected void OnHandFocusAcquired(Hand hand)
         {
         }
 
 
-        //-------------------------------------------------
+        
         protected void OnHandFocusLost(Hand hand)
         {
         }

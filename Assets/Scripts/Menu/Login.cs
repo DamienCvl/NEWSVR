@@ -1,112 +1,88 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using MySql.Data.MySqlClient;
-using System.IO;
-using System;
+using Assets.Scripts.Core;
 
-public class Login : Connection
+namespace Assets.Scripts.Menu
 {
-    public InputField logNameField;
-    public InputField logPasswordField;
-
-    public Button logInButton;
-
-    public Text logStateTxt;
-
-
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// Script of the login interface
+    /// </summary>
+    /// <remarks>Attach to : Scenes/Login/View</remarks>
+    public class Login : MonoBehaviour
     {
-        ConnectDB();
-        logInButton.onClick.AddListener(LogInButtonAction);
-    }
+        public InputField logNameField;
+        public InputField logPasswordField;
 
-    private void Update()
-    {
-        VerifyInputs();
-        if (Input.GetKeyDown("escape"))
+        public Button logInButton;
+
+        public Text logStateTxt;
+
+        // Start is called before the first frame update
+        void Start()
         {
-            SceneManager.LoadScene(0);
+            logInButton.onClick.AddListener(LogInButtonAction);
         }
-    }
 
-    public void VerifyInputs()
-    {
-        logInButton.interactable = (logNameField.text.Length >= 1 && logPasswordField.text.Length >= 8);
-    }
-
-    private void LogInButtonAction()
-    {
-        MySqlCommand cmdSQL = new MySqlCommand("SELECT idPlayer FROM PLAYERS WHERE name = @dbUserName AND password = @dbUserMDP;", con);
-        cmdSQL.Parameters.AddWithValue("@dbUserName", logNameField.text);
-        cmdSQL.Parameters.AddWithValue("@dbUserMDP", logPasswordField.text);
-        MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-        try
+        private void Update()
         {
-            if (reader.Read())
+            VerifyInputs();
+            if (Input.GetKeyDown("escape"))
             {
-                StaticClass.CurrentPlayerId = reader.GetUInt32(0);
-                Debug.Log(StaticClass.CurrentPlayerId);
+                SceneManager.LoadScene(0);
+            }
+
+            if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) && logPasswordField.isFocused)
+            {
+                if (logInButton.interactable)
+                    logInButton.onClick.Invoke();
+            }
+
+            if (logNameField.isFocused && Input.GetKeyDown(KeyCode.Tab))
+            {
+                logPasswordField.Select();
+                logPasswordField.ActivateInputField();
+            }
+
+            if (logPasswordField.isFocused && Input.GetKeyDown(KeyCode.Tab))
+            {
+                logNameField.Select();
+                logNameField.ActivateInputField();
+            }
+        }
+
+        /// <summary>
+        /// Set the login button interactable if the name field is not empty and password field is at least 8 long
+        /// </summary>
+        public void VerifyInputs()
+        {
+            logInButton.interactable = (logNameField.text.Length >= 1 && logPasswordField.text.Length >= 8);
+        }
+
+        /// <summary>
+        /// Call when the login button is press. If the player exist in db, load main menu and set the current player
+        /// </summary>
+        private void LogInButtonAction()
+        {
+            if (Database.IsThisUserAnAuthenticPlayer(logNameField.text, logPasswordField.text))
+            {
                 StaticClass.CurrentPlayerName = logNameField.text;
                 SceneManager.LoadScene(0);
-                InitializeHomePageDataNeeded();
             }
             else
             {
                 logStateTxt.text = "Wrong username or password.";
-                
             }
-            cmdSQL.Dispose();
-        }
-        catch (IOException ex)
-        {
-            state.color = Color.red;
-            state.text = ex.ToString();
-            cmdSQL.Dispose();
         }
 
 
-        
-
-
-    }
-
-    private void InitializeHomePageDataNeeded()
-    {
-        GetTagColors();
-    }
-
-    private void GetTagColors()
-    {
-        MySqlCommand cmdSQL = new MySqlCommand("SELECT idPlayer FROM PLAYERS WHERE name = @dbUserName AND password = @dbUserMDP;", con);
-        cmdSQL.Parameters.AddWithValue("@dbUserName", logNameField.text);
-        MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-        try
+        /// <summary>
+        /// Call when the back button is pressed.
+        /// Load the main menu scene.
+        /// </summary>
+        public void GoBackToMenu()
         {
-            if (reader.Read())
-            {
-                StaticClass.CurrentPlayerId = reader.GetUInt32(0);
-                Debug.Log(StaticClass.CurrentPlayerId);
-                StaticClass.CurrentPlayerName = logNameField.text;
-                SceneManager.LoadScene(0);
-                InitializeHomePageDataNeeded();
-            }
-            else
-            {
-                logStateTxt.text = "Wrong username or password.";
-
-            }
-            cmdSQL.Dispose();
-        }
-        catch (IOException ex)
-        {
-            state.color = Color.red;
-            state.text = ex.ToString();
-            cmdSQL.Dispose();
+            StaticClass.GoBackToMenu();
         }
     }
 }

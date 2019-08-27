@@ -4,294 +4,295 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 using UnityEngine.UI;
-using System;
-using MySql.Data.MySqlClient;
-using System.IO;
+using Assets.Scripts.Core;
+using System.Linq;
+using Assets.Scripts.TownSimulation.NewsGO.CommentGO;
 
-
-public class MainMenu : Connection
+namespace Assets.Scripts.Menu
 {
-   
-    public Button playGameButton;
-    public Button profilButton;
-    public List<News> notificationList = new List<News>();
-    public const double SPAWN_X = -95.7;
-    public const double SPAWN_Z = 87.3;
-
-    public Text newsPrompt;
-
-    public List<Button> listBtnNews = new List<Button>(10);
-
-
-    private void Update()
+    /// <summary>
+    /// Script of the main menu interface
+    /// </summary>
+    /// <remarks>Attach to : Scenes/Login/View</remarks>
+    public class MainMenu : MonoBehaviour
     {
-        if (Input.GetKeyDown("escape"))
+
+        public Button playGameButton;
+        public Button profilButton;
+        public Button devMode;
+
+        public Text sortedByTxt;
+        public Text newsPrompt;
+        public Text state;
+
+        // Buttons from notif list
+        public Image notifDateImage;
+        public Image notifClosestImage;
+        public Image notifPopularityImage;
+        public Dropdown notifTagsDropdown;
+        private Color notifSelectedColor = new Color(124f / 255f, 162f / 255f, 142f / 255f);
+        private Color notifNotSelectedColor = new Color(177f / 255f, 232f / 255f, 202f / 255f);
+
+        //notification list
+        public GameObject notifTemplate;
+        public GameObject content;
+
+        public const int MAX_NOTIF_TO_DISPLAY = 20;
+
+
+
+
+        public List<GameObject> listBtnNews = new List<GameObject>();
+
+
+        private void Update()
         {
-            SceneManager.LoadScene(0);
+
         }
 
-       
-    }
-
-    private void Start()
-    {
-        ConnectDB();
-        GenerateNewsList();
-        DisplayNews();
-
-        if (StaticClass.CurrentPlayerName != "")
+        private void Start()
         {
-            state.text = "User log :  " + StaticClass.CurrentPlayerName;
-            profilButton.interactable = (true);
-            playGameButton.interactable = (true);
-        }
-        else
-        {
-            profilButton.interactable = (false);
-            playGameButton.interactable = (false);
-        }
-    }
-
-    /*******************************/
-    /****** Notification List ******/
-    /*******************************/
-
-    // Euclidian distance
-    public uint Distance(double x1, double y1, double x2, double y2) => Convert.ToUInt32(Math.Sqrt(((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))));
-
-    //Take qll the news from the db
-    public void GenerateNewsList()
-    {
-        MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews, NEWS.title, NEWS.positionX, NEWS.positionZ, NEWS.nbView ,NEWS.creationDate FROM NEWS;", con);
-        MySqlDataReader reader = cmdSQL.ExecuteReader();
-
-        uint distEucli;
-     
-        List<string> tagsTemp = new List<string>();
-
-        try
-        {
-            if (reader.HasRows)
+            Database.GetTagColors();
+            if (StaticClass.CurrentPlayerName != "")
             {
-                newsPrompt.text = "News !!!";
-                while (reader.Read())
-                {
-                    distEucli = Distance(reader.GetDouble(2), reader.GetDouble(3), SPAWN_X, SPAWN_Z);  // euclidian distance  from the spawn point                                  
-                    notificationList.Add(new News(reader.GetUInt32(0), reader.GetString(1), distEucli, reader.GetUInt32(4), reader.GetDateTime(5), tagsTemp));
-                }
-                reader.Dispose();
+                state.text = "User log :  " + StaticClass.CurrentPlayerName;
+                profilButton.interactable = (true);
+                playGameButton.interactable = (true);
+                devMode.interactable = (true);
+                StaticClass.newsList.Clear();
+                Database.GenerateNewsList();
+                List<string> tmp = Database.GetTags();
+                tmp.Sort();
+                notifTagsDropdown.AddOptions(tmp);
+                NotifSortedByDate();
             }
             else
             {
-                newsPrompt.text = "No news ...";
+                profilButton.interactable = (false);
+                playGameButton.interactable = (false);
+                devMode.interactable = (false);
             }
         }
-        catch (IOException ex)
+
+        /*******************************/
+        /****** Notification List ******/
+        /*******************************/
+
+
+
+        /// <summary>
+        /// Generate the notification list. 
+        /// For each news in the db, create a button and add it in the scrollview.
+        /// If the player already save color preferences, get it and set the button color.
+        /// If a notification button is pressed, add it to the activation beacon list (StaticClass.newsBeaconedList).
+        /// </summary>
+        public void DisplayNews(List<News> ln)
         {
-            state.color = Color.red;
-            state.text = ex.ToString();
-        }
-        reader.Dispose();
-        cmdSQL.Dispose();
 
-
-        uint idNewsTemp = 1;
-        MySqlCommand cmdSQLtags = new MySqlCommand("SELECT * FROM TOPICS WHERE idNews = @dbIdNews ;", con);
-        cmdSQLtags.Parameters.AddWithValue("@dbIdNews", idNewsTemp);
-        MySqlDataReader readerTags = cmdSQLtags.ExecuteReader();
-
-        try
-        {
-            foreach (News n in notificationList)
+            foreach (News n in ln)
             {
-                if (readerTags.HasRows)
+                var copy = Instantiate(notifTemplate);
+                copy.transform.parent = content.transform;
+                copy.transform.GetComponentInChildren<Text>().text = n.GetTitle() + "\n" + n.GetTagsToString() + " - " + n.GetDist() + "m - (" + n.nbOfView + "-" + n.nbComment + ").";
+                copy.SetActive(true);
+
+                if (StaticClass.newsBeaconedList.Exists(x => x == n.GetId()))
                 {
-                    while (readerTags.Read())
-                    {
-                       n.GetTags().Add(readerTags.GetString(1));
-                    }
+                    ColorBlock cb = copy.GetComponent<Button>().colors;
+                    cb.normalColor = n.GetNewsColor();
+                    copy.GetComponent<Button>().colors = cb;
                 }
 
-                idNewsTemp++;
+
+
+
+                copy.GetComponent<Button>().onClick.AddListener(
+                    () =>
+                    {
+                        if (StaticClass.newsBeaconedList.Exists(x => x == n.GetId()))
+                        {
+                            StaticClass.newsBeaconedList.Remove(n.GetId());
+                            copy.GetComponent<Button>().colors = notifTemplate.GetComponent<Button>().colors;
+
+                        }
+                        else
+                        {
+                            StaticClass.newsBeaconedList.Add(n.GetId());
+
+                            ColorBlock cb = copy.GetComponent<Button>().colors;
+                            cb.normalColor = n.GetNewsColor();
+                            copy.GetComponent<Button>().colors = cb;
+                        }
+
+                    //TODO ugly way to refresh the content
+                    content.SetActive(false);
+                        content.SetActive(true);
+                    }
+                );
+
+                listBtnNews.Add(copy);
             }
         }
-        catch (IOException ex)
-        {
-            state.color = Color.red;
-            state.text = ex.ToString();
-        }
-        
-        readerTags.Dispose();
-        cmdSQL.Dispose();
-    }
 
-    //TODO: Add a parameter in order to know how to sort
-    public void DisplayNews()
-    {
-        int index;
-        int nbTotalNews = notificationList.Count;
+        /**************************/
+        /****** MENU BUTTONS ******/
+        /**************************/
 
-        if (nbTotalNews >= 10)
+        /// <summary>
+        /// Load register scene
+        /// </summary>
+        public void GoToRegister()
         {
-            index = 10;
-        }
-        else
-        {
-            index = nbTotalNews;
+            SceneManager.LoadScene(3);
         }
 
-        for(int i=0 ; i < index; i++)
+        /// <summary>
+        /// Load login scene
+        /// </summary>
+        public void GoToLogin()
         {
-            News n = notificationList[i];
-            listBtnNews[i].gameObject.SetActive(true);
-            listBtnNews[i].GetComponentInChildren<Text>().text = n.GetTitle() + "\n" + n.GetTagsToString() + " - " + n.GetDist() + "m .";
-            
+            SceneManager.LoadScene(4);
+        }
+
+        /// <summary>
+        /// Load setting scene
+        /// </summary>
+        public void GoToSetting()
+        {
+            SceneManager.LoadScene(5);
+        }
+
+        /// <summary>
+        /// Load devmode scene
+        /// </summary>
+        public void GoToDevMode()
+        {
+            SceneManager.LoadScene(6);
+        }
+
+        /// <summary>
+        /// Load the simulation scene
+        /// </summary>
+        public void Play()
+        {
+            StaticClass.nbrCommentDisplayed = Database.ReadNbrCommentDisplayed();
+            StaticClass.CommentPosition = (CommentGameObject.Positions)Database.ReadCommentPosition();
+            SceneManager.LoadScene(1);
+        }
+
+        /// <summary>
+        /// Should load the VR device to go from dev mode to town simulation but doesn't seem to work
+        /// Once you have gone to devmode you need to quit the application to not cause bug when going to Town simulation.
+        /// </summary>
+        IEnumerator LoadDevice(string newDevice, bool enable)
+        {
+            XRSettings.LoadDeviceByName(newDevice);
+            yield return null;
+            XRSettings.enabled = enable;
+        }
+
+        void EnableVR()
+        {
+            StartCoroutine(LoadDevice("OpenVR", true));
+        }
+
+        void DisableVR()
+        {
+            StartCoroutine(LoadDevice("", false));
         }
 
 
-    }
+        /**************************************/
+        /****** NOTIFICATION LIST ACTION ******/
+        /**************************************/
 
-
-
-
-
-
-    public void OnClickNewsActivateBeacon(Button temp)
-    {
-        
-        int index = listBtnNews.FindIndex(a => a == temp);
-        News n = notificationList[index]; ///changer pour mettre la liste [10] de´s news "active" (en place actuellement)
-
-        if( StaticClass.newsBeaconedList.Exists(x => x == n.GetId()) )
+        /// <summary>
+        /// Call when the date button is pressed.
+        /// Clear the content of the scrollview (notification list).
+        /// Then display the news order by desc. date (done in the sql request)
+        /// <see cref="Database"/> , line 91
+        /// </summary>
+        public void NotifSortedByDate()
         {
-
-            StaticClass.newsBeaconedList.Remove(n.GetId());
-            temp.colors = ColorBlock.defaultColorBlock;
-        }
-        else
-        {
-            StaticClass.newsBeaconedList.Add(n.GetId());
-            string color = StaticClass.tagPrefColorList[n.GetTags()[0]];  // we take the choosen color (by the player) of the "main" (first) tag of the news
-
-            ColorBlock cb = temp.colors;
-            cb.normalColor = color.ToColor();
-            temp.colors = cb;
+            ClearNotification();
+            DisplayNews(StaticClass.newsList);
+            sortedByTxt.text = "The 20 recent news";
+            notifTagsDropdown.value = 0; // Reset tags dropdown to default
+            notifDateImage.color = notifSelectedColor;
         }
 
-       
-
-    }
-
-
-    /**************************/
-    /****** MENU BUTTONS ******/
-    /**************************/
-    public void GoToRegister()
-    {
-        SceneManager.LoadScene(3);
-    }
-
-    public void GoToLogin()
-    {
-        SceneManager.LoadScene(4);
-    }
-
-    public void GoToSetting()
-    {
-        SceneManager.LoadScene(5);
-    }
-
-    public void GoToDevMode()
-    {
-        // Disable VR to go to the dev mode since it's on a screen.
-        DisableVR();
-        SceneManager.LoadScene("DevMode", LoadSceneMode.Single);
-    }
-
-    public void Play()
-    {
-        SceneManager.LoadScene(4);
-    }
-
-    // Should load the VR device to go from dev mode to town simulation but doesn't seem to work
-    // Once you have gone to devmode you need to quit the application to not cause bug when going to Town simulation.
-    IEnumerator LoadDevice(string newDevice, bool enable)
-    {
-        XRSettings.LoadDeviceByName(newDevice);
-        yield return null;
-        XRSettings.enabled = enable;
-    }
-
-    void EnableVR()
-    {
-        StartCoroutine(LoadDevice("OpenVR", true));
-    }
-
-    void DisableVR()
-    {
-        StartCoroutine(LoadDevice("", false));
-    }
-
-
-
-
-    
-}
-
-public class News
-{
-    private readonly uint id;   // uint for unsigned int;
-    private readonly string title;
-    private readonly uint distEuclFromSpawn;   // In AR, should be the player position, not the "spawn"
-    private readonly List<string> tags;
-    private readonly uint nbOfView;   // AKA Popularity
-    private readonly DateTime date;
-
-    public News(uint id, string title, uint distEuclFromSpawn, uint nbOfView, DateTime date, List<string> tags)
-    {
-        this.id = id;
-        this.title = title;
-        this.distEuclFromSpawn = distEuclFromSpawn;
-        this.tags = tags;
-        this.nbOfView = nbOfView;
-        this.date = date;
-    }
-
-
-    // GETTERS
-    public uint GetId() { return this.id; }
-    public uint GetDist() { return this.distEuclFromSpawn; }
-    public uint GetViews() { return this.nbOfView; }
-    public string GetTitle() { return this.title; }
-    public List<string> GetTags() { return this.tags; }
-    public DateTime GetDate() { return this.date; }
-
-    public string GetTagsToString()
-    {
-        string buff = "/ ";
-        foreach(string s in this.tags)
+        /// <summary>
+        /// Call when the distance button is pressed.
+        /// Clear the content of the scrollview (notification list).
+        /// Then display the news order by desc. distance (euclidian)
+        /// </summary>
+        public void NotifSortedByDist()
         {
-            buff += s+ " / ";
+            ClearNotification();
+            List<News> SortedList = StaticClass.newsList.OrderBy(o => o.GetDist()).ToList();
+            DisplayNews(SortedList);
+            sortedByTxt.text = "The 20 closest news";
+            notifTagsDropdown.value = 0; // Reset tags dropdown to default
+            notifClosestImage.color = notifSelectedColor;
         }
-        return buff;
-    }
 
-    //use for debug
-    public override string ToString()  
-    {
-        return "N: " + this.id + "-" + this.title + " ("+this.distEuclFromSpawn+")";
-    }
-}
+        /// <summary>
+        /// Call when the distance button is pressed.
+        /// Clear the content of the scrollview (notification list).
+        /// Then display the news order by asc. distance (euclidian)
+        /// </summary>
+        public void NotifSortedByPoularity()
+        {
+            ClearNotification();
+            List<News> SortedList = StaticClass.newsList.OrderByDescending(o => o.nbOfView).ToList();
+            DisplayNews(SortedList);
+            sortedByTxt.text = "The 20 most-viewed news";
+            notifTagsDropdown.value = 0; // Reset tags dropdown to default
+            notifPopularityImage.color = notifSelectedColor;
+        }
 
-public static class ColorExtensions
-{
-    /// <summary>
-    /// Convert string to Color (if defined as a static property of Color)
-    /// </summary>
-    /// <param name="color"></param>
-    /// <returns></returns>
-    public static Color ToColor(this string color)
-    {
-        return (Color)typeof(Color).GetProperty(color.ToLowerInvariant()).GetValue(null, null);
+        /// <summary>
+        /// Call when the distance button is pressed.
+        /// Clear the content of the scrollview (notification list).
+        /// Then display the news order by selected tag 
+        /// </summary>
+        public void NotifSortedByTag()
+        {
+            if (notifTagsDropdown.value != 0) // First option of tags dropdown ("Tag") do nothing when chosen
+            {
+                ClearNotification();
+                List<News> SortedList = new List<News>();
+                string tag = notifTagsDropdown.options[notifTagsDropdown.value].text;
+                foreach (News n in StaticClass.newsList)
+                {
+                    if (n.GetTags().Contains(tag))
+                        SortedList.Add(n);
+                }
+                DisplayNews(SortedList);
+                sortedByTxt.text = "The 20 oldest " + tag + " news";
+                notifTagsDropdown.GetComponent<Image>().color = notifSelectedColor;
+            }
+        }
+
+        /// <summary>
+        /// Clear the content of the scrollview by destroying all the button.
+        /// </summary>
+        public void ClearNotification()
+        {
+            if (listBtnNews.Count > 0)
+            {
+                foreach (GameObject go in listBtnNews)
+                {
+                    Destroy(go);
+                }
+                listBtnNews.Clear();
+            }
+
+            //set to default the color of all the sort button
+            notifDateImage.color = notifNotSelectedColor;
+            notifClosestImage.color = notifNotSelectedColor;
+            notifPopularityImage.color = notifNotSelectedColor;
+            notifTagsDropdown.GetComponent<Image>().color = notifNotSelectedColor;
+        }
     }
 }
