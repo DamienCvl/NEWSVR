@@ -1,72 +1,15 @@
-HSV Color Picker
-======================
-[![ko-fi](https://www.ko-fi.com/img/donate_sm.png)](https://ko-fi.com/Y8Y8MG4Y)
+Simulated city where you can interact with news items.
+You can add news and see some data gathered during play time with the DevMode.
 
-HSV color picker using Unity UI.
+Indications :
 
-## Versions
-Unity 2018  
-Unity 2017  
-Unity 5.6  
-2018 is default, unity 5 and 2017 can import the assets just fine.  
+1. To enabled voice recognition you have to go to the setting of windows : Settings > Privacy > Speech, inking, & typing
+2. When you build the project, don't forget to add the database in YourFolderName_Data or it will not run
 
-![alt tag](https://i.imgur.com/Fn2T6Nu.png)
-Should be really easy to use. Just add the prefab to the canvas, hook up an event, and it's good to go.
-```csharp
+Technologies used :
 
-    public Renderer renderer;
-	public ColorPicker picker;
-     
-	// Use this for initialization
-	void Start ()
-	{
-		picker.onValueChanged.AddListener(color =>
-		{
-			renderer.material.color = color;
-		});
-		renderer.material.color = picker.CurrentColor;
-	}
- 
-	// Update is called once per frame
-	void Update () {
- 
-	}
-  ```
-
-if you want to assign your own color first, just do this call and it sets the slider and picker to the proper selection.
-
-```csharp
-    Color color = Color.green;
-    picker.CurrentColor = color;
-```
-
-![resizable panels](https://raw.githubusercontent.com/judah4/HSV-Color-Picker-Unity/master/Docs/MoreFeatures.PNG)
-
-Can be toggled and sized as needed in settings.
-
-# Setup Settings
-
-![settings inspector](https://raw.githubusercontent.com/judah4/HSV-Color-Picker-Unity/master/Docs/SetupSettings.PNG)
-
-On the color picker setup section.
-
-Show Rgb: Show RGB sliders.
-
-Show Hsv: Show HSV sliders.
-
-Show Alpha: Show the alpha slider.
-
-Show Color Box: Show the larger color selection box and color column.
-
-Show Color Slider Toggle: Show the button to toggle the HSV and RGB sliders.
-
-Show Header: Options to show the top header with color preview and hex code.
-* Hide: Hide the top header.  
-* Show Color: Show only the color preview in the header.  
-* Show Color Code: Show only the color code in the header.  
-* Show All: Show the entire top header.  
-
-## Color Presets
-The prefabs starts with 4 colors in the color presets. This can be updated in the Setup section of the picker prefab.  
-Set the Preset Colors Id for different shared list between color pickers.
+- Unity (version 2019.1.10f1)
+- SQLite database
+- unityEngine windows speech recognition (Windows 10 needed)
+- Should work on any VR devices existing but only tested with HTC vive
 
