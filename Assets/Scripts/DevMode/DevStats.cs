@@ -34,7 +34,7 @@ namespace Assets.Scripts.DevMode
         private GameObject viewRowPrefab;
         private List<DevStatsData> viewToDisplay;
         private GameObject commentsRowPrefab;
-        private Dictionary<string, Comment> commentsToDisplay;
+        private Dictionary<Comment, string> commentsToDisplay;
 
         private void Awake()
         {
@@ -119,8 +119,14 @@ namespace Assets.Scripts.DevMode
                     viewToDisplay = Database.GetDevStatsView(news[newsDD.value], players[playersDD.value], true, true); // Specific player and news
             }
 
+            StartCoroutine(FillInStats());
+        }
+
+        private IEnumerator FillInStats()
+        {
             foreach (DevStatsData data in viewToDisplay)
             {
+                yield return null;
                 GameObject row = Instantiate(viewRowPrefab, contentParent.transform);
                 row.GetComponent<DevStatsRow>().Fill(data.playerName, data.newsTitle, data.reaction, data.nbCmt, data.date);
             }
@@ -150,10 +156,16 @@ namespace Assets.Scripts.DevMode
                     commentsToDisplay = Database.GetDevStatsComment(news[newsDD.value], players[playersDD.value], true, true); // Specific player and news
             }
 
-            foreach (KeyValuePair<string, Comment> e in commentsToDisplay)
+            StartCoroutine(FillInComment());
+        }
+
+        private IEnumerator FillInComment()
+        {
+            foreach (KeyValuePair<Comment, string> e in commentsToDisplay)
             {
-                Comment comment = e.Value;
-                string newsTitle = e.Key;
+                yield return null;
+                Comment comment = e.Key;
+                string newsTitle = e.Value;
                 GameObject row = Instantiate(commentsRowPrefab, contentParent.transform);
                 row.GetComponent<DevStatsCommentRow>().Fill(comment.IdComment, comment.Author, newsTitle, comment.Content, comment.Date);
             }

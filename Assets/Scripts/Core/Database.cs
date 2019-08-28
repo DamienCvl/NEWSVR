@@ -1387,9 +1387,9 @@ namespace Assets.Scripts.Core
         /// <param name="filterNews">activate news filter</param>
         /// <param name="filterPlayer">activate player filter</param>
         /// <returns>List of logs</returns>
-        public static Dictionary<string, Comment> GetDevStatsComment(uint idNews, uint idPlayer, bool filterNews, bool filterPlayer)
+        public static Dictionary<Comment, string> GetDevStatsComment(uint idNews, uint idPlayer, bool filterNews, bool filterPlayer)
         {
-            Dictionary<string, Comment> response = new Dictionary<string, Comment>();
+            Dictionary<Comment, string> response = new Dictionary<Comment, string>();
             string specialCondition = "";
 
             if (filterNews)
@@ -1406,7 +1406,7 @@ namespace Assets.Scripts.Core
             }
 
             ConnectDB();
-            MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews AS IDN, COMMENTS.idPlayer AS IDP, COMMENTS.idComment AS IDC, (SELECT name FROM PLAYERS WHERE idPlayer = IDP) Player, (SELECT title FROM NEWS WHERE idNews = IDN) Title, (SELECT text FROM COMMENTS) Content, (SELECT date FROM COMMENTS) CreationDate FROM COMMENTS JOIN NEWS ON NEWS.idNews = COMMENTS.idNews JOIN PLAYERS ON PLAYERS.idPlayer = COMMENTS.idPlayer " + specialCondition+" ORDER BY COMMENTS.date DESC", con);
+            MySqlCommand cmdSQL = new MySqlCommand("SELECT NEWS.idNews AS IDN, COMMENTS.idPlayer AS IDP, COMMENTS.idComment AS IDC, (SELECT name FROM PLAYERS WHERE idPlayer = IDP) Player, (SELECT title FROM NEWS WHERE idNews = IDN) Title, (SELECT text FROM COMMENTS WHERE idComment = IDC) Content, (SELECT date FROM COMMENTS WHERE idComment = IDC) CreationDate FROM COMMENTS JOIN NEWS ON NEWS.idNews = COMMENTS.idNews JOIN PLAYERS ON PLAYERS.idPlayer = COMMENTS.idPlayer " + specialCondition+" ORDER BY COMMENTS.date DESC", con);
             MySqlDataReader reader = cmdSQL.ExecuteReader();
 
             try
@@ -1415,7 +1415,7 @@ namespace Assets.Scripts.Core
                 {
                     while (reader.Read())
                     {
-                        response.Add(reader.GetString(4), new Comment(reader.GetUInt32(2), reader.GetDateTime(6), reader.GetString(5), reader.GetString(3)));
+                        response.Add(new Comment(reader.GetUInt32(2), reader.GetDateTime(6), reader.GetString(5), reader.GetString(3)), reader.GetString(4));
                     }
                 }
             }
