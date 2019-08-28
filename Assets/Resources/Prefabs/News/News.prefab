@@ -3657,7 +3657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58aa183b9423ca74c95e381aff8b3892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimalDistantFromPlayer: 13
+  minimalDistantFromPlayer: 10
   previewAreaRadius: 7
   distReticleToNews: 0
   distPlayerToNews: 0
@@ -6017,11 +6017,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tags
       objectReference: {fileID: 0}
-    - target: {fileID: 8515211158662856843, guid: 2b0c8d23b58e6bd47903f34342f3faf4,
-        type: 3}
-      propertyPath: newsGameObject
-      value: 
-      objectReference: {fileID: 4864526121448403360}
     - target: {fileID: 9138748332584168126, guid: 2b0c8d23b58e6bd47903f34342f3faf4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6147,6 +6142,11 @@ PrefabInstance:
       propertyPath: m_ChildControlHeight
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8515211158662856843, guid: 2b0c8d23b58e6bd47903f34342f3faf4,
+        type: 3}
+      propertyPath: newsGameObject
+      value: 
+      objectReference: {fileID: 4864526121448403360}
     - target: {fileID: 6680937504083124789, guid: 2b0c8d23b58e6bd47903f34342f3faf4,
         type: 3}
       propertyPath: m_Enabled
