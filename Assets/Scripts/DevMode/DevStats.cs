@@ -119,8 +119,14 @@ namespace Assets.Scripts.DevMode
                     viewToDisplay = Database.GetDevStatsView(news[newsDD.value], players[playersDD.value], true, true); // Specific player and news
             }
 
+            StartCoroutine(FillInStats());
+        }
+
+        private IEnumerator FillInStats()
+        {
             foreach (DevStatsData data in viewToDisplay)
             {
+                yield return null;
                 GameObject row = Instantiate(viewRowPrefab, contentParent.transform);
                 row.GetComponent<DevStatsRow>().Fill(data.playerName, data.newsTitle, data.reaction, data.nbCmt, data.date);
             }
@@ -150,8 +156,14 @@ namespace Assets.Scripts.DevMode
                     commentsToDisplay = Database.GetDevStatsComment(news[newsDD.value], players[playersDD.value], true, true); // Specific player and news
             }
 
+            StartCoroutine(FillInComment());
+        }
+
+        private IEnumerator FillInComment()
+        {
             foreach (KeyValuePair<Comment, string> e in commentsToDisplay)
             {
+                yield return null;
                 Comment comment = e.Key;
                 string newsTitle = e.Value;
                 GameObject row = Instantiate(commentsRowPrefab, contentParent.transform);
