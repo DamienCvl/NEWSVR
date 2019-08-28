@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 23217548552541172}
   - component: {fileID: 6338576526597634681}
   m_Layer: 0
-  m_Name: Micro
+  m_Name: Microphone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1635,7 +1635,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3764479392418130585}
   m_Layer: 0
-  m_Name: ReactionCross
+  m_Name: ReactionBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1836,7 +1836,7 @@ GameObject:
   - component: {fileID: 1671888613625340009}
   - component: {fileID: 7453510256355616630}
   m_Layer: 0
-  m_Name: Panel
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3257,7 +3257,7 @@ GameObject:
   - component: {fileID: 222960801363909254}
   - component: {fileID: 114971980851220582}
   m_Layer: 0
-  m_Name: Title
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5826,11 +5826,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3740447085293028235, guid: 7186d06885afdcc4cb1e4f2816dbd0c8,
-        type: 3}
-      propertyPath: news
-      value: 
-      objectReference: {fileID: 4864526121448403360}
     - target: {fileID: 5356292957866193356, guid: 7186d06885afdcc4cb1e4f2816dbd0c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5951,6 +5946,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.0077345436
       objectReference: {fileID: 0}
+    - target: {fileID: 3740447085293028235, guid: 7186d06885afdcc4cb1e4f2816dbd0c8,
+        type: 3}
+      propertyPath: news
+      value: 
+      objectReference: {fileID: 4864526121448403360}
     - target: {fileID: 8682587303187768723, guid: 7186d06885afdcc4cb1e4f2816dbd0c8,
         type: 3}
       propertyPath: m_AnchorMin.y
