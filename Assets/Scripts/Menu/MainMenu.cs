@@ -47,7 +47,10 @@ namespace Assets.Scripts.Menu
 
         private void Update()
         {
-
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
         }
 
         private void Start()

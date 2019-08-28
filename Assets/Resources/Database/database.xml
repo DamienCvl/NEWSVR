@@ -5,7 +5,7 @@
 - https://www.phpmyadmin.net
 -
 - Host: mysql-levelup.alwaysdata.net
-- Generation Time: Aug 27, 2019 at 10:40 AM
+- Generation Time: Aug 28, 2019 at 12:34 PM
 - Server version: 10.2.22-MariaDB
 - PHP Version: 7.2.9
 -->
@@ -28,7 +28,7 @@
                   KEY `idPlayer` (`idPlayer`),
                   CONSTRAINT `COMMENTS_ibfk_1` FOREIGN KEY (`idNews`) REFERENCES `NEWS` (`idNews`) ON DELETE CASCADE,
                   CONSTRAINT `COMMENTS_ibfk_2` FOREIGN KEY (`idPlayer`) REFERENCES `PLAYERS` (`idPlayer`) ON DELETE CASCADE
-                ) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4;
+                ) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8mb4;
             </pma:table>
             <pma:trigger name="after_delete_comment">
                 CREATE TRIGGER `after_delete_comment` AFTER DELETE ON `COMMENTS`
@@ -63,7 +63,7 @@
                   PRIMARY KEY (`idMedia`),
                   KEY `idNews` (`idNews`),
                   CONSTRAINT `MEDIA_ibfk_1` FOREIGN KEY (`idNews`) REFERENCES `NEWS` (`idNews`) ON DELETE CASCADE
-                ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
+                ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
             </pma:table>
             <pma:table name="NEWS">
                 CREATE TABLE `NEWS` (
@@ -80,9 +80,8 @@
                   `nbSurprised` int(10) unsigned NOT NULL,
                   `positionX` float NOT NULL,
                   `positionZ` float NOT NULL,
-                  `laserTarget` varchar(11) NOT NULL,
                   PRIMARY KEY (`idNews`)
-                ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4;
+                ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4;
             </pma:table>
             <pma:table name="NOTIFICATIONS">
                 CREATE TABLE `NOTIFICATIONS` (
@@ -95,7 +94,7 @@
                   KEY `idPlayer` (`idPlayer`),
                   CONSTRAINT `NOTIFICATIONS_ibfk_1` FOREIGN KEY (`idPlayer`) REFERENCES `PLAYERS` (`idPlayer`) ON DELETE CASCADE,
                   CONSTRAINT `NOTIFICATIONS_ibfk_2` FOREIGN KEY (`tagName`) REFERENCES `TAGS` (`tagLabel`) ON DELETE CASCADE ON UPDATE CASCADE
-                ) ENGINE=InnoDB AUTO_INCREMENT=249 DEFAULT CHARSET=utf8mb4;
+                ) ENGINE=InnoDB AUTO_INCREMENT=257 DEFAULT CHARSET=utf8mb4;
             </pma:table>
             <pma:table name="PLAYERS">
                 CREATE TABLE `PLAYERS` (
@@ -108,7 +107,7 @@
                   `cmtNbShown` tinyint(3) unsigned NOT NULL,
                   `lastPlayDate` datetime NOT NULL DEFAULT current_timestamp(),
                   PRIMARY KEY (`idPlayer`)
-                ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4;
+                ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
             </pma:table>
             <pma:table name="TAGS">
                 CREATE TABLE `TAGS` (
@@ -126,7 +125,7 @@
                   KEY `idNews` (`idNews`),
                   CONSTRAINT `TOPICS_ibfk_2` FOREIGN KEY (`idNews`) REFERENCES `NEWS` (`idNews`) ON DELETE CASCADE,
                   CONSTRAINT `TOPICS_ibfk_3` FOREIGN KEY (`tagName`) REFERENCES `TAGS` (`tagLabel`) ON DELETE CASCADE ON UPDATE CASCADE
-                ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
+                ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4;
             </pma:table>
             <pma:table name="VIEWS">
                 CREATE TABLE `VIEWS` (
@@ -148,13 +147,263 @@
     -->
     <database name="levelup_newsvr">
         <!-- Table COMMENTS -->
+        <table name="COMMENTS">
+            <column name="idComment">92</column>
+            <column name="idNews">25</column>
+            <column name="idPlayer">17</column>
+            <column name="text">how to speak in english</column>
+            <column name="date">2019-08-28 10:35:25</column>
+        </table>
+        <table name="COMMENTS">
+            <column name="idComment">93</column>
+            <column name="idNews">25</column>
+            <column name="idPlayer">17</column>
+            <column name="text">I will make some commands to see some old comment</column>
+            <column name="date">2019-08-28 10:35:58</column>
+        </table>
+        <table name="COMMENTS">
+            <column name="idComment">94</column>
+            <column name="idNews">25</column>
+            <column name="idPlayer">17</column>
+            <column name="text">what is love</column>
+            <column name="date">2019-08-28 10:36:37</column>
+        </table>
+        <table name="COMMENTS">
+            <column name="idComment">95</column>
+            <column name="idNews">25</column>
+            <column name="idPlayer">17</column>
+            <column name="text">baby don't hurt me</column>
+            <column name="date">2019-08-28 10:36:52</column>
+        </table>
+        <table name="COMMENTS">
+            <column name="idComment">98</column>
+            <column name="idNews">25</column>
+            <column name="idPlayer">17</column>
+            <column name="text">don't hurt me no more</column>
+            <column name="date">2019-08-28 10:44:22</column>
+        </table>
+        <table name="COMMENTS">
+            <column name="idComment">99</column>
+            <column name="idNews">25</column>
+            <column name="idPlayer">17</column>
+            <column name="text">doo doo doo doo doo doo</column>
+            <column name="date">2019-08-28 10:44:59</column>
+        </table>
+        <table name="COMMENTS">
+            <column name="idComment">100</column>
+            <column name="idNews">25</column>
+            <column name="idPlayer">17</column>
+            <column name="text">we will beat germany</column>
+            <column name="date">2019-08-28 10:45:49</column>
+        </table>
+        <table name="COMMENTS">
+            <column name="idComment">101</column>
+            <column name="idNews">28</column>
+            <column name="idPlayer">18</column>
+            <column name="text">now I'll try a comment again and see if that</column>
+            <column name="date">2019-08-28 10:59:52</column>
+        </table>
+        <table name="COMMENTS">
+            <column name="idComment">102</column>
+            <column name="idNews">28</column>
+            <column name="idPlayer">18</column>
+            <column name="text">I should be loud and clear and know what to say for the whole time</column>
+            <column name="date">2019-08-28 11:00:13</column>
+        </table>
+        <table name="COMMENTS">
+            <column name="idComment">103</column>
+            <column name="idNews">28</column>
+            <column name="idPlayer">18</column>
+            <column name="text">and if I do 3 or more maybe it will end up in the old comments then or</column>
+            <column name="date">2019-08-28 11:00:28</column>
+        </table>
+        <table name="COMMENTS">
+            <column name="idComment">104</column>
+            <column name="idNews">25</column>
+            <column name="idPlayer">18</column>
+            <column name="text">so sweden is in not in the basketball world champion</column>
+            <column name="date">2019-08-28 11:02:05</column>
+        </table>
+        <table name="COMMENTS">
+            <column name="idComment">105</column>
+            <column name="idNews">24</column>
+            <column name="idPlayer">18</column>
+            <column name="text">don't you understand latin</column>
+            <column name="date">2019-08-28 11:06:26</column>
+        </table>
+        <table name="COMMENTS">
+            <column name="idComment">106</column>
+            <column name="idNews">24</column>
+            <column name="idPlayer">18</column>
+            <column name="text">a language latin</column>
+            <column name="date">2019-08-28 11:06:26</column>
+        </table>
+        <table name="COMMENTS">
+            <column name="idComment">107</column>
+            <column name="idNews">24</column>
+            <column name="idPlayer">18</column>
+            <column name="text">latin latin as in latin kings as in latin as in culture as in language</column>
+            <column name="date">2019-08-28 11:07:04</column>
+        </table>
         <!-- Table FAVORITES -->
         <!-- Table MEDIA -->
+        <table name="MEDIA">
+            <column name="idMedia">18</column>
+            <column name="idNews">28</column>
+            <column name="link">http://www.upplevelsefronten.se/wp-content/uploads/2015/09/IMG_3787.jpg</column>
+            <column name="type">1</column>
+        </table>
         <!-- Table NEWS -->
+        <table name="NEWS">
+            <column name="idNews">24</column>
+            <column name="title">My news</column>
+            <column name="text">Lorem ipsum deus ex machina alea jacta est manu militari </column>
+            <column name="author">qwertyuiop[</column>
+            <column name="creationDate">2019-08-28 10:27:28</column>
+            <column name="nbView">3</column>
+            <column name="nbComment">3</column>
+            <column name="nbHappy">0</column>
+            <column name="nbSad">0</column>
+            <column name="nbAngry">1</column>
+            <column name="nbSurprised">1</column>
+            <column name="positionX">-30.5768</column>
+            <column name="positionZ">104.696</column>
+        </table>
+        <table name="NEWS">
+            <column name="idNews">25</column>
+            <column name="title">Fiba World Cup</column>
+            <column name="text">Starting Sunday 31th
+Go France Go</column>
+            <column name="author">qwertyuiop[</column>
+            <column name="creationDate">2019-08-28 10:31:11</column>
+            <column name="nbView">4</column>
+            <column name="nbComment">8</column>
+            <column name="nbHappy">1</column>
+            <column name="nbSad">1</column>
+            <column name="nbAngry">0</column>
+            <column name="nbSurprised">0</column>
+            <column name="positionX">-94.4396</column>
+            <column name="positionZ">36.1889</column>
+        </table>
+        <table name="NEWS">
+            <column name="idNews">26</column>
+            <column name="title">test</column>
+            <column name="text">fugugfudf</column>
+            <column name="author">qwertyuiop[</column>
+            <column name="creationDate">2019-08-28 10:54:24</column>
+            <column name="nbView">0</column>
+            <column name="nbComment">0</column>
+            <column name="nbHappy">0</column>
+            <column name="nbSad">0</column>
+            <column name="nbAngry">0</column>
+            <column name="nbSurprised">0</column>
+            <column name="positionX">-32.7831</column>
+            <column name="positionZ">103.995</column>
+        </table>
+        <table name="NEWS">
+            <column name="idNews">28</column>
+            <column name="title">Tutorial, put sphere on head!</column>
+            <column name="text">Here comes the tutorial text!</column>
+            <column name="author">qwertyuiop[</column>
+            <column name="creationDate">2019-08-28 10:57:08</column>
+            <column name="nbView">1</column>
+            <column name="nbComment">3</column>
+            <column name="nbHappy">0</column>
+            <column name="nbSad">0</column>
+            <column name="nbAngry">0</column>
+            <column name="nbSurprised">0</column>
+            <column name="positionX">-73.5797</column>
+            <column name="positionZ">101.081</column>
+        </table>
         <!-- Table NOTIFICATIONS -->
+        <table name="NOTIFICATIONS">
+            <column name="idNotif">249</column>
+            <column name="tagName">Sport</column>
+            <column name="idPlayer">17</column>
+            <column name="color">#FFFFAF</column>
+        </table>
+        <table name="NOTIFICATIONS">
+            <column name="idNotif">250</column>
+            <column name="tagName">Sport</column>
+            <column name="idPlayer">18</column>
+            <column name="color">#F44F4F</column>
+        </table>
+        <table name="NOTIFICATIONS">
+            <column name="idNotif">251</column>
+            <column name="tagName">Music</column>
+            <column name="idPlayer">17</column>
+            <column name="color">#FFFFAF</column>
+        </table>
+        <table name="NOTIFICATIONS">
+            <column name="idNotif">252</column>
+            <column name="tagName">Music</column>
+            <column name="idPlayer">18</column>
+            <column name="color">#FFFFAF</column>
+        </table>
         <!-- Table PLAYERS -->
+        <table name="PLAYERS">
+            <column name="idPlayer">17</column>
+            <column name="name">qwertyuiop[</column>
+            <column name="password">qwertyuiop[</column>
+            <column name="nbOfView">3</column>
+            <column name="nbOfComment">7</column>
+            <column name="cmtPositionPref">0</column>
+            <column name="cmtNbShown">2</column>
+            <column name="lastPlayDate">2019-08-28 10:25:54</column>
+        </table>
+        <table name="PLAYERS">
+            <column name="idPlayer">18</column>
+            <column name="name">Tobb</column>
+            <column name="password">asdf1234</column>
+            <column name="nbOfView">5</column>
+            <column name="nbOfComment">7</column>
+            <column name="cmtPositionPref">0</column>
+            <column name="cmtNbShown">2</column>
+            <column name="lastPlayDate">2019-08-28 10:37:54</column>
+        </table>
         <!-- Table TAGS -->
+        <table name="TAGS">
+            <column name="tagLabel">Music</column>
+        </table>
+        <table name="TAGS">
+            <column name="tagLabel">Sport</column>
+        </table>
         <!-- Table TOPICS -->
+        <table name="TOPICS">
+            <column name="idTopic">30</column>
+            <column name="tagName">Sport</column>
+            <column name="idNews">25</column>
+        </table>
         <!-- Table VIEWS -->
+        <table name="VIEWS">
+            <column name="idPlayer">17</column>
+            <column name="idNews">24</column>
+            <column name="dateLatestView">2019-08-28 10:38:51</column>
+            <column name="reactionSelected">3</column>
+        </table>
+        <table name="VIEWS">
+            <column name="idPlayer">17</column>
+            <column name="idNews">25</column>
+            <column name="dateLatestView">2019-08-28 10:45:55</column>
+            <column name="reactionSelected">1</column>
+        </table>
+        <table name="VIEWS">
+            <column name="idPlayer">18</column>
+            <column name="idNews">24</column>
+            <column name="dateLatestView">2019-08-28 11:06:00</column>
+            <column name="reactionSelected">4</column>
+        </table>
+        <table name="VIEWS">
+            <column name="idPlayer">18</column>
+            <column name="idNews">25</column>
+            <column name="dateLatestView">2019-08-28 11:01:16</column>
+            <column name="reactionSelected">2</column>
+        </table>
+        <table name="VIEWS">
+            <column name="idPlayer">18</column>
+            <column name="idNews">28</column>
+            <column name="dateLatestView">2019-08-28 10:59:10</column>
+            <column name="reactionSelected">0</column>
+        </table>
     </database>
 </pma_xml_export>
