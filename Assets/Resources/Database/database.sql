@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql-levelup.alwaysdata.net
--- Generation Time: Aug 27, 2019 at 10:40 AM
+-- Generation Time: Aug 28, 2019 at 12:34 PM
 -- Server version: 10.2.22-MariaDB
 -- PHP Version: 7.2.9
 
@@ -97,8 +97,7 @@ CREATE TABLE `NEWS` (
   `nbAngry` int(10) UNSIGNED NOT NULL,
   `nbSurprised` int(10) UNSIGNED NOT NULL,
   `positionX` float NOT NULL,
-  `positionZ` float NOT NULL,
-  `laserTarget` varchar(11) NOT NULL
+  `positionZ` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -241,37 +240,37 @@ ALTER TABLE `VIEWS`
 -- AUTO_INCREMENT for table `COMMENTS`
 --
 ALTER TABLE `COMMENTS`
-  MODIFY `idComment` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `idComment` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `MEDIA`
 --
 ALTER TABLE `MEDIA`
-  MODIFY `idMedia` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `idMedia` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `NEWS`
 --
 ALTER TABLE `NEWS`
-  MODIFY `idNews` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `idNews` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `NOTIFICATIONS`
 --
 ALTER TABLE `NOTIFICATIONS`
-  MODIFY `idNotif` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=249;
+  MODIFY `idNotif` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=257;
 
 --
 -- AUTO_INCREMENT for table `PLAYERS`
 --
 ALTER TABLE `PLAYERS`
-  MODIFY `idPlayer` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `idPlayer` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `TOPICS`
 --
 ALTER TABLE `TOPICS`
-  MODIFY `idTopic` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `idTopic` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Constraints for dumped tables
