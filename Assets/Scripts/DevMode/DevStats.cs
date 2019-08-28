@@ -34,7 +34,7 @@ namespace Assets.Scripts.DevMode
         private GameObject viewRowPrefab;
         private List<DevStatsData> viewToDisplay;
         private GameObject commentsRowPrefab;
-        private Dictionary<string, Comment> commentsToDisplay;
+        private Dictionary<Comment, string> commentsToDisplay;
 
         private void Awake()
         {
@@ -150,10 +150,10 @@ namespace Assets.Scripts.DevMode
                     commentsToDisplay = Database.GetDevStatsComment(news[newsDD.value], players[playersDD.value], true, true); // Specific player and news
             }
 
-            foreach (KeyValuePair<string, Comment> e in commentsToDisplay)
+            foreach (KeyValuePair<Comment, string> e in commentsToDisplay)
             {
-                Comment comment = e.Value;
-                string newsTitle = e.Key;
+                Comment comment = e.Key;
+                string newsTitle = e.Value;
                 GameObject row = Instantiate(commentsRowPrefab, contentParent.transform);
                 row.GetComponent<DevStatsCommentRow>().Fill(comment.IdComment, comment.Author, newsTitle, comment.Content, comment.Date);
             }
